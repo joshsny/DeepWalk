@@ -105,10 +105,9 @@ for train_percent in training_percents:
 
     all_results[train_percent].append(results)
 
-print 'Results, using embeddings of dimensionality', X.shape[1]
-print '-------------------'
+print('Results, using embeddings of dimensionality', X.shape[1])
 for train_percent in sorted(all_results.keys()):
-  print 'Train percent:', train_percent
+  print('Train percent:', train_percent)
   for x in all_results[train_percent]:
-    print  x
-  print '-------------------'
+    print(x)
+  print('-------------------')
