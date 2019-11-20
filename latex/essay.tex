@@ -20,8 +20,19 @@
 
 \tableofcontents
 
-
-\section{Introduction}
+\section{Motivation}
+The motivation for studying nodes in graphs and their representations comes from the desire to understand networks of people or objects and their relations. The motivating question for this essay is
+\begin{question}[Motivating Question]
+Given a large network of people how can we quantify the relationships between them?
+\end{question}
+The natural way to go about this is to let nodes represent persons and let edges between them represent connections from which we can induce some understanding of relationship or trust between two people. This task is difficult; even with a relatively small number of people it is not a task on which humans perform very well and the task becomes increasingly difficult as the number of nodes in the graph increases.\\
+Many of the networks which we wish to study are dynamic; that is they change with time. In a large network it is common that small changes occur during each epoch of time that over time cause larger changes to the network structure. How do we quantify these changes and their impact on the relationships in the network without having to completely re-analyse the network after ever epoch of time, losing the information that we already learned. A frequent example upon which we can draw similarity is that of social networks. A large social network has new users (nodes) being added and new relationships (edges) formed in each epoch of time, however in any given short time period the graph representing the social network does not change substantially. It would be both foolish and costly to re-analyse the graph after each epoch however most of the previous literature has focused on static graphs. In the latter half of this essay I will give an account of recent progress into the application of DeepWalk and similar algorithms to dynamic graphs.
+\section{Summary}
+\section{DeepWalk}
+\section{Matters of Convergence}
+\section{DeepWalk Sucks}
+\section{Dynamic Deep Walking}
+\section{Discussion of an application}
 \subsection*{Essay Descriptor}
 \textbf{Walking Deeper on Dynamic Graphs: Learning Latent Representations
 with Random Walks for Image Classification}\\
@@ -42,17 +53,6 @@ will also discuss some open questions that they find interesting.\\
 Useful: Background knowledge in Machine Learning and Statistics is helpful, as is probability
 to the level of Part II Applied Probability. Some content from Part III Mixing Times of Markov
 Chains, on the long-time behaviour of random walks on graphs, may also be useful.\\
-\textbf{References}\\
-[1] B. Perozzi, R. Al-Rfou and S. Skiena. Deepwalk: Online learning of social representations.
-ACM SIGKDD International Conference on Knowledge Discovery and Data Mining pp. 701-
-710, 2014.\\
-[2] A.I Aviles-Rivero, N. Papadakis, R. Li, SM. Alsaleh, R. T Tan and C-B Schonlieb. Beyond
-Supervised Classification: Extreme Minimal Supervision with the Graph 1-Laplacian. arXiv
-preprint:1906.08635\\
-[3] HP Sajjad, A Docherty and Y. Tyshetskiy, Y. Efficient representation learning using random
-walks for dynamic graphs. arXiv preprint arXiv:1901.01346.\\
-[4] M Valko. Lecture Notes on Graphs in Machine Learning, http://researchers.lille.
-inria.fr/~valko/hp/mva-ml-graphs.php, 2019.\\
 \subsection{Overview}
 \subsection{Notation}
 Let $\mathbb{N}$ denote $\{1,2,3,...\}$ and $\mathbb{N}_0$ denote $\mathbb{N} \cup \{0\}$ with $[n] = \{1,2,...,n\}$ and let $[0] = \emptyset$.\\
