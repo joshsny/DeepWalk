@@ -25,10 +25,50 @@ The motivation for studying nodes in graphs and their representations comes from
 \begin{question}[Motivating Question]
 Given a large network of people how can we quantify the relationships between them?
 \end{question}
-The natural way to go about this is to let nodes represent persons and let edges between them represent connections from which we can induce some understanding of relationship or trust between two people. This task is difficult; even with a relatively small number of people it is not a task on which humans perform very well and the task becomes increasingly difficult as the number of nodes in the graph increases.\\
+The natural way to go about this is to let nodes represent persons and let edges
+between them represent connections from which we can induce some understanding
+of relationship or trust between two people. This task is difficult; even with a
+relatively small number of people it is not a task on which humans perform very
+well and the task rapidly becomes difficult as the number of nodes in the graph increases.\\
 Many of the networks which we wish to study are dynamic; that is they change with time. In a large network it is common that small changes occur during each epoch of time that over time cause larger changes to the network structure. How do we quantify these changes and their impact on the relationships in the network without having to completely re-analyse the network after ever epoch of time, losing the information that we already learned. A frequent example upon which we can draw similarity is that of social networks. A large social network has new users (nodes) being added and new relationships (edges) formed in each epoch of time, however in any given short time period the graph representing the social network does not change substantially. It would be both foolish and costly to re-analyse the graph after each epoch however most of the previous literature has focused on static graphs. In the latter half of this essay I will give an account of recent progress into the application of DeepWalk and similar algorithms to dynamic graphs.
 \section{Summary}
+There are three main objectives of this essay:
+\begin{itemize}
+  \item Firstly the essay will give a mathematical outline of the DeepWalk
+    algorithm and it's application to social representation learning. We will
+    briefly discuss the benefits and drawbacks of the algorithm.
+  \item Secondly we will look at an implementation of DeepWalk to dynamic
+    graphs. The challenge here is to develop an unbiased representation of a
+    graph at time $t+1$ given it's representation at time $t$, without
+    re-analysing the entire network. This is a very important task since many
+    networks, especially social ones, are constantly changing. However in any given
+    epoch of time the network structure is unlikely to undergoe dramatic change and
+    so a computationally effective algorithm will not re-analyse the network at
+    each step.
+   \item Thirdly, we will exhibit an implementation of the outlined dynamic DeepWalk
+     application to a social data set [which data set?] and give suggestions as
+     to good applications of Dynamic DeepWalking. [talk here about the
+     application once I have found one]
+\end{itemize}
+
 \section{DeepWalk}
+This section gives an outline of the social representation learning algorithm
+DeepWalk, first introduced in the seminal paper DeepWalk: Online Learning of Social
+Representations by B. Perozzi et. al. \cite{deepwalk}. The method proposed in
+this paper not only demonstrated performance improvements from previous methodologies but
+also motivated an entirely different approach. At the time of the paper being
+written, significant advancements were being made in natural languade processing (NLP)
+and the idea of word embeddings was becoming popular through an embedding
+algorithm known as word2vec \cite{mikolov2013efficient,mikolov2013distributed}.
+DeepWalk implements this algoritm but replaces the idea of context of a word in
+a sentence with the context of a node in a random walk.
+
+The original paper on DeepWalk is lacking in a mathematical underpinning and in
+this section we will define it mathematically. It is suggested that the reader
+is familiar with the concepts outlined in the paper by Perozzi et. al. prior to
+reading this (more) mathematical exposition.
+
+Let $G$ denote the 
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
 \section{Dynamic Deep Walking}
@@ -53,97 +93,6 @@ will also discuss some open questions that they find interesting.\\
 Useful: Background knowledge in Machine Learning and Statistics is helpful, as is probability
 to the level of Part II Applied Probability. Some content from Part III Mixing Times of Markov
 Chains, on the long-time behaviour of random walks on graphs, may also be useful.\\
-\subsection{Overview}
-\subsection{Notation}
-Let $\mathbb{N}$ denote $\{1,2,3,...\}$ and $\mathbb{N}_0$ denote $\mathbb{N} \cup \{0\}$ with $[n] = \{1,2,...,n\}$ and let $[0] = \emptyset$.\\
-\begin{definition}[string]\index{string}
-	Given a set S, a \emph{string} is a function $u:[n] \to S$ for some $n \in \mathbb{N}$. $n$ represents the length of $u$ and is denoted by $|u|$. The empty string is denoted by $\emptyset$.
-\end{definition}
-\section{WQOs}
-\begin{definition}[quasi-ordering (QO)]\index{quasi-ordering}
-	Given a set $A$, a binary relation $\preccurlyeq$ is a \emph{quasi-ordering} if and only if it is both reflexive and transitive.
-\end{definition}
-A quasi-order that is also antisymmetric represents a partial order. It is total if every two elements are related. If two elements are incomparable, we denote this as $x | y$. We let $\prec$, $\succ$ and $\succcurlyeq$ take their usual interpretations.
-\begin{definition}\index{infinite descending chain}\index{infinite antichain}\index{well-founded QO}
-Given a QO $\preccurlyeq$ over a set $A$, an infinite sequence $(x_i)_{i \geq 1}$ is an infinite descending chain if $x_1 \succ x_2 \succ x_3 \succ ...$\\
-It is an infinite antichain if instead $ x_i | x_j$ for all $1 \leq i < j$\\
-We say $\preccurlyeq$ is well-founded iff there exist no infinite descending chains with respect to $\succ$.
-\end{definition}
-
-What naturally follows from this definition is the concept of a 'nice' quasi-ordering. This is defined as a well quasi-ordering:
-
-\begin{definition}[well quasi-ordering (WQO)]\index{good sequence} \index{well quasi-ordering}
-Given a set $A$ and a corresponding quasi-order $\preccurlyeq$, an infinite sequence $(x_i)_{i \geq 1}$ of elements in $A$ is said to be \emph{good} iff there exists positive integers $i, j$ such that $i < j$ and $x_i \preccurlyeq x_j$. if a sequence is not said to be good, naturally it called is bad.\\
-A QO is a \emph{well quasi-ordering (WQO)} iff every infinite sequence is good. 
-\end{definition}
-
-Note that by definition every QO on a finite set is a WQO. The above is one way to define a WQO and there are other useful ways to define one. Importantly, the definitions are equivalent.
-
-\begin{lemma}[Equivalence of WQO definitions]
-Given a quasi-order $\preccurlyeq$ of a set $A$, the following are equivalent:
-	\begin{enumerate}
-		\item Every infinite sequence is good
-		\item There are no infinite decreasing chains or infinite antichains
-		\item Every quasi-order extending $\preccurlyeq$ (including itself) is well-founded.
-	\end{enumerate}
-\end{lemma}
-\begin{proof}
-Check here whether the third definition is indeed useful, if so replicate the proof from Gallier, else just prove the equivalence of definitions 1 and 2.
-\end{proof}
-
-It is interesting to note that the property of being well-founded defines a WQO, though well-foundedness is a much weaker statement than a WQO.
-\subsection{Fundamental WQO Theory}
-This section will cover the basics of WQO theory and will give the reader the machinery with which to tackle Kruskal's Tree Theorem and the consequences of which this essay is about. It is standard and mostly displayed as in a paper by H. Gallier \cite{gallier}.\\
-
-The first lemma to address and one that plays an important part in the result of Kruskal's Tree Theorem (addressed in Chapter XX) comes from a paper by Nash-Williams \cite{nash-williams_1965}.
-
-\begin{lemma}
-Given a quasi-order $\preccurlyeq$ on a set $A$, the following are equivalent:
-	\begin{enumerate}
-		\item $\preccurlyeq$ is a WQO on $A$
-		\item Every infinite sequence s = $(s_i)_{i \geq 1}$ over $A$ contains an infinite subsequence $s' = (s_{f(i)})_{i \geq 1}$ such that $s_{f(i)} \preccurlyeq s_{f(i+1)}$ for all $i > 0$
-	\end{enumerate}
-\end{lemma}
-\begin{proof}
-	It is clear that $(2) \implies (1)$, we shall show the converse. Assume that $\preccurlyeq$ is a WQO. We say that a member $s_i$ of a sequence is terminal if there is no $j > i$ such that $s_i \preccurlyeq s_j$. We claim that the number of terminal elements in the sequence $s$ is finite. Suppose not, then this infinite sequence of terminals in $s$ form a bad sequence, contradicting the fact that $\preccurlyeq$ is a WQO.\\
-	Thus there exists $N > 0$ such that $s_i$ is not terminal for all $i \geq N$. Define a strictly monotonic function $f$ as follows:
-	\begin{equation*}
-	\begin{split}
-	f(1) &= N \\
-	f(n+1) &= \inf\{ m : s_{f(n)} \preccurlyeq s_m \  \text{and} \ f(n) < m \}
-	\end{split}
-	\end{equation*}
-	Note that $f$ is monotonic by definition and by the definition of $N$, the recursive definition is indeed valid, since for every $i > N$ there is a $j > i$ with $s_i \preccurlyeq s_j$.
-\end{proof}
-
-A corollary of Theorem 2.2 is that we can stitch together two WQOs $\langle\preccurlyeq_1, A_1\rangle$ and $\langle\preccurlyeq_2, A_2\rangle$ to get a WQO of $A_1 \times A_2$ as follows.
-\begin{lemma}
-Let $\langle\preccurlyeq_1, A_1\rangle$ and $\langle\preccurlyeq_2, A_2\rangle$ be WQOs, then the quasi-order $\preccurlyeq$ on $A_1 \times A_2$ defined by:
-\begin{equation*}
-(a_1,a_2) \preccurlyeq (a_1',a_2') \ \text{iff}  \ a_1 \preccurlyeq_1 a_1' \ \text{and} \ a_2 \preccurlyeq_2 a_2'
-\end{equation*}
- is a WQO
-\end{lemma}
-\begin{proof}
-Any infinite sequence $s$ in $A_1 \times A_2$ defines an infinite sequence of pairs $(x_i,y_i) \in A_1 \times A_2$. The $(x_i)_{i \geq 1}$ form an infinite sequence in $A_1$ so by Lemma XX, since $\preccurlyeq_1$ is a WQO, there is some infinite subsequence $t = (x_{f(i)})_{i \geq 1}$ of $(x_i)$ such that $t_{f(i)} \preccurlyeq_1 t_{f(i+1)}$ for all $ i > 0$.\\
-Since $\preccurlyeq_2$ is a WQO over $A_2$, $t' = (y_{f(i)})_{i \geq 1}$ is an infinite sequence over $A_2$. Thus, since there are no bad sequences in $A_2$, there is some $i , j$ with $f(i) < f(j)$ and $y_{f(i)} \preccurlyeq_2 y_{f(j)}$. Therefore we have that $(x_{f(i)}, y_{f(i)}) \preccurlyeq (x_{f(j)}, y_{f(j)})$ which shows that $\preccurlyeq$ is a WQO.
-\end{proof}
-\section{Kruskal's Tree Theorem}
-In this section we will display a proof of Kruskal's Theorem...
-
-\subsection{Higman's Theorem}
-First we will address a key theorem in the proof, one by Higman...
-\begin{definition}[$A^{<\omega}$]\index{$A^{<\omega}$}
-	Given a quasi-order $(A, \precapprox)$, define $A^{<\omega}$to be the set of all finite strings $A*$ ordered by $<<$ such that for any strings $u = u_1...u_n$, $v = v_1...v_n$ with $1 \leq m \leq n$
-	\(u << v iff \exists 1 \leq \)
-\end{definition}
-
-\begin{theorem}[Kruskal's Tree Theorem]/index{Kruskal's Tree Theorem}
-	
-\end{theorem}
-\section{Friedmann's Finitization}
-\section{References}
-
 
 \bibliography{references}
 \bibliographystyle{ieeetr}
