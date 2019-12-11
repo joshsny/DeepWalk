@@ -60,15 +60,31 @@ also motivated an entirely different approach. At the time of the paper being
 written, significant advancements were being made in natural languade processing (NLP)
 and the idea of word embeddings was becoming popular through an embedding
 algorithm known as word2vec \cite{mikolov2013efficient,mikolov2013distributed}.
-DeepWalk implements this algoritm but replaces the idea of context of a word in
-a sentence with the context of a node in a random walk.
+DeepWalk implements this algoritm but replaces the idea of the context of a word in
+a sentence with the context of a node in a random walk on a graph. This is the
+crucial concept of DeepWalk from which the remaining details naturally follow.
 
 The original paper on DeepWalk is lacking in a mathematical underpinning and in
-this section we will define it mathematically. It is suggested that the reader
+this section we will model the algorithm mathematically. It is suggested that the reader
 is familiar with the concepts outlined in the paper by Perozzi et. al. prior to
-reading this (more) mathematical exposition.
+reading this (more) mathematical exposition. I have endevoured to use similar
+notation to the original paper to ease cross-referencing. Without further ado, let us begin
+our journey.
 
-Let $G$ denote the 
+\begin{definition}
+Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
+members of the network, commonly referred to as the nodes and $E \subset V
+\times V$ represents their connections.\\
+
+The nodes and edges have lables and $G_L = (V, E, X, Y)$ represents the
+partially labelled network. $X \in \R ˆ{|V| \times S}$ where $S$ is the size of
+the feature space for each attribute vector and $Y \in \R ˆ{|V| \times
+  |\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
+\end{definition}
+
+Our goal is to learn $X_E \in \R ^{|V| \times d}$ where $d$ is a small number
+of latent dimensions. The idea is that each latent dimension contributes a 
+dimensional 
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
 \section{Dynamic Deep Walking}
