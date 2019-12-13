@@ -4,6 +4,7 @@
    (LaTeX-add-bibitems
     "deepwalk"
     "mikolov2013efficient"
-    "mikolov2013distributed"))
+    "mikolov2013distributed"
+    "levy&goldberg"))
  :bibtex)
 

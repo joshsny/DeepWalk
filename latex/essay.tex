@@ -132,20 +132,43 @@ the hidden layer acts as a bottleneck that tries to represent as much
 information as possible to distinguish the nodes, but is only allowed $d$
 neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
 
-The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
-discussed here in two major ways. Firstly, calculating the normalization factor
-in the Softmax layer requires a computational complexity of $O(|V|)$, this is
-reduced by using Hierarchical Softmax to approximate the Softmax probabilities,
-requiring a complexity of only $O(log|V|)$. In particular, a Huffman coding is
-used to reduce the access time of frequent elements in the tree, as suggested by
-Mikolov et al. in the original Word2Vec papers.\cite{mikolov2013distributed,mikolov2013efficient}
-
 *** Is our vocabulary the whole graph, or is it just the random walk that we
 feed to the SkipGram model, perhaps it is just the random walk, be careful with
 this! ***
 
 *** Create here an image resembling the one found in the blog post on SkipGram
 but for graphs and with $d$ dimensions ***
+
+The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
+discussed here in two major ways. Firstly, calculating the normalization factor
+in the Softmax layer requires a computational complexity of $O(|V|)$, this is
+reduced by using Hierarchical Softmax to approximate the Softmax probabilities,
+requiring a complexity of only $O(log|V|)$. In particular, a Huffman coding is
+used to reduce the access time of frequent elements in the tree, as suggested by
+Mikolov et al. in the original Word2Vec
+papers.\cite{mikolov2013distributed,mikolov2013efficient}
+
+Secondly, in the implementation of Word2Vec (and hence DeepWalk), Negative
+Sampling is used.\cite{mikolov2013distributed} This was shown by Levy and
+Goldberg\cite{levy&goldberg} to be implicitly factorising a matrix $M$. The
+proof is presented here in the context of graph representations.
+
+\begin{theorem}[Levy, Goldberg (2014)]
+SkipGram with Negative Sampling (SGNS) is implicitly factorising the matrix
+\[M = \log{\frac{\#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - log$b$ = WCˆT\in \mathbb{R}ˆ{|V|
+    \times |V|}\]
+where $W \in \mathbb{R}ˆ{|V| \times d}$ and $|C| \in \mathbb{R}ˆ{d \times |V|}$
+and $b$ is the number of negative samples.
+\end{theorem}
+
+In the above theorem, $\mathcal{D}$ represents the random walk corpus and
+$\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
+$(v,c)$, vertex $v$ and context $c$ appear in the corpus respectively.
+
+\begin{proof}
+  Exhibit the proof from Levy & Goldberg.
+\end{proof}
+
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
 \section{Dynamic Deep Walking}

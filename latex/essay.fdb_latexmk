@@ -1,18 +1,18 @@
 # Fdb version 3
-["bibtex essay"] 1576233673 "essay.aux" "essay.bbl" "essay" 1576236741
+["bibtex essay"] 1576239859 "essay.aux" "essay.bbl" "essay" 1576239859
   "/usr/local/texlive/2019/texmf-dist/bibtex/bst/base/ieeetr.bst" 1292289607 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "essay.aux" 1576233675 2488 c7295160459f4df66104058e921169d3 "pdflatex"
-  "references.bib" 1575994311 909 73038088f041fd7aa5674000af6c4607 ""
+  "essay.aux" 1576239520 2832 6505a342dd3f3b37353d343e93324271 "pdflatex"
+  "references.bib" 1576237679 1168 a770f790576da59470601e9fd0b07dbf ""
   (generated)
-  "essay.blg"
   "essay.bbl"
-["makeindex essay.idx"] 1575994572 "essay.idx" "essay.ind" "essay" 1576236741
-  "essay.idx" 1576233673 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "essay.blg"
+["makeindex essay.idx"] 1575994572 "essay.idx" "essay.ind" "essay" 1576239859
+  "essay.idx" 1576239518 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
-  "essay.ilg"
   "essay.ind"
-["pdflatex"] 1576236741 "essay.tex" "essay.pdf" "essay" 1576236741
-  "/dev/null" 1576236727 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "essay.ilg"
+["pdflatex"] 1576239859 "essay.tex" "essay.pdf" "essay" 1576239859
+  "/dev/null" 1576239848 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -255,18 +255,18 @@
   "/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1557342064 3277517 23507ed665b4dd9046f0f2a94bbef2be ""
   "/usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1573753515 4259637 1d5f180e6a9a9162d2940f192b4a6438 ""
   "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
-  "essay.aux" 1576233675 2488 c7295160459f4df66104058e921169d3 "pdflatex"
-  "essay.bbl" 1576233673 615 1da8118f3235d2e9cf847ba44ba8d871 "bibtex essay"
-  "essay.ind" 1576233675 0 d41d8cd98f00b204e9800998ecf8427e "makeindex essay.idx"
-  "essay.out" 1576233675 967 6c8da185e4bb4ed77f57dd231aa67a23 "pdflatex"
-  "essay.tex" 1576236724 10807 f9b9114b4d015065760fa27c1db34871 ""
-  "essay.toc" 1576233675 583 a02aa369d2fa02a2ec1e1b384170aee3 "pdflatex"
+  "essay.aux" 1576239520 2832 6505a342dd3f3b37353d343e93324271 "pdflatex"
+  "essay.bbl" 1576239859 819 3d42227adad1898f01467d35ea98dd4e "bibtex essay"
+  "essay.ind" 1576239520 0 d41d8cd98f00b204e9800998ecf8427e "makeindex essay.idx"
+  "essay.out" 1576239520 967 6c8da185e4bb4ed77f57dd231aa67a23 "pdflatex"
+  "essay.tex" 1576239858 11754 d79055790d4101162d12db76b21a581f ""
+  "essay.toc" 1576239520 583 5490dd74eb7fdaed260746b9377c90ff "pdflatex"
   "header.tex" 1574263364 7853 1281ad587fca0e9b61a6af20cd4ad2de ""
   "titlepage.tex" 1572867528 522 fd652871a20616bf781724b5030399f6 ""
   (generated)
   "essay.idx"
-  "essay.out"
-  "essay.toc"
   "essay.pdf"
   "essay.log"
+  "essay.out"
+  "essay.toc"
   "essay.aux"
