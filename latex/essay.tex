@@ -23,7 +23,7 @@
 \section{Motivation}
 The motivation for studying nodes in graphs and their representations comes from the desire to understand networks of people or objects and their relations. The motivating question for this essay is
 \begin{question}[Motivating Question]
-Given a large network of people how can we quantify the relationships between them?
+  Given a large network of people how can we quantify the relationships between them?
 \end{question}
 The natural way to go about this is to let nodes represent persons and let edges
 between them represent connections from which we can induce some understanding
@@ -34,21 +34,21 @@ Many of the networks which we wish to study are dynamic; that is they change wit
 \section{Summary}
 There are three main objectives of this essay:
 \begin{itemize}
-  \item Firstly the essay will give a mathematical outline of the DeepWalk
-    algorithm and it's application to social representation learning. We will
-    briefly discuss the benefits and drawbacks of the algorithm.
-  \item Secondly we will look at an implementation of DeepWalk to dynamic
-    graphs. The challenge here is to develop an unbiased representation of a
-    graph at time $t+1$ given it's representation at time $t$, without
-    re-analysing the entire network. This is a very important task since many
-    networks, especially social ones, are constantly changing. However in any given
-    epoch of time the network structure is unlikely to undergoe dramatic change and
-    so a computationally effective algorithm will not re-analyse the network at
-    each step.
-   \item Thirdly, we will exhibit an implementation of the outlined dynamic DeepWalk
-     application to a social data set [which data set?] and give suggestions as
-     to good applications of Dynamic DeepWalking. [talk here about the
-     application once I have found one]
+\item Firstly the essay will give a mathematical outline of the DeepWalk
+  algorithm and it's application to social representation learning. We will
+  briefly discuss the benefits and drawbacks of the algorithm.
+\item Secondly we will look at an implementation of DeepWalk to dynamic
+  graphs. The challenge here is to develop an unbiased representation of a
+  graph at time $t+1$ given it's representation at time $t$, without
+  re-analysing the entire network. This is a very important task since many
+  networks, especially social ones, are constantly changing. However in any given
+  epoch of time the network structure is unlikely to undergoe dramatic change and
+  so a computationally effective algorithm will not re-analyse the network at
+  each step.
+\item Thirdly, we will exhibit an implementation of the outlined dynamic DeepWalk
+  application to a social data set [which data set?] and give suggestions as
+  to good applications of Dynamic DeepWalking. [talk here about the
+  application once I have found one]
 \end{itemize}
 
 \section{DeepWalk}
@@ -72,17 +72,17 @@ notation to the original paper to ease cross-referencing. Without further ado, l
 our journey.
 
 \begin{definition}
-Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
-members of the network, commonly referred to as the nodes and $E \subset V
-\times V$ represents their connections.\\
+  Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
+  members of the network, commonly referred to as the nodes and $E \subset V
+  \times V$ represents their connections.\\
 
-The nodes and edges have lables and $G_L = (V, E, X, Y)$ represents the
-partially labelled network. $X \in \R ˆ{|V| \times S}$ where $S$ is the size of
-the feature space for each attribute vector and $Y \in \R ˆ{|V| \times
-  |\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
+  The nodes and edges have lables and $G_L = (V, E, X, Y)$ represents the
+  partially labelled network. $X \in \R^{|V| \times S}$ where $S$ is the size of
+  the feature space for each attribute vector and $Y \in \R^{|V| \times
+    |\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
 
-Our goal is to learn $X_E \in \R ^{|V| \times d}$ where $d$ is a small number
+Our goal is to learn $X_E \in \R mb^{|V| \times d}$ where $d$ is a small number
 of latent dimensions. The idea is that each latent dimension contributes a 
 dimensional
 
@@ -118,15 +118,15 @@ represents the input node and $w$ is a context node, which lies within a certain
 window size.
 
 To formalise this, each of the nodes $v \in V$ are represented by a one-hot
-encoding vector $e_v \in \mathbb{R}ˆ|V|$ allowing us to feed $e_v$ into the
+encoding vector $e_v \in \mathbb{R}^{|V|}$ allowing us to feed $e_v$ into the
 neural network. When $e_v$ is fed into the network, a single linear hidden layer with
 $d$ neurons is used, where $d$ is the desired dimension of the latent
 representations, which is then passed to a softmax classifier for output. The
-output of the network is a vector $o \in \mathbb{R}ˆd$ containing the estimated
+output of the network is a vector $o \in \mathbb{R}^d$ containing the estimated
 probabilities that a randomly selected nearby word is that vocabulary word.
 
 The idea behind having a linear hidden layer, which does not use an activation
-function, is to use the resulting weight matrix $W \in \mathbb{R}ˆ{|V| \times
+function, is to use the resulting weight matrix $W \in \mathbb{R}^{|V| \times
   d}$ as the embedding vectors for the nodes in the graph. This is intuitive as
 the hidden layer acts as a bottleneck that tries to represent as much
 information as possible to distinguish the nodes, but is only allowed $d$
@@ -140,7 +140,7 @@ this! ***
 but for graphs and with $d$ dimensions ***
 
 The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
-discussed here in two major ways. Firstly, calculating the normalization factor
+discussed. Firstly, calculating the normalization factor
 in the Softmax layer requires a computational complexity of $O(|V|)$, this is
 reduced by using Hierarchical Softmax to approximate the Softmax probabilities,
 requiring a complexity of only $O(log|V|)$. In particular, a Huffman coding is
@@ -148,17 +148,13 @@ used to reduce the access time of frequent elements in the tree, as suggested by
 Mikolov et al. in the original Word2Vec
 papers.\cite{mikolov2013distributed,mikolov2013efficient}
 
-Secondly, in the implementation of Word2Vec (and hence DeepWalk), Negative
-Sampling is used.\cite{mikolov2013distributed} This was shown by Levy and
-Goldberg\cite{levy&goldberg} to be implicitly factorising a matrix $M$. The
-proof is presented here in the context of graph representations.
+Here I exhibit a proof that DeepWalk with Softmax is equivalent to factorising a
+certain matrix $M$. This is a result that, though mentioned, I have not found
+explicitely proved in the literature.
 
-\begin{theorem}[Levy, Goldberg (2014)]
-SkipGram with Negative Sampling (SGNS) is implicitly factorising the matrix
-\[M = \log{\frac{\#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - log$b$ = WCˆT\in \mathbb{R}ˆ{|V|
-    \times |V|}\]
-where $W \in \mathbb{R}ˆ{|V| \times d}$ and $|C| \in \mathbb{R}ˆ{d \times |V|}$
-and $b$ is the number of negative samples.
+\begin{theorem}
+  SkipGram with Softmax is implicitely factorising the matrix
+  \[M = \]
 \end{theorem}
 
 In the above theorem, $\mathcal{D}$ represents the random walk corpus and
@@ -166,33 +162,79 @@ $\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
 $(v,c)$, vertex $v$ and context $c$ appear in the corpus respectively.
 
 \begin{proof}
-  Exhibit the proof from Levy & Goldberg.
+
+  *** Make a note on the assumptions of the proof, should be done in the proof
+  itself ***
+
 \end{proof}
+
+
+In later adaptations of DeepWalk, Negative Sampling is used instead of
+Hierarchical Softmax. This was shown by Levy and
+Goldberg\cite{levy&goldberg}, in a similar manner to the above proof, to be
+implicitly factorising a different matrix $M$ to the one above.
+*** Do I need to explain what Negative Sampling is? I don't have much space, but
+a sentence or two would likely help the reader. ***
+
+*** At some point I need to actually outline these algorithms as the other
+papers have done, there needs to be an explicit DeepWalk algorithm ***
+
+\begin{theorem}[Levy, Goldberg (2014)]
+  SkipGram with Negative Sampling (SGNS) is implicitly factorising the matrix
+  \[M = \log{\frac{\#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - \log{b} = WC^T\in \mathbb{R}^{|V|
+      \times |V|}\]
+  where $W \in \mathbb{R}^{|V| \times d}$ and $|C| \in \mathbb{R}^{d \times |V|}$
+  and $b$ is the number of negative samples.
+\end{theorem}
+
+*** Make a note on the assumptions of the proof ***
+
+Most interestingly, the resulting expression for $M$ is that of a pointwise
+mutual information (PMI) matrix shifted by a factor of $\log k$. PMI was
+introduced as a measure of association between words in 1990 by Church and Hanks
+\cite{church1990} and became widely adopted for NLP tasks.\\
+
+In the remainder of this essay, when referring to DeepWalk, it will be
+implicitly assumed that Negative Sampling is used as appose to Hierarchical
+Softmax. This is  because Negative Sampling has been shown to be more efficient
+and therefore much of the literature has adopted DeepWalk with SGNS. This convention will also
+serve us well when we look to applying DeepWalk to dynamic graphs since here
+Negative Sampling is also applied.
+
+\subsection{DeepWalk as matrix factorisation}
+
+We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
+al.\cite{qiu2018} published in 2018 building upon work by Yang et al.\cite{yang2015}
+from 2015. The aim of the former paper was to lay the foundationds for, and
+unify, the SkipGram based network embedding methods.\\
+
+In their paper, Qiu et al. gave a theoretical understanding of the DeepWalk
+algorithm by proving the following theorem:
+
+\begin{theorem}
+  As $L \to \infty$, DeepWalk is equivalent to factorising
+  \[\log{\left(\frac{vol(G)}{T}\left( \sum_{r = 1}^T P^r  \right) D^{-1}
+    \right)} - \log{b}\]
+  where $D = diag(d_1, \dots, \d_{|V|})$ and $P = D^{-1}A$.
+\end{theorem}
+
+*** Give the conditions for the theorem to hold. ***
+
+What follows is a careful outline of this proof.
 
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
-\section{Dynamic Deep Walking}
+\section{Dynamic DeepWalking}
+In this section we transition away from the static implementation of DeepWalk
+towards network embeddings for Dynamic datasets. In particular, the focus of the
+section is to introduce an adaptation of DeepWalk to dynamic datasets as
+proposed in the paper published by Sajjad et al.\cite{sajjad2019} in early 2019.
+
+
 \section{Discussion of an application}
-\subsection*{Essay Descriptor}
-\textbf{Walking Deeper on Dynamic Graphs: Learning Latent Representations
-with Random Walks for Image Classification}\\
-In the era of big data, graph representation is a natural and powerful tool for representing big
-data in real-world problems [1],[2],[4]; some examples include data coming from medical records,
-social networks, recommendation systems and transport systems. A challenging question when
-using graph representation is how to learn latent representations on multi-label networks for
-several classification tasks, and a seminal algorithm for this is the DeepWalk technique using
-random walks [1].\\
-We propose two questions for investigation in this essay. Firstly, we hope that students will
-develop a rigorous mathematical underpinning for the DeepWalk algorithm, in the spirit of
-convergence guarantees.\\
-Secondly, we seek to investigate the connection of DeepWalk to dynamic graphs. Many realworld events are dynamic - for example, in a social network new users are constantly added- while
-most of the body of literature is based on the unrealistic assumption that the graph is static.
-From the learning point of view, this assumption has a negative impact in the computations, as the graph has to be re-learned each time that an instance changes. We also hope that students
-will also discuss some open questions that they find interesting.\\
-\textbf{Relevant Courses}\\
-Useful: Background knowledge in Machine Learning and Statistics is helpful, as is probability
-to the level of Part II Applied Probability. Some content from Part III Mixing Times of Markov
-Chains, on the long-time behaviour of random walks on graphs, may also be useful.\\
+
+The aim of this section is to bring the theory discussed on Dynamic DeepWalking
+into practice.
 
 \bibliography{references}
 \bibliographystyle{ieeetr}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  13 DEC 2019 12:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  13 DEC 2019 16:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1469,98 +1469,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 75--78
  []
 
 
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 80.
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 80.
-
-./essay.tex:80: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.80 partially labelled network. $X \in \R ˆ
-                                             {|V| \times S}$ where $S$ is th...
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:80: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.80 partially labelled network. $X \in \R ˆ
-                                             {|V| \times S}$ where $S$ is th...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:80: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.80 partially labelled network. $X \in \R ˆ
-                                             {|V| \times S}$ where $S$ is th...
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:80: Missing } inserted.
-<inserted text> 
-                }
-l.80 ...elled network. $X \in \R ˆ{|V| \times S}$
-                                                   where $S$ is the size of
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 81.
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 81.
-
-./essay.tex:81: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.81 ...for each attribute vector and $Y \in \R ˆ
-                                                  {|V| \times
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:81: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.81 ...for each attribute vector and $Y \in \R ˆ
-                                                  {|V| \times
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:81: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.81 ...for each attribute vector and $Y \in \R ˆ
-                                                  {|V| \times
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:82: Missing } inserted.
-<inserted text> 
-                }
-l.82   |\mathcal{Y}|}$
-                      , where $\mathcal{Y}$ is the set of labels.
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-
 Underfull \hbox (badness 10000) in paragraph at lines 90--94
 
  []
@@ -1568,415 +1476,73 @@ Underfull \hbox (badness 10000) in paragraph at lines 90--94
 [4
 
 ]
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 121.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 121.
-
-./essay.tex:121: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.121 encoding vector $e_v \in \mathbb{R}ˆ
-                                           |V|$ allowing us to feed $e_v$ in...
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:121: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.121 encoding vector $e_v \in \mathbb{R}ˆ
-                                           |V|$ allowing us to feed $e_v$ in...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:121: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.121 encoding vector $e_v \in \mathbb{R}ˆ
-                                           |V|$ allowing us to feed $e_v$ in...
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:121: Missing } inserted.
-<inserted text> 
-                }
-l.121 encoding vector $e_v \in \mathbb{R}ˆ|V|$
-                                                allowing us to feed $e_v$ in...
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 125.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 125.
-
-./essay.tex:125: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.125 ...e network is a vector $o \in \mathbb{R}ˆ
-                                                  d$ containing the estimated
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:125: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.125 ...e network is a vector $o \in \mathbb{R}ˆ
-                                                  d$ containing the estimated
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:125: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.125 ...e network is a vector $o \in \mathbb{R}ˆ
-                                                  d$ containing the estimated
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:125: Missing } inserted.
-<inserted text> 
-                }
-l.125 ...network is a vector $o \in \mathbb{R}ˆd$
-                                                   containing the estimated
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 129.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 129.
-
-./essay.tex:129: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.129 ...sulting weight matrix $W \in \mathbb{R}ˆ
-                                                  {|V| \times
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:129: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.129 ...sulting weight matrix $W \in \mathbb{R}ˆ
-                                                  {|V| \times
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:129: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.129 ...sulting weight matrix $W \in \mathbb{R}ˆ
-                                                  {|V| \times
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:130: Missing } inserted.
-<inserted text> 
-                }
-l.130   d}$
-            as the embedding vectors for the nodes in the graph. This is int...
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 156.
+(mdframed)              on input line 155.
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on inpu
 t line 156.
-./essay.tex:158: Display math should end with $$.
-<to be read again> 
-                   b
-l.158 ...#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - log$b
-                                                  $ = WCˆT\in \mathbb{R}ˆ{|V|
-The `$' that I just saw supposedly matches a previous `$$'.
-So I shall assume that you typed `$$' both times.
+ [5]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 182.
 
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 158.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 158.
-
-./essay.tex:158: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.158 ...mathcal{D}|}{\#(v)\#(c)}} - log$b$ = WCˆ
-                                                  T\in \mathbb{R}ˆ{|V|
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:158: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.158 ...mathcal{D}|}{\#(v)\#(c)}} - log$b$ = WCˆ
-                                                  T\in \mathbb{R}ˆ{|V|
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:158: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.158 ...mathcal{D}|}{\#(v)\#(c)}} - log$b$ = WCˆ
-                                                  T\in \mathbb{R}ˆ{|V|
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 158.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 158.
-
-./essay.tex:158: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.158 ...)\#(c)}} - log$b$ = WCˆT\in \mathbb{R}ˆ
-                                                  {|V|
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:158: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.158 ...)\#(c)}} - log$b$ = WCˆT\in \mathbb{R}ˆ
-                                                  {|V|
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:158: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.158 ...)\#(c)}} - log$b$ = WCˆT\in \mathbb{R}ˆ
-                                                  {|V|
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:159: Missing } inserted.
-<inserted text> 
-                }
-l.159     \times |V|}\]
-                       
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-./essay.tex:159: Missing } inserted.
-<inserted text> 
-                }
-l.159     \times |V|}\]
-                       
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-Missing character: There is no � in font cmex10!
-./essay.tex:159: Missing $ inserted.
-<inserted text> 
-                $
-l.159     \times |V|}\]
-                       
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 160.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 160.
-
-./essay.tex:160: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.160 where $W \in \mathbb{R}ˆ
-                               {|V| \times d}$ and $|C| \in \mathbb{R}ˆ{d \...
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:160: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.160 where $W \in \mathbb{R}ˆ
-                               {|V| \times d}$ and $|C| \in \mathbb{R}ˆ{d \...
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:160: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.160 where $W \in \mathbb{R}ˆ
-                               {|V| \times d}$ and $|C| \in \mathbb{R}ˆ{d \...
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:160: Missing } inserted.
-<inserted text> 
-                }
-l.160 where $W \in \mathbb{R}ˆ{|V| \times d}$
-                                               and $|C| \in \mathbb{R}ˆ{d \...
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-
-LaTeX Warning: Command \textasciicircum invalid in math mode on input line 160.
-
-
-
-LaTeX Warning: Command \^ invalid in math mode on input line 160.
-
-./essay.tex:160: Please use \mathaccent for accents in math mode.
-\add@accent ...@spacefactor \spacefactor }\accent 
-                                                  #1 #2\egroup \spacefactor ...
-l.160 ...{|V| \times d}$ and $|C| \in \mathbb{R}ˆ
-                                                  {d \times |V|}$
-I'm changing \accent to \mathaccent here; wish me luck.
-(Accents are not the same in formulas as they are in text.)
-
-./essay.tex:160: Missing { inserted.
-<to be read again> 
-                   \egroup 
-l.160 ...{|V| \times d}$ and $|C| \in \mathbb{R}ˆ
-                                                  {d \times |V|}$
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./essay.tex:160: You can't use `\spacefactor' in math mode.
-\add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                  \accent@spacefactor 
-l.160 ...{|V| \times d}$ and $|C| \in \mathbb{R}ˆ
-                                                  {d \times |V|}$
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-./essay.tex:160: Missing } inserted.
-<inserted text> 
-                }
-l.160 ... and $|C| \in \mathbb{R}ˆ{d \times |V|}$
-                                                  
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-Missing character: There is no � in font cmex10!
-./essay.tex:169: Misplaced alignment tab character &.
-l.169   Exhibit the proof from Levy &
-                                      Goldberg.
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
-[5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 178--196
+Underfull \hbox (badness 10000) in paragraph at lines 192--196
 
  []
 
-(./essay.bbl [7
 
-]) [8
+Underfull \hbox (badness 10000) in paragraph at lines 206--210
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 214.
+[6] [7
+
+] (./essay.bbl [8
+
+]) [9
 
 ]
 runsystem(makeindex essay.idx)...executed safely (allowed).
 
  (./essay.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 245.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 245.
  (./essay.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 203.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 203.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 245.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 245.
 Package rerunfilecheck Info: File `essay.out' has not changed.
-(rerunfilecheck)             Checksum: 6C8DA185E4BB4ED77F57DD231AA67A23;967.
+(rerunfilecheck)             Checksum: 738045CB6497608125838552E8C84860;1185.
  ) 
 Here is how much of TeX's memory you used:
- 47223 strings out of 492616
- 1049988 string characters out of 6129480
- 1191408 words of memory out of 5000000
- 50488 multiletter control sequences out of 15000+600000
+ 47244 strings out of 492616
+ 1050339 string characters out of 6129480
+ 1191626 words of memory out of 5000000
+ 50499 multiletter control sequences out of 15000+600000
  538969 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,11n,119p,1063b,1047s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
-sr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
-ocal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loc
-al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
-l/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/
-texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/t
-exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/te
-xlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on essay.pdf (9 pages, 170799 bytes).
+</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
+r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/lo
+cal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loca
+l/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
+exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
+xlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
+ive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texli
+ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texliv
+e/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on essay.pdf (10 pages, 192397 bytes).
 PDF statistics:
- 163 PDF objects out of 1000 (max. 8388607)
- 137 compressed objects within 2 object streams
- 25 named destinations out of 1000 (max. 500000)
- 77 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 192 PDF objects out of 1000 (max. 8388607)
+ 163 compressed objects within 2 object streams
+ 35 named destinations out of 1000 (max. 500000)
+ 85 words of extra memory for PDF output out of 10000 (max. 10000000)
 
