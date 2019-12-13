@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  11 DEC 2019 16:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  13 DEC 2019 11:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1415,7 +1415,20 @@ LaTeX Info: Redefining \nameref on input line 17.
  (./titlepage.tex [1
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]) (./ess
-ay.toc)
+ay.toc
+LaTeX Font Info:    Try loading font information for U+stmry on input line 4.
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
+LaTeX Font Info:    Try loading font information for U+msa on input line 4.
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 4.
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+))
 \tf@toc=\write6
 \openout6 = `essay.toc'.
 
@@ -1442,19 +1455,7 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 37.
-LaTeX Font Info:    Try loading font information for U+stmry on input line 42.
-
-(/usr/local/texlive/2019/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-LaTeX Font Info:    Try loading font information for U+msa on input line 42.
-
-(/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 42.
-
-(/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [3
+ [3
 
 ]
 Package mdframed Info: mdframed detected package amsthm 
@@ -1559,34 +1560,181 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 Missing character: There is no � in font cmex10!
-[4
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 94--112
+Underfull \hbox (badness 10000) in paragraph at lines 90--94
 
  []
 
-(./essay.bbl [5
+[4
 
-]) [6
+]
+
+LaTeX Warning: Command \textasciicircum invalid in math mode on input line 121.
+
+
+
+LaTeX Warning: Command \^ invalid in math mode on input line 121.
+
+./essay.tex:121: Please use \mathaccent for accents in math mode.
+\add@accent ...@spacefactor \spacefactor }\accent 
+                                                  #1 #2\egroup \spacefactor ...
+l.121 encoding vector $e_v \in \mathbb{R}ˆ
+                                           |V|$ allowing us to feed $e_v$ in...
+I'm changing \accent to \mathaccent here; wish me luck.
+(Accents are not the same in formulas as they are in text.)
+
+./essay.tex:121: Missing { inserted.
+<to be read again> 
+                   \egroup 
+l.121 encoding vector $e_v \in \mathbb{R}ˆ
+                                           |V|$ allowing us to feed $e_v$ in...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./essay.tex:121: You can't use `\spacefactor' in math mode.
+\add@accent ...}\accent #1 #2\egroup \spacefactor 
+                                                  \accent@spacefactor 
+l.121 encoding vector $e_v \in \mathbb{R}ˆ
+                                           |V|$ allowing us to feed $e_v$ in...
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./essay.tex:121: Missing } inserted.
+<inserted text> 
+                }
+l.121 encoding vector $e_v \in \mathbb{R}ˆ|V|$
+                                                allowing us to feed $e_v$ in...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no � in font cmex10!
+
+LaTeX Warning: Command \textasciicircum invalid in math mode on input line 125.
+
+
+
+LaTeX Warning: Command \^ invalid in math mode on input line 125.
+
+./essay.tex:125: Please use \mathaccent for accents in math mode.
+\add@accent ...@spacefactor \spacefactor }\accent 
+                                                  #1 #2\egroup \spacefactor ...
+l.125 ...e network is a vector $o \in \mathbb{R}ˆ
+                                                  d$ containing the estimated
+I'm changing \accent to \mathaccent here; wish me luck.
+(Accents are not the same in formulas as they are in text.)
+
+./essay.tex:125: Missing { inserted.
+<to be read again> 
+                   \egroup 
+l.125 ...e network is a vector $o \in \mathbb{R}ˆ
+                                                  d$ containing the estimated
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./essay.tex:125: You can't use `\spacefactor' in math mode.
+\add@accent ...}\accent #1 #2\egroup \spacefactor 
+                                                  \accent@spacefactor 
+l.125 ...e network is a vector $o \in \mathbb{R}ˆ
+                                                  d$ containing the estimated
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./essay.tex:125: Missing } inserted.
+<inserted text> 
+                }
+l.125 ...network is a vector $o \in \mathbb{R}ˆd$
+                                                   containing the estimated
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no � in font cmex10!
+
+LaTeX Warning: Command \textasciicircum invalid in math mode on input line 129.
+
+
+
+LaTeX Warning: Command \^ invalid in math mode on input line 129.
+
+./essay.tex:129: Please use \mathaccent for accents in math mode.
+\add@accent ...@spacefactor \spacefactor }\accent 
+                                                  #1 #2\egroup \spacefactor ...
+l.129 ...sulting weight matrix $W \in \mathbb{R}ˆ
+                                                  {|V| \times
+I'm changing \accent to \mathaccent here; wish me luck.
+(Accents are not the same in formulas as they are in text.)
+
+./essay.tex:129: Missing { inserted.
+<to be read again> 
+                   \egroup 
+l.129 ...sulting weight matrix $W \in \mathbb{R}ˆ
+                                                  {|V| \times
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+./essay.tex:129: You can't use `\spacefactor' in math mode.
+\add@accent ...}\accent #1 #2\egroup \spacefactor 
+                                                  \accent@spacefactor 
+l.129 ...sulting weight matrix $W \in \mathbb{R}ˆ
+                                                  {|V| \times
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./essay.tex:130: Missing } inserted.
+<inserted text> 
+                }
+l.130   d}$
+            as the embedding vectors for the nodes in the graph. This is int...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+Missing character: There is no � in font cmex10!
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 155--173
+
+ []
+
+(./essay.bbl [6
+
+]) [7
 
 ]
 runsystem(makeindex essay.idx)...executed safely (allowed).
 
  (./essay.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 119.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 119.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 180.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 180.
  (./essay.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 119.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 119.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 180.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 180.
 Package rerunfilecheck Info: File `essay.out' has not changed.
-(rerunfilecheck)             Checksum: 97B8E05A143052AA870B38A8F1E8248C;870.
+(rerunfilecheck)             Checksum: 6C8DA185E4BB4ED77F57DD231AA67A23;967.
  ) 
 Here is how much of TeX's memory you used:
- 47207 strings out of 492616
- 1049722 string characters out of 6129480
- 1188323 words of memory out of 5000000
- 50478 multiletter control sequences out of 15000+600000
+ 47213 strings out of 492616
+ 1049811 string characters out of 6129480
+ 1190326 words of memory out of 5000000
+ 50482 multiletter control sequences out of 15000+600000
  538969 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,11n,119p,1063b,1047s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1603,10 +1751,10 @@ l/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/
 texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/t
 exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/te
 xlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on essay.pdf (7 pages, 157969 bytes).
+Output written on essay.pdf (8 pages, 165312 bytes).
 PDF statistics:
- 142 PDF objects out of 1000 (max. 8388607)
- 118 compressed objects within 2 object streams
- 19 named destinations out of 1000 (max. 500000)
- 69 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 153 PDF objects out of 1000 (max. 8388607)
+ 128 compressed objects within 2 object streams
+ 21 named destinations out of 1000 (max. 500000)
+ 77 words of extra memory for PDF output out of 10000 (max. 10000000)
 

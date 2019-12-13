@@ -84,7 +84,68 @@ the feature space for each attribute vector and $Y \in \R ˆ{|V| \times
 
 Our goal is to learn $X_E \in \R ^{|V| \times d}$ where $d$ is a small number
 of latent dimensions. The idea is that each latent dimension contributes a 
-dimensional 
+dimensional
+
+\subsection{SkipGram}
+To understand DeepWalk mathematically, we first need to understand what the SkipGram
+model is doing, since this is the model underpinning DeepWalk, which took it
+from NLP and applied it to graphs. It is easiest to first gain an understanding
+of SkipGram in it's original context.\\
+
+Paragraph with word analogies:
+Skipgram trains a neural network to do the following task. Given an input word,
+located somewhere in a sentence, pick a nearby word at random. The task of the
+network is to give the probability of each word in the vocabulary being the
+nearby word that we choose. As an example, if the context work is ``rainy'' then
+``weather'' would be assigned a high probability whereas ``carrot'' would be
+assigned a low one.
+
+Paragraph without word analogies:
+In the context of graph networks, SkipGram trains a neural network to do the
+following task.\\
+Given an input vertex $v$ and a random walk, $W_{v}$, of length $2t+1$ with $v$
+at it's centre. Pick a nearby vertex at random. The task of the neural network is to
+predict the probability that each vertex in $V$ will be the randomly chosen
+vertex. Therefore, verticies far away on the graph that correspond to unfamiliar
+nodes are unlikely to co-occur on the same random walk and will be assigned a
+low probability. Conversely, nearby and well connected vertices are likely to
+co-occur on a random walk with input $v$ and thus will be assigned higher
+probabilities. This allows us to train a network with weights that represent the
+connectedness between nodes on the graph.
+
+The neural network is trained by feeding it pairs of nodes $(v, w)$ where $v$
+represents the input node and $w$ is a context node, which lies within a certain
+window size.
+
+To formalise this, each of the nodes $v \in V$ are represented by a one-hot
+encoding vector $e_v \in \mathbb{R}ˆ|V|$ allowing us to feed $e_v$ into the
+neural network. When $e_v$ is fed into the network, a single linear hidden layer with
+$d$ neurons is used, where $d$ is the desired dimension of the latent
+representations, which is then passed to a softmax classifier for output. The
+output of the network is a vector $o \in \mathbb{R}ˆd$ containing the estimated
+probabilities that a randomly selected nearby word is that vocabulary word.
+
+The idea behind having a linear hidden layer, which does not use an activation
+function, is to use the resulting weight matrix $W \in \mathbb{R}ˆ{|V| \times
+  d}$ as the embedding vectors for the nodes in the graph. This is intuitive as
+the hidden layer acts as a bottleneck that tries to represent as much
+information as possible to distinguish the nodes, but is only allowed $d$
+neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
+
+The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
+discussed here in two major ways. Firstly, calculating the normalization factor
+in the Softmax layer requires a computational complexity of $O(|V|)$, this is
+reduced by using Hierarchical Softmax to approximate the Softmax probabilities,
+requiring a complexity of only $O(log|V|)$. In particular, a Huffman coding is
+used to reduce the access time of frequent elements in the tree, as suggested by
+Mikolov et al. in the original Word2Vec papers.\cite{mikolov2013distributed,mikolov2013efficient}
+
+*** Is our vocabulary the whole graph, or is it just the random walk that we
+feed to the SkipGram model, perhaps it is just the random walk, be careful with
+this! ***
+
+*** Create here an image resembling the one found in the blog post on SkipGram
+but for graphs and with $d$ dimensions ***
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
 \section{Dynamic Deep Walking}
@@ -117,10 +178,3 @@ Chains, on the long-time behaviour of random walks on graphs, may also be useful
 
 \printindex
 \end{document}
-
-% Three parts:
-% Chapter 1: set systems
-% Chapter 2: isoperimetric inequalities
-% Chapter 3: projections
-% Books: Combinatorics, Bollobas, CUP 1986, excellent for Chapter 1 and Chapter 2 (and gentle!) and for future development of the course;
-% Combinatorics of finite sets, Anderson, OUP 1987, simple and clear, good for Chapter 1
