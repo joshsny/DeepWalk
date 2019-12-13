@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  13 DEC 2019 16:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  13 DEC 2019 17:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1476,28 +1476,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 90--94
 [4
 
 ]
+Overfull \hbox (2.55626pt too wide) in paragraph at lines 151--158
+[]\OT1/cmr/m/n/10 In later adap-ta-tions of Deep-Walk, Skip-Gram with Neg-a-tiv
+e Sam-pling (SGNS)
+ []
+
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 155.
+(mdframed)              on input line 168.
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on inpu
-t line 156.
- [5]
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 182.
+t line 168.
+[5]
+Package mdframed Info: Not enough space on this page on input line 174.
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--196
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 206--210
+Underfull \hbox (badness 10000) in paragraph at lines 182--186
 
  []
 
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 214.
+(mdframed)              on input line 192.
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--211
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 215.
 [6] [7
 
 ] (./essay.bbl [8
@@ -1508,19 +1514,23 @@ Package mdframed Info: mdframed detected package amsthm
 runsystem(makeindex essay.idx)...executed safely (allowed).
 
  (./essay.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 245.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 245.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 246.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 246.
  (./essay.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 245.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 245.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 246.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 246.
 Package rerunfilecheck Info: File `essay.out' has not changed.
 (rerunfilecheck)             Checksum: 738045CB6497608125838552E8C84860;1185.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 47244 strings out of 492616
- 1050339 string characters out of 6129480
- 1191626 words of memory out of 5000000
- 50499 multiletter control sequences out of 15000+600000
+ 47247 strings out of 492616
+ 1050417 string characters out of 6129480
+ 1192665 words of memory out of 5000000
+ 50501 multiletter control sequences out of 15000+600000
  538969 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,11n,119p,1063b,1047s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1539,10 +1549,10 @@ xlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
 ive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texli
 ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texliv
 e/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on essay.pdf (10 pages, 192397 bytes).
+Output written on essay.pdf (10 pages, 192739 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 163 compressed objects within 2 object streams
- 35 named destinations out of 1000 (max. 500000)
+ 195 PDF objects out of 1000 (max. 8388607)
+ 166 compressed objects within 2 object streams
+ 36 named destinations out of 1000 (max. 500000)
  85 words of extra memory for PDF output out of 10000 (max. 10000000)
 

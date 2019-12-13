@@ -140,44 +140,32 @@ this! ***
 but for graphs and with $d$ dimensions ***
 
 The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
-discussed. Firstly, calculating the normalization factor
-in the Softmax layer requires a computational complexity of $O(|V|)$, this is
-reduced by using Hierarchical Softmax to approximate the Softmax probabilities,
+discussed. Calculating the normalization factor in the Softmax layer requires a
+computational complexity of $O(|V|)$, in the original DeepWalk paper this is
+reduced by using Hierarchical Softmax to approximate the softmax probabilities,
 requiring a complexity of only $O(log|V|)$. In particular, a Huffman coding is
 used to reduce the access time of frequent elements in the tree, as suggested by
 Mikolov et al. in the original Word2Vec
 papers.\cite{mikolov2013distributed,mikolov2013efficient}
 
-Here I exhibit a proof that DeepWalk with Softmax is equivalent to factorising a
-certain matrix $M$. This is a result that, though mentioned, I have not found
-explicitely proved in the literature.
+In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used instead of
+Hierarchical Softmax. In the remainder of this essay, when referring to DeepWalk, it will be
+implicitly assumed that Negative Sampling is used as appose to Hierarchical
+Softmax. This is because SGNS has been shown to be more efficient
+and therefore has been adopted by much of the further literature. This convention will also
+serve us well when we look at applying DeepWalk to dynamic graphs since here
+Negative Sampling is also applied.\\
 
-\begin{theorem}
-  SkipGram with Softmax is implicitely factorising the matrix
-  \[M = \]
-\end{theorem}
-
-In the above theorem, $\mathcal{D}$ represents the random walk corpus and
-$\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
-$(v,c)$, vertex $v$ and context $c$ appear in the corpus respectively.
-
-\begin{proof}
-
-  *** Make a note on the assumptions of the proof, should be done in the proof
-  itself ***
-
-\end{proof}
-
-
-In later adaptations of DeepWalk, Negative Sampling is used instead of
-Hierarchical Softmax. This was shown by Levy and
-Goldberg\cite{levy&goldberg}, in a similar manner to the above proof, to be
-implicitly factorising a different matrix $M$ to the one above.
 *** Do I need to explain what Negative Sampling is? I don't have much space, but
-a sentence or two would likely help the reader. ***
+a sentence or two would likely help the reader. ***\\
 
-*** At some point I need to actually outline these algorithms as the other
-papers have done, there needs to be an explicit DeepWalk algorithm ***
+Here I exhibit a proof that SkipGram with Negative Sampling is equivalent to factorising a
+certain matrix $M$ into two smaller matricies $W$ and $C$ where the rows in $W$
+correspond to the learned embedding of each vertex. This result was first proved by Levy and
+Goldberg\cite{levy&goldberg} in the context of words.\\
+In proceeding theorem, $\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
+$(v,c)$, vertex $v$ and context $c$ appear in the random-walks corpus
+$\mathcal{D}$ respectively.
 
 \begin{theorem}[Levy, Goldberg (2014)]
   SkipGram with Negative Sampling (SGNS) is implicitly factorising the matrix
@@ -187,19 +175,40 @@ papers have done, there needs to be an explicit DeepWalk algorithm ***
   and $b$ is the number of negative samples.
 \end{theorem}
 
-*** Make a note on the assumptions of the proof ***
+An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{w_i} \cdot
+\vec{c_i}$. Therefore SGNS is factorising a matrix in which each row corresponds
+to an input node $v \in |V|$ and each column to a context node $c \in |V|$,
+where the value of $M_{ij}$ corresponding to $v_i$ and $v_j$ expresses the
+strength of association between the input-context pair $(v_i, v_j)$.
+
+\begin{proof}
+
+  *** Make a note on the assumptions of the proof
+
+\end{proof}
 
 Most interestingly, the resulting expression for $M$ is that of a pointwise
 mutual information (PMI) matrix shifted by a factor of $\log k$. PMI was
 introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
 
-In the remainder of this essay, when referring to DeepWalk, it will be
-implicitly assumed that Negative Sampling is used as appose to Hierarchical
-Softmax. This is  because Negative Sampling has been shown to be more efficient
-and therefore much of the literature has adopted DeepWalk with SGNS. This convention will also
-serve us well when we look to applying DeepWalk to dynamic graphs since here
-Negative Sampling is also applied.
+There is an equivalent theorem for SkipGram with Softmax that was proved by Yang
+et al.\cite{yangalternative2015} and was later used in their development of
+text-associated DeepWalk (TADW)\cite{yang2015} which encorporates text features
+of the verticies in a social graph.
+
+\begin{theorem}[Yang et al. (2015)]
+  SkipGram with Softmax is implicitely factorising the matrix
+  \[M = \log{\frac{\#(v,c)}{\#(v)}}\]
+\end{theorem}
+
+The proof of this follows very similarly to the previous theorem and will not be
+shown here since we will only be concerned with SGNS.
+
+
+
+*** At some point I need to actually outline these algorithms as the other
+papers have done, there needs to be an explicit DeepWalk algorithm ***
 
 \subsection{DeepWalk as matrix factorisation}
 
