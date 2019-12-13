@@ -145,9 +145,6 @@ serve us well when we look at applying DeepWalk to dynamic graphs since here
 Negative Sampling is also applied.\\
 
 \subsection{SkipGram as matrix factorisation}
-*** Do I need to explain what Negative Sampling is? I don't have much space, but
-a sentence or two would likely help the reader. ***\\
-
 In this section we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matricies $W$
 and $C$ where the rows in $W$ correspond to the learned embedding of each vertex. This result was first proved by Levy and
@@ -159,20 +156,20 @@ Let $P(\D = 1 | v, c)$ denote the probability that $(v,c)$ comes from a random
 walk on the graph and $P(\D = 0| v, c)$
 the probability it does not. Then the distribution is modelled by a signoid
 function
-\[P(D = 1 | w, c) = \sigma(\vec{v} \cdot \vec{c}) = \frac{1}{1 + e^{-\vec{v} \cdot \vec{c}}}\]
-where $\vec{v}$ and $\vec{c}$ are $d$-dimensional vectors to be learned. SGNS attempts to maximise $P(\mathcal{D} = 1 | w,c)$ for observed pairs $(v, c)$
+\[P(D = 1 | v, c) = \sigma(\vec{v} \cdot \vec{c}) = \frac{1}{1 + e^{-\vec{v} \cdot \vec{c}}}\]
+where $\vec{v}$ and $\vec{c}$ are $d$-dimensional vectors to be learned. SGNS attempts to maximise $P(\mathcal{D} = 1 | v,c)$ for observed pairs $(v, c)$
 whilst simultaneously maximising $P(\D = 0 | v, c)$ for randomly sampled
 negative examples.\\
 It assumes that randomly selecting a context $c$ for a given
 node $v$ is likely to result in an unobserved pair $(v,c)$. In the context of
-social networks, this assumption is reasonable since the networks are almost
+social networks, this assumption is reasonable since social networks are almost
 always sparse (The number of edges is usually $O(|V|)$). However in a different
 context, if the network is dense, then this may be an unreasonable assumption.\\
 
 According to this assumption, the objective function of SGNS for a single
 observation $(v,c)$ is:
 
-\[\log{\sigma(\vec{w} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
+\[\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
 where the minus sign comes from the fact that $1 - \sigma(x) = \sigma(-x)$, $b$
 is the number of negative samples and $c_N$ is the sampled context node, drawn
 according to $P_D (c) = \frac{\#(c)}{| \D |}$ which is known as the unigram
@@ -187,34 +184,50 @@ This objective function is trained using stochastic gradient descent with
 updates after each  observed pair in the random-walk corpus $\D$. The resulting
 global objective becomes
 \begin{equation}
-  l = \sum_{v \in V} \sum_{c \in V}\#(w,c)\log{\sigma(\vec{w} \cdot \vec{c})} +
+  l = \sum_{v \in V} \sum_{c \in V}\#(v,c)\log{\sigma(\vec{v} \cdot \vec{c})} +
   b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}
 \end{equation}
 
-\subsubsection{Finding the appropriate relational matrix}
+\subsubsection{Finding the similarity function learned by SkipGram}
 
-If we let $W$ be the matrix with rows $w_i$ and $C$ the matrix with columns
-$c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{w_i} \cdot
+If we let $W$ be the matrix with rows $v_i$ (The matrix $W$ is used to highlight
+that it is the weight matrix in the neural network previosly described) and $C$ the matrix with columns
+$c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{v_i} \cdot
 \vec{c_j}$. Therefore SGNS is factorising a matrix in which each row corresponds
-to an input node $v_i \in |V|$ and each column to a context node $v_j \in |V|$ and the value of $M_{ij}$ expresses the
-strength of association between the input-context pair $(v_i, v_j)$ using some similarity
-function $s(v_i,v_j)$. 
+to an input node $v_i \in |V|$ and each column to a context node $c_j \in |V|$ and the value of $M_{ij}$ expresses the
+strength of association between the input-context pair $(v_i, c_j)$ using some similarity
+function $s(v_i,c_j)$. 
 \begin{theorem}[Levy, Goldberg (2014)]
   SkipGram with Negative Sampling (SGNS) is implicitly factorising a matrix $M =
   WC^T$ with
-  \[M_{ij} = \log{\frac{\#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - \log{b} = WC^T\in \mathbb{R}^{|V|
-      \times |V|}\]
-  where $W \in \mathbb{R}^{|V| \times d}$,$|C| \in \mathbb{R}^{d \times |V|}$ and $b$ is the number of negative samples.
+  \[M_{ij} = \log{\frac{\#(v_i,c_j)|\mathcal{D}|}{\#(v_i)\#(c_j)}} - \log{b}\]
+  where $W, C \in \mathbb{R}^{|V| \times d}$, and $b$ is the number of negative samples.
 \end{theorem}
 
 \begin{proof}
+Firstly, for sufficiently large dimensionality $d$ (so as to allow for a perfect
+reconstruction of $M$), each of the products $v_i \cdot c_j$ can be assumed to
+take their values independently of the others.
+*** WHY. EXPLAIN THIS. Why not sufficiently large value of $|\D|$, why does $d$
+matter here? ***
 
-  *** Make a note on the assumptions of the proof
+Due to this independence, the objective function $l$ can be maximised with
+respect to each pair $v \cdot c$ individually.
 
+The expectation term in $l$ can be written explicitly as
+\begin{align}
+  \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] &= \sum_{\tilde{c} \in V}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}\\
+                                                                           &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{\tilde{c} \in V \setminus \{c\}}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}
+\end{align}
+and so the objective function $l$ can be expressed as
+\begin{equation}
+ l =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigm(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] \right)
+ \end{equation}
+ where the second term comes from the fact that $\#(v) = \sum_{c \in V}\#(v,c)$ by definition.
 \end{proof}
 
-Most interestingly, the resulting expression for $M$ is that of a pointwise
-mutual information (PMI) matrix shifted by a factor of $\log k$. PMI was
+Most interestingly, the resulting expression for the similarity function $s$ is
+the pointwise mutual information (PMI) shifted by a factor of $\log k$. PMI was
 introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
 
@@ -224,8 +237,8 @@ text-associated DeepWalk (TADW)\cite{yang2015} which encorporates text features
 of the verticies in a social graph.
 
 \begin{theorem}[Yang et al. (2015)]
-  SkipGram with Softmax is implicitely factorising the matrix
-  \[M = \log{\frac{\#(v,c)}{\#(v)}}\]
+  SkipGram with Softmax is implicitly factorising the matrix $M = WC^T$ with
+  \[M_{ij} = \log{\frac{\#(v_i,v_j)}{\#(v_i)}}\]
 \end{theorem}
 
 The proof of this follows very similarly to the previous theorem and will not be
