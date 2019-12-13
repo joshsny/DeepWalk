@@ -2,8 +2,9 @@
 \contentsline {section}{\numberline {2}Summary}{3}{section.2}% 
 \contentsline {section}{\numberline {3}DeepWalk}{4}{section.3}% 
 \contentsline {subsection}{\numberline {3.1}SkipGram}{4}{subsection.3.1}% 
-\contentsline {subsection}{\numberline {3.2}DeepWalk as matrix factorisation}{6}{subsection.3.2}% 
-\contentsline {section}{\numberline {4}Matters of Convergence}{7}{section.4}% 
-\contentsline {section}{\numberline {5}DeepWalk Sucks}{7}{section.5}% 
-\contentsline {section}{\numberline {6}Dynamic DeepWalking}{7}{section.6}% 
-\contentsline {section}{\numberline {7}Discussion of an application}{8}{section.7}% 
+\contentsline {subsection}{\numberline {3.2}SkipGram as matrix factorisation}{5}{subsection.3.2}% 
+\contentsline {subsection}{\numberline {3.3}DeepWalk as matrix factorisation}{7}{subsection.3.3}% 
+\contentsline {section}{\numberline {4}Matters of Convergence}{8}{section.4}% 
+\contentsline {section}{\numberline {5}DeepWalk Sucks}{8}{section.5}% 
+\contentsline {section}{\numberline {6}Dynamic DeepWalking}{8}{section.6}% 
+\contentsline {section}{\numberline {7}Discussion of an application}{9}{section.7}% 
