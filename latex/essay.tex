@@ -88,7 +88,7 @@ Our goal is to learn $X_E \in \R mb^{|V| \times d}$ where $d$ is a small number
 of latent dimensions. The idea is that each latent dimension contributes a 
 dimensional
 
-\subsection{SkipGram}
+\subsection{Introduction to SkipGram}
 To understand DeepWalk mathematically, we first need to understand what the SkipGram
 model is doing, since this is the model underpinning DeepWalk, which took it
 from NLP and applied it to graphs. In the context of graph networks, SkipGram trains a neural network to do the
@@ -151,51 +151,61 @@ a sentence or two would likely help the reader. ***\\
 In this section we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matricies $W$
 and $C$ where the rows in $W$ correspond to the learned embedding of each vertex. This result was first proved by Levy and
-Goldberg\cite{levy&goldberg} in the context of words.\\
-
-Firstly it is important to state the objective of SGNS:
+Goldberg\cite{levy&goldberg} in the context of word embeddings.\\
+\subsubsection{Objective of SGNS}
 Given an arbitrary input-context pair $(v,c)$ the objective is to determine if
-the pair comes from the random-walk corpus $\mathcal{D}$. Let $P(D = 1 | v, c)$
-denote the probability that $(v,c)$ comes from the graph and $P(D = 0| v, c)$ be
+the pair comes from the random-walk corpus $\mathcal{D}$.\\
+Let $P(\D = 1 | v, c)$ denote the probability that $(v,c)$ comes from a random
+walk on the graph and $P(\D = 0| v, c)$
 the probability it does not. Then the distribution is modelled by a signoid
 function
-\[P(D = 1 | w, c) = \sigma(\vec{v} \cdot \vec{c}) = \frac{1}{1 + \exp{-\vec{v} \cdot \vec{c}}}\]
-where $\vec{v}$ and $\vec{c}$ are $d$-dimensional vectors to be learned. Then
-SGNS attempts to maximise $P(\mathcal{D} = 1 | w,c)$ for observed pairs $(v, c)$
+\[P(D = 1 | w, c) = \sigma(\vec{v} \cdot \vec{c}) = \frac{1}{1 + e^{-\vec{v} \cdot \vec{c}}}\]
+where $\vec{v}$ and $\vec{c}$ are $d$-dimensional vectors to be learned. SGNS attempts to maximise $P(\mathcal{D} = 1 | w,c)$ for observed pairs $(v, c)$
 whilst simultaneously maximising $P(\D = 0 | v, c)$ for randomly sampled
 negative examples.\\
 It assumes that randomly selecting a context $c$ for a given
 node $v$ is likely to result in an unobserved pair $(v,c)$. In the context of
 social networks, this assumption is reasonable since the networks are almost
 always sparse (The number of edges is usually $O(|V|)$). However in a different
-context, if the network is dense, then this is an unreasonable assumption.\\
+context, if the network is dense, then this may be an unreasonable assumption.\\
 
 According to this assumption, the objective function of SGNS for a single
-$(v,c)$ observation is:
+observation $(v,c)$ is:
 
-\[\log{\sigma(\vec{w} \cdot \vec{c})} + b \cdot \E_{c_{N} \tilda P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}]\]
+\[\log{\sigma(\vec{w} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
 where the minus sign comes from the fact that $1 - \sigma(x) = \sigma(-x)$, $b$
 is the number of negative samples and $c_N$ is the sampled context node, drawn
-according to $P_D (c) = \frac{\#(c)}{| \D |}$.\\
+according to $P_D (c) = \frac{\#(c)}{| \D |}$ which is known as the unigram
+distribution.\\
 
-*** Need to continue from here to link up the two ***\\
-In proceeding theorem, $\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
-$(v,c)$, vertex $v$ and context $c$ appear in the generated random-walk corpus
-$\mathcal{D}$ respectively.
+\begin{notation} $\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
+  $(v,c)$, vertex $v$ and context $c$ appear in the generated random-walk corpus
+  $\mathcal{D}$ respectively.
+\end{notation}
 
+This objective function is trained using stochastic gradient descent with
+updates after each  observed pair in the random-walk corpus $\D$. The resulting
+global objective becomes
+\begin{equation}
+  l = \sum_{v \in V} \sum_{c \in V}\#(w,c)\log{\sigma(\vec{w} \cdot \vec{c})} +
+  b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}
+\end{equation}
+
+\subsubsection{Finding the appropriate relational matrix}
+
+If we let $W$ be the matrix with rows $w_i$ and $C$ the matrix with columns
+$c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{w_i} \cdot
+\vec{c_j}$. Therefore SGNS is factorising a matrix in which each row corresponds
+to an input node $v_i \in |V|$ and each column to a context node $v_j \in |V|$ and the value of $M_{ij}$ expresses the
+strength of association between the input-context pair $(v_i, v_j)$ using some similarity
+function $s(v_i,v_j)$. 
 \begin{theorem}[Levy, Goldberg (2014)]
-  SkipGram with Negative Sampling (SGNS) is implicitly factorising the matrix
-  \[M = \log{\frac{\#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - \log{b} = WC^T\in \mathbb{R}^{|V|
+  SkipGram with Negative Sampling (SGNS) is implicitly factorising a matrix $M =
+  WC^T$ with
+  \[M_{ij} = \log{\frac{\#(v,c)|\mathcal{D}|}{\#(v)\#(c)}} - \log{b} = WC^T\in \mathbb{R}^{|V|
       \times |V|}\]
-  where $W \in \mathbb{R}^{|V| \times d}$ and $|C| \in \mathbb{R}^{d \times |V|}$
-  and $b$ is the number of negative samples.
+  where $W \in \mathbb{R}^{|V| \times d}$,$|C| \in \mathbb{R}^{d \times |V|}$ and $b$ is the number of negative samples.
 \end{theorem}
-
-An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{w_i} \cdot
-\vec{c_i}$. Therefore SGNS is factorising a matrix in which each row corresponds
-to an input node $v \in |V|$ and each column to a context node $c \in |V|$,
-where the value of $M_{ij}$ corresponding to $v_i$ and $v_j$ expresses the
-strength of association between the input-context pair $(v_i, v_j)$.
 
 \begin{proof}
 
@@ -239,7 +249,7 @@ algorithm by proving the following theorem:
 \begin{theorem}
   As $L \to \infty$, DeepWalk is equivalent to factorising
   \[\log{\left(\frac{vol(G)}{T}\left( \sum_{r = 1}^T P^r  \right) D^{-1}
-    \right)} - \log{b}\]
+      \right)} - \log{b}\]
   where $D = diag(d_1, \dots, \d_{|V|})$ and $P = D^{-1}A$.
 \end{theorem}
 
