@@ -369,10 +369,37 @@ c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
 in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
 \begin{lemma}
   As $t \to \infty$, we have
-  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \to^{p} \pi_v(P^r)_{v,c} \  \text{and}
+  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \  \text{and}
     \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \to^{p} \pi_v(P^r)_{c,v} \]
 \end{lemma}
 \begin{proof}
+***
+A proof of this can be found in Paper 2 but the proof is not nice, perhaps I can
+come up with an original proof of this using convergence of the random walk to
+it's invariant distribution.
+
+Note that by reversibility the two statements should be provably ewuivalent and
+their limits are the same by detailed balance.
+
+I will leave this to come back to for a nicer proof.
+***
+\end{proof}
+
+From this we can show that
+
+\begin{lemma}
+  When $t \to \infty$, we have
+  \[\frac{\#(w, c)}{|\D|} \overset{p}{\to} \frac{1}{w} \sum_{r = 1}^w \pi_v
+    (P^r)_{v,c}\]
+\end{lemma}
+\begin{proof}
+  \begin{align}
+    \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^w (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^w (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2w} \sum_{r=1}^w \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
+    &\overset{p}{\to} \frac{1}{r}\sum_{r=1}{w} \frac{d_v}{2|E|}(P^r)_{v, c}
+  \end{align}
+  where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
+  \frac{|\D|}{2w}$ and the convergence comes from applying [Theorem XX],
+  together with the continuous mapping theorem.
   \end{proof}
 
 
