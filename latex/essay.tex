@@ -10,6 +10,7 @@
 
 \let\SO\undefined
 \usepackage{tkz-graph}
+\usepackage{thm-restate}
 
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
@@ -307,12 +308,12 @@ First we give some preliminary definitions.
 In their paper, Qiu et al. gave a theoretical understanding of the DeepWalk
 algorithm by proving the following theorem:
 
-\begin{theorem}
+\begin{restatable}[DeepWalk as implicit matrix factorisation]{theorem}{MainDeepWalk}
   As $t \to \infty$, DeepWalk is equivalent to factorising
   \[\log{\left(\frac{2|E|}{T}\left( \sum_{r = 1}^T P^r  \right) D^{-1}
       \right)} - \log{b}\]
-  where $P = D^{-1}A$ and as before $b$ is the negative sampling rate.
-\end{theorem}
+  where $b$ is the negative sampling rate.
+\end{restatable}
 
 The theorem assumes that the graph is undirected and that it is connected so
 that $P$ is irreducible. The theorem also assumes that the graph is
@@ -370,7 +371,7 @@ in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
 \begin{lemma}
   As $t \to \infty$, we have
   \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \  \text{and}
-    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \to^{p} \pi_v(P^r)_{c,v} \]
+    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \]
 \end{lemma}
 \begin{proof}
 ***
@@ -378,8 +379,9 @@ A proof of this can be found in Paper 2 but the proof is not nice, perhaps I can
 come up with an original proof of this using convergence of the random walk to
 it's invariant distribution.
 
-Note that by reversibility the two statements should be provably ewuivalent and
-their limits are the same by detailed balance.
+Note that by reversibility the two statements should be provably equivalent and
+I have used detailed balance here to prove that the two limits given in Paper 2
+are the same.
 
 I will leave this to come back to for a nicer proof.
 ***
@@ -395,14 +397,30 @@ From this we can show that
 \begin{proof}
   \begin{align}
     \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^w (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^w (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2w} \sum_{r=1}^w \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
-    &\overset{p}{\to} \frac{1}{r}\sum_{r=1}{w} \frac{d_v}{2|E|}(P^r)_{v, c}
+    &\overset{p}{\to} \frac{1}{r}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}
   \end{align}
   where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
   \frac{|\D|}{2w}$ and the convergence comes from applying [Theorem XX],
   together with the continuous mapping theorem.
+\end{proof}
+
+This gives everything we need to prove the main theorem of this section, that
+allows us to understand the matrix that DeepWalk is implicitely factorising.
+
+\MainDeepWalk*
+
+\begin{proof}
+  Firstly, by summing the result of [Theorem XX] we get
+  \begin{align*}
+    \frac{\#(w)}{|\D|} &= \sum_{c \in V}\#(w, c)\\
+                       &\overset{p}{\to} \sum_{c \in V} \frac{1}{w}\sum_{r=1}^w \pi_v(P^r)_{v, c}\\
+                       &\frac{\pi_v}{w}\sum_{r = 1}^w \sum_{c \in V}(P^r)_{v,c} = \frac{\pi_v}{w}\sum_{r = 1}^w 1 = \pi_v
+  \end{align*}
+  since $P^r$ is stochastic for any $r$.\\
+  Similarly, using the fact that $\pi$ is in detailed balance with $P$, and thus
+  $P^r$ the result of [Theorem XX] can be rewritten as
+  \[\#()\]
   \end{proof}
-
-
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
 \section{Dynamic DeepWalking}

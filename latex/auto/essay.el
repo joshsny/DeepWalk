@@ -9,7 +9,8 @@
     "titlepage"
     "article"
     "art10"
-    "tkz-graph")
+    "tkz-graph"
+    "thm-restate")
    (TeX-add-symbols
     "shadow"
     "D"

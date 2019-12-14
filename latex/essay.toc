@@ -6,7 +6,7 @@
 \contentsline {subsubsection}{\numberline {3.2.1}Objective of SGNS}{5}{subsubsection.3.2.1}% 
 \contentsline {subsubsection}{\numberline {3.2.2}Finding the similarity function learned by SkipGram}{6}{subsubsection.3.2.2}% 
 \contentsline {subsection}{\numberline {3.3}DeepWalk as matrix factorisation}{8}{subsection.3.3}% 
-\contentsline {section}{\numberline {4}Matters of Convergence}{11}{section.4}% 
-\contentsline {section}{\numberline {5}DeepWalk Sucks}{11}{section.5}% 
-\contentsline {section}{\numberline {6}Dynamic DeepWalking}{11}{section.6}% 
-\contentsline {section}{\numberline {7}Discussion of an application}{12}{section.7}% 
+\contentsline {section}{\numberline {4}Matters of Convergence}{12}{section.4}% 
+\contentsline {section}{\numberline {5}DeepWalk Sucks}{12}{section.5}% 
+\contentsline {section}{\numberline {6}Dynamic DeepWalking}{12}{section.6}% 
+\contentsline {section}{\numberline {7}Discussion of an application}{13}{section.7}% 
