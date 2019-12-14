@@ -418,9 +418,19 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
   \end{align*}
   since $P^r$ is stochastic for any $r$.\\
   Similarly, using the fact that $\pi$ is in detailed balance with $P$, and thus
-  $P^r$ the result of [Theorem XX] can be rewritten as
-  \[\#()\]
-  \end{proof}
+  the result of [Theorem XX] can be rewritten as
+  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{w} \sum_{r = 1}^w \pi_c
+    (P^r)_{c,v}\]
+  it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\to} \pi_c$.\\
+  Using this and by applying the continuous mapping theorem
+  \begin{align*}
+    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,
+    c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} &\overset{p}{\to} \frac{\frac{1}{r}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
+    &=1 
+    
+    \end{align*}
+\end{proof}
+
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
 \section{Dynamic DeepWalking}
