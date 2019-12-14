@@ -12,6 +12,9 @@
     "tkz-graph")
    (TeX-add-symbols
     "shadow"
+    "D"
+    "rar"
+    "lar"
     "npart"
     "ntitle"
     "ndate"

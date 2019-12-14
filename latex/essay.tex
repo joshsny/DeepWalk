@@ -14,8 +14,9 @@
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
-\renewcommand{\D}{\mathcal{D}}
-
+\newcommand{\D}{\mathcal D}
+\newcommand{\rar}{\overrightarrow r}
+\newcommand{\lar}{\overleftarrow r}
 \begin{document}
 
 \input{titlepage}
@@ -139,10 +140,15 @@ papers.\cite{mikolov2013distributed,mikolov2013efficient}
 In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used instead of
 Hierarchical Softmax. In the remainder of this essay, when referring to DeepWalk, it will be
 implicitly assumed that Negative Sampling is used as appose to Hierarchical
-Softmax. This is because SGNS has been shown to be more efficient
+Softmax. This is because SGNS has been found to be more efficient
 and therefore has been adopted by much of the further literature. This convention will also
 serve us well when we look at applying DeepWalk to dynamic graphs since here
 Negative Sampling is also applied.\\
+
+*** Can give a summary of NS here, if so just summarise what is said in Blog
+Post 2 on SkipGram ***
+*** Has NS been shown, or just found empirically, to be more efficient then
+Hierarchical Softmax? Check node2vec paper for information on this. ***
 
 \subsection{SkipGram as matrix factorisation}
 In this section we will exhibit a proof that SGNS is
@@ -205,29 +211,53 @@ function $s(v_i,c_j)$.
 \end{theorem}
 
 \begin{proof}
-Firstly, for sufficiently large dimensionality $d$ (so as to allow for a perfect
-reconstruction of $M$), each of the products $v_i \cdot c_j$ can be assumed to
-take their values independently of the others.
-*** WHY. EXPLAIN THIS. Why not sufficiently large value of $|\D|$, why does $d$
-matter here? ***
+  Firstly, for sufficiently large dimensionality $d$ (so as to allow for a perfect
+  reconstruction of $M$), each of the products $v_i \cdot c_j$ can be assumed to
+  take their values independently of the others.
+  *** WHY. EXPLAIN THIS. Why not sufficiently large value of $|\D|$, why does $d$
+  matter here? ***
 
-Due to this independence, the objective function $l$ can be maximised with
-respect to each pair $v \cdot c$ individually.
+  Due to this independence, the objective function $l$ can be maximised with
+  respect to each pair $v \cdot c$ individually.
 
-The expectation term in $l$ can be written explicitly as
-\begin{align}
-  \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] &= \sum_{\tilde{c} \in V}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}\\
-                                                                           &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{\tilde{c} \in V \setminus \{c\}}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}
-\end{align}
-and so the objective function $l$ can be expressed as
-\begin{equation}
- l =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigm(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] \right)
- \end{equation}
- where the second term comes from the fact that $\#(v) = \sum_{c \in V}\#(v,c)$ by definition.
+  The expectation term in $l$ can be written explicitly as
+  \begin{align*}
+    \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] &= \sum_{\tilde{c} \in V}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}\\
+                                                                             &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{\tilde{c} \in V \setminus \{c\}}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}
+  \end{align*}
+  and the objective function $l$ can be expressed as
+  \begin{equation*}
+    l =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] \right)
+  \end{equation*}
+  where the second term comes from the fact that $\#(v) = \sum_{c \in V}\#(v,c)$
+  by definition.\\
+  Combining these equations gives that the local objective for an input-context
+  pair is
+  \begin{equation}
+    l(v, c) = \#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \#(v)\cdot \frac{\#(c)}{|\D|}\log{-\sigma(-\vec{v} \cdot \vec{c})} 
+  \end{equation}
+  Now to simplify the notation let $x = \vec{v} \cdot \vec{c}$ and, since we are
+  assuming each of the $\vec{v_i} \cdot \vec{c_j}$ to take their values
+  independently, we take the partial derivatve with respect to $x$ and optimise
+  the local objective:
+  \[\frac{\partial{l}}{\partial{x}} = \#(v, c) \cdot \log{\sigma(-x)} - b \cdot
+    \#(v) \cdot \frac{\#(c)}{|\D|} \cdot \sigma(x)\]
+  Where the derivatives are since $\frac{d}{dx} \sigma(x) = \sigma(-x)$. Setting
+  the derivative to zero and multipying through by
+  $\frac{-e^x}{\sigma(x)\sigma(-x)}$ gives:
+  \[\frac{b \cdot \#(v) \cdot \#(c)}{|\D|}e^{2x} + \left( \frac{b \cdot \#(v)
+        \cdot \#(c)}{|\D|} - \#(v, c) \right)e^x - \#(v, c) = 0\]
+  This is a quadratic equation in $e^x$ with two solutions. The first solution,
+  $e^x = -1$ is infeasable since $x \in \R$ and so the appropriate solution is
+  \[e^x = \frac{\#(v,c) \cdot |\D|}{\#(v)\#(c)} \cdot \frac{1}{b}\]
+  and substituting $x = \vec{v} \cdot \vec{c}$ back into the equation gives
+  \[M_{ij} = \vec{v} \cdot \vec{c} = log{\left( \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot
+          \#(c)} \right)} - \log{b}\]
+  
 \end{proof}
 
 Most interestingly, the resulting expression for the similarity function $s$ is
-the pointwise mutual information (PMI) shifted by a factor of $\log k$. PMI was
+the pointwise mutual information (PMI) shifted by a factor of $\log b$. PMI was
 introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
 
@@ -256,19 +286,95 @@ al.\cite{qiu2018} published in 2018 building upon work by Yang et al.\cite{yang2
 from 2015. The aim of the former paper was to lay the foundationds for, and
 unify, the SkipGram based network embedding methods.\\
 
+First we give some preliminary definitions.
+
+\begin{definition}[Adjacency Matrix (A)]
+  The adjacency matrix $A \in \R^{|V| \times |V|}$ for a graph $G$ is the matrix with $A_{ij} = 1$ if $(v_i, v_j) \in E(G)$ and $A_{ij} = 0$ otherwise.
+\end{definition}
+
+\begin{definition}[Degree Matrix (D)]
+  The degree matrix $D \in \R^{|V| \times |V|}$ for a graph $G$ is a diagonal
+  matrix with $D_{ii} = d_i = degree(v_i)$ for $v_i \in V$ and $D_{ij} = 0$ otherwise.
+\end{definition}
+
+\begin{definition}[Transition Matrix (P)]
+  The transition matrix $P \in \R^{|V| \times |V|}$ for a graph $G$ is the
+  matrix $P = D^{-1}A$. It has entries $P_{ij} = \frac{1}{d_i}$ if $(v_i, v_j)
+  \in E(G)$ and $P_{ij} = 0$ otherwise. It is the transition matrix
+  corresponding to a simple random walk on the graph $G$. 
+\end{definition}
+
 In their paper, Qiu et al. gave a theoretical understanding of the DeepWalk
 algorithm by proving the following theorem:
 
 \begin{theorem}
-  As $L \to \infty$, DeepWalk is equivalent to factorising
-  \[\log{\left(\frac{vol(G)}{T}\left( \sum_{r = 1}^T P^r  \right) D^{-1}
+  As $t \to \infty$, DeepWalk is equivalent to factorising
+  \[\log{\left(\frac{2|E|}{T}\left( \sum_{r = 1}^T P^r  \right) D^{-1}
       \right)} - \log{b}\]
-  where $D = diag(d_1, \dots, \d_{|V|})$ and $P = D^{-1}A$.
+  where $P = D^{-1}A$ and as before $b$ is the negative sampling rate.
 \end{theorem}
 
-*** Give the conditions for the theorem to hold. ***
+The theorem assumes that the graph is undirected and that it is connected so
+that $P$ is irreducible. The theorem also assumes that the graph is
+non-bipartite to ensure that the random walk converges to it's invariant distribution. In the application to
+social network graphs, this
+assumption will almost certainly hold as the existence of an odd cycle is
+expected (Social networks usually contain a large amount of triangles,
+representing mutual friends or connections). It is possible however that the
+graph is not connected, in this case a dummy node can be introduced which
+contains edges to all nodes which will not affect the community structure,
+provided the graph sub-communities are sufficiently dense.
+What follows is a careful outline of this proof.\\
 
-What follows is a careful outline of this proof.
+*** If want to include details on bipartite asssumption, see the folder for
+DeepWalk for more information. ***\\
+
+Then $\pi_i = \frac{d_i}{2|E|}$ satisfies the detailed balance equations:
+\[\pi_i P_{ij} = d_i\cdot \frac{1}{d_i} = d_j \cdot \frac{1}{d_j} = \pi_j P_{ji}\]
+and $\sum_{v_i \in V} \pi_i = 1$.Thus $\pi$ defines a distribution which is
+invariant for the simple random walk on the graph. Since the state space is
+finite and by assumption, $P$ is irreducible, a random walk on $G$ defines an
+irreducible Markov Chain $X$ with transition matrix $P$. Therefore $\pi$ is
+unique by the following theorem
+\begin{theorem}
+  Consider an irreducible Markov chain. Then
+  \begin{itemize}
+  \item[(i)] There exists an invariant distribution if and only if some state is
+    positive recurrent.
+  \item[(ii)] If there is an invariant distribution $\pi$, then every state is
+    positive recurrent, and
+    \[\pi_i = \frac{1}{\mu_i}\]
+    for $i \in S$, where $\mu_i$ is the mean recurrence time of $i$. In
+    particular, $\pi$ is unique.
+  \end{itemize}
+\end{theorem}
+
+This is a standard proof in any course on Markov Chains and so the proof is
+omitted here. See Page 31 of \cite{markov_chains} for details of a proof.
+
+To proceed with the first important preliminary lemma, one can proceed by
+partitioning the random-walk corpus as follows.
+
+\begin{definition}
+  For $r = 1, \dots, t$, we define the following
+  \[\D_{\rar} = \{ (v, c) : (v, c) \in \D, v = v_j, c = v_{j+r}\}\]
+  \[\D_{\lar} = \{ (v, c) : (v, c) \in \D, v = v_{j+r}, c = v_{j}\}\]
+  *** Need to give a proper definition to clarify what I mean here ***
+  Thus $\D_{\rar}$/$\D_{\lar}$ are sub-multisets of $\D$ such that the context
+  $c$ is $r$ steps after or before the vertex $v$ in random walks respectively.
+\end{definition}
+
+As an extension of previous definitions, we let $\#(v, c)_{\rar}$ and $\#(v,
+c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
+in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
+\begin{lemma}
+  As $t \to \infty$, we have
+  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \to^{p} \pi_v(P^r)_{v,c} \  \text{and}
+    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \to^{p} \pi_v(P^r)_{c,v} \]
+\end{lemma}
+\begin{proof}
+  \end{proof}
+
 
 \section{Matters of Convergence}
 \section{DeepWalk Sucks}
@@ -276,8 +382,8 @@ What follows is a careful outline of this proof.
 In this section we transition away from the static implementation of DeepWalk
 towards network embeddings for Dynamic datasets. In particular, the focus of the
 section is to introduce an adaptation of DeepWalk to dynamic datasets as
-proposed in the paper published by Sajjad et al.\cite{sajjad2019} in early 2019.
-
+proposed in the paper published by Sajjad et al.\cite{sajjad2019} in early
+2019.\\
 
 \section{Discussion of an application}
 

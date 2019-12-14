@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{deepwalk}
 B.~Perozzi, R.~Al-Rfou, and S.~Skiena, ``Deepwalk: Online learning of social
@@ -36,6 +36,9 @@ C.~Yang, Z.~Liu, D.~Zhao, M.~Sun, and E.~Y. Chang, ``Network representation
 J.~Qiu, Y.~Dong, H.~Ma, J.~Li, K.~Wang, and J.~Tang, ``Network embedding as
   matrix factorization: Unifying deepwalk, line, pte, and node2vec,'' {\em
   CoRR}, vol.~abs/1710.02971, 2017.
+
+\bibitem{markov_chains}
+D.~Chua, ``Part ib - markov chains.''
 
 \bibitem{sajjad2019}
 H.~P. Sajjad, A.~Docherty, and Y.~Tyshetskiy, ``Efficient representation
