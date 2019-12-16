@@ -10,16 +10,22 @@
     "article"
     "art10"
     "tkz-graph"
-    "thm-restate")
+    "thm-restate"
+    "algpseudocode"
+    "algorithm")
    (TeX-add-symbols
     "shadow"
     "D"
+    "G"
+    "V"
     "rar"
     "lar"
     "npart"
     "ntitle"
     "ndate"
     "SO")
+   (LaTeX-add-labels
+    "roy's loop")
    (LaTeX-add-bibliographies
     "references")
    (LaTeX-add-thmrestate-restatable-macros

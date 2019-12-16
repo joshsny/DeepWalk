@@ -344,6 +344,14 @@ INPUT /usr/local/texlive/2019/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libr
 INPUT /usr/local/texlive/2019/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryarrows.code.tex
 INPUT /usr/local/texlive/2019/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
 INPUT /usr/local/texlive/2019/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/algorithms/algorithm.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/algorithms/algorithm.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/float/float.sty
 INPUT essay.aux
 INPUT essay.aux
 OUTPUT essay.aux
@@ -383,6 +391,8 @@ INPUT /usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT essay.toc
 INPUT essay.toc
+OUTPUT essay.toc
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
@@ -401,10 +411,6 @@ INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-OUTPUT essay.toc
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
-INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
-INPUT /usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmti7.tfm

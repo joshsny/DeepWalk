@@ -11,11 +11,15 @@
 \let\SO\undefined
 \usepackage{tkz-graph}
 \usepackage{thm-restate}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
 
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
 \newcommand{\D}{\mathcal D}
+\newcommand{\G}{\mathcal G}
+\newcommand{\V}{\mathcal V}
 \newcommand{\rar}{\overrightarrow r}
 \newcommand{\lar}{\overleftarrow r}
 \begin{document}
@@ -50,24 +54,6 @@ give an account of recent progress into the application of DeepWalk and similar
 algorithms to dynamic graphs.
 
 \section{Summary}
-There are three main objectives of this essay:
-\begin{itemize}
-\item Firstly the essay will give a mathematical outline of the DeepWalk
-  algorithm and it's application to social representation learning. We will
-  briefly discuss the benefits and drawbacks of the algorithm.
-\item Secondly we will look at an implementation of DeepWalk to dynamic
-  graphs. The challenge here is to develop an unbiased representation of a
-  graph at time $t+1$ given it's representation at time $t$, without
-  re-analysing the entire network. This is a very important task since many
-  networks, especially social ones, are constantly changing. However in any given
-  epoch of time the network structure is unlikely to undergoe dramatic change and
-  so a computationally effective algorithm will not re-analyse the network at
-  each step.
-\item Thirdly, we will exhibit an implementation of the outlined dynamic DeepWalk
-  application to a social data set [which data set?] and give suggestions as
-  to good applications of Dynamic DeepWalking. [talk here about the
-  application once I have found one]
-\end{itemize}
 
 The section on DeepWalk explores the fundamental connection between DeepWalk and
 matrix factorisation as presented in the paper by Qiu et al.\cite{qiu2018}. In
@@ -82,7 +68,11 @@ by Sajjad et al. \cite{sajjad2019}, for dynamic graphs. This is especially
 important in the context of social graphs, which usually contain information
 about the interactions of individuals over time. Learning social
 representations for dynamic graphs can allow for a better understanding of how
-communities move and change over time.
+communities move and change over time.\\
+Finally, to exhibit Dynamic DeepWalking in practice, the final section of this
+essay applies the Unbiased Update algorithm introduced by Sajjad et
+al.\cite{sajjad2019} to data from users on the social network Gab to look at how
+user interaction on the network changes with time. 
 
 \section{DeepWalk}
 This section gives an outline of the social representation learning algorithm
@@ -416,6 +406,11 @@ are the same.
 
 I will leave this to come back to for a nicer proof.
 ***
+
+
+*** Note that Ref 3 gives info about as the length of the RWs becomes long, the
+singleton distribution of vertices will tend to the invariant distribution,
+referencing Modern Graph Theory, Bollobas ***
 \end{proof}
 
 From this we can show that
@@ -477,9 +472,6 @@ large does $t$ need to be for this to be meaningful? ***
 *** Can I try and use the above result to show that DeepWalk is garunteed to
 converge, in other words that the objective function is convex ***
 
-\section{Matters of Convergence}
-
-*** This section is unlikely to be included ***
 \section{DeepWalk Sucks}
 Whilst the original DeepWalk paper made a huge impact on the future development
 of social representation learning on graphs, the algorithm itself has a number
@@ -519,7 +511,70 @@ graph structure is unlikely to change significantly to develop a much more
 efficient way of analyzing social representation on dynamic graphs.
 The computational complexity of the algorithm depends on the graph density and
 number of edges added per epoch, however in the case of social networks these
-are both low and so the alggorithm is well suited to this application.
+are both low and so the alggorithm is well suited to this application.\\
+
+Previous algorithms to be used on dynamic graphs have not effectively used what
+was learned about the graph in previous snapshots to efficiently calculate the
+node representations in the next snapshot of time. The problem of doing so can
+be split into two main tasks:
+
+\begin{enumerate}
+  \item Generate a random walks corpus for a new snapshot of the graph based on
+    a corpus from an older snapshot. In particular,
+    we seek to find an efficent update algorithm that generates a set of random
+    walks on the new snapshot from random walks on the old one, that is
+    statistically indistinguishable from generating a set of random walks from
+    scratch on the new snapshot of the graph.
+    
+  \item  Update the vertex representations incrementally so that the
+    representations do not need to be generated for every time step.
+    
+\end{enumerate}
+
+\subsection{Updating the Random Walk Corpus}
+
+As a first solution to the problem of generating new random walks for the random
+walk corpus an algorithm called Naïve Update [Algorithm XX] is introduced. This
+algorithm initialises random walks for the affected vertices and creates random
+walks of length $l$. Once this is complete, it updates the random walks $W^t$ by
+replacing the old walks with the corresponding re-generated walks and adds the
+random walks initiated from new vertices.\\
+
+However, the authors show by way of example that the Naïve update algorithm has
+biased empirical transition probabilities and that the resulting corpus of
+random walks is not statistically indistinguishable from generating a new random
+walk corpus at time $t+1$. To solve this problem a more sophisticated algorithm
+must be introduced.
+
+\subsubsection{Unbiased Update}
+
+\begin{algorithm}
+  \caption{Naïve Update}
+  \begin{algorithmic}[1]
+
+    \Procedure{NaïveUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}       \Comment{This is a test}
+    \State W \leftarrow initWalks($\V^1_{\text{affected}}$, r)
+    \State W^{t+1} \leftarrow randomwalk($W, l \G^{t+1}$)
+    \If{$condition = True$}
+    \State Do this
+    \If{$Condition \geq 1$}
+    \State Do that
+    \ElsIf{$Condition \neq 5$}
+    \State Do another
+    \State Do that as well
+    \Else
+    \State Do otherwise
+    \EndIf
+    \EndIf
+
+    \While{$something \not= 0$}  \Comment{put some comments here}
+    \State $var1 \leftarrow var2$  \Comment{another comment}
+    \State $var3 \leftarrow var4$
+    \EndWhile  \label{roy's loop}
+    \EndProcedure
+
+  \end{algorithmic}
+\end{algorithm}
 
 
 \section{Discussion of an application}

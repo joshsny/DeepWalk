@@ -1,5 +1,15 @@
 \begin{thebibliography}{10}
 
+\bibitem{qiu2018}
+J.~Qiu, Y.~Dong, H.~Ma, J.~Li, K.~Wang, and J.~Tang, ``Network embedding as
+  matrix factorization: Unifying deepwalk, line, pte, and node2vec,'' {\em
+  CoRR}, vol.~abs/1710.02971, 2017.
+
+\bibitem{sajjad2019}
+H.~P. Sajjad, A.~Docherty, and Y.~Tyshetskiy, ``Efficient representation
+  learning using random walks for dynamic graphs,'' {\em CoRR},
+  vol.~abs/1901.01346, 2019.
+
 \bibitem{deepwalk}
 B.~Perozzi, R.~Al-Rfou, and S.~Skiena, ``Deepwalk: Online learning of social
   representations,'' {\em Proceedings of the ACM SIGKDD International
@@ -32,17 +42,7 @@ C.~Yang, Z.~Liu, D.~Zhao, M.~Sun, and E.~Y. Chang, ``Network representation
   International Conference on Artificial Intelligence}, IJCAI'15,
   pp.~2111--2117, AAAI Press, 2015.
 
-\bibitem{qiu2018}
-J.~Qiu, Y.~Dong, H.~Ma, J.~Li, K.~Wang, and J.~Tang, ``Network embedding as
-  matrix factorization: Unifying deepwalk, line, pte, and node2vec,'' {\em
-  CoRR}, vol.~abs/1710.02971, 2017.
-
 \bibitem{markov_chains}
 D.~Chua, ``Part ib - markov chains.''
-
-\bibitem{sajjad2019}
-H.~P. Sajjad, A.~Docherty, and Y.~Tyshetskiy, ``Efficient representation
-  learning using random walks for dynamic graphs,'' {\em CoRR},
-  vol.~abs/1901.01346, 2019.
 
 \end{thebibliography}
