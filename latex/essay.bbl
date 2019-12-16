@@ -1,5 +1,13 @@
 \begin{thebibliography}{10}
 
+\bibitem{zachary1977}
+W.~W. Zachary, ``An information flow model for conflict and fission in small
+  groups,'' {\em Journal of Anthropological Research}, vol.~33, no.~4,
+  pp.~452--473, 1977.
+
+\bibitem{maaten2008}
+L.~van~der Maaten and G.~Hinton, ``Visualizing data using t-sne,'' 2008.
+
 \bibitem{qiu2018}
 J.~Qiu, Y.~Dong, H.~Ma, J.~Li, K.~Wang, and J.~Tang, ``Network embedding as
   matrix factorization: Unifying deepwalk, line, pte, and node2vec,'' {\em
@@ -43,6 +51,6 @@ C.~Yang, Z.~Liu, D.~Zhao, M.~Sun, and E.~Y. Chang, ``Network representation
   pp.~2111--2117, AAAI Press, 2015.
 
 \bibitem{markov_chains}
-D.~Chua, ``Part ib - markov chains.''
+D.~Chua, ``Part ib markov chains.''
 
 \end{thebibliography}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  16 DEC 2019 18:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  16 DEC 2019 21:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1451,15 +1451,15 @@ LaTeX Info: Redefining \nameref on input line 26.
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]) (./ess
 ay.toc
-LaTeX Font Info:    Try loading font information for U+stmry on input line 4.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 2.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
-LaTeX Font Info:    Try loading font information for U+msa on input line 4.
+LaTeX Font Info:    Try loading font information for U+msa on input line 2.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 4.
+LaTeX Font Info:    Try loading font information for U+msb on input line 2.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1475,240 +1475,243 @@ l.32 \section{Introduction}
                             [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 34--37
+Underfull \hbox (badness 10000) in paragraph at lines 33--53
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 38--46
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 47--56
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 57--65
-
- []
-
+<src/DeepWalkOnKarateGraph.png, id=98, 1189.44376pt x 387.4475pt>
+File: src/DeepWalkOnKarateGraph.png Graphic file (type png)
+<use src/DeepWalkOnKarateGraph.png>
+Package pdftex.def Info: src/DeepWalkOnKarateGraph.png  used on input line 56.
+(pdftex.def)             Requested size: 345.0pt x 112.37462pt.
 [2
 
-] [3
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
+s been already used, duplicate ignored
 
-]
+\@EveryShipout@Output ...@Org@Shipout \box \@cclv 
+                                                  
+l.81 
+      <./src/DeepWalkOnKarateGraph.png>]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 116.
+(mdframed)              on input line 109.
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
-nput line 117.
+nput line 109.
+ [3]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 130.
 
-Underfull \hbox (badness 10000) in paragraph at lines 117--120
+./essay.tex:134: Undefined control sequence.
+l.134     \Input
+                {network $G(V, E)$}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
- []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 134--149
+Underfull \hbox (badness 10000) in paragraph at lines 166--181
 
  []
 
 [4
 
 ]
-Overfull \hbox (2.55626pt too wide) in paragraph at lines 181--188
+Overfull \hbox (2.55626pt too wide) in paragraph at lines 213--220
 []\OT1/cmr/m/n/10 In later adap-ta-tions of Deep-Walk, Skip-Gram with Neg-a-tiv
 e Sam-pling (SGNS)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 181--188
+Underfull \hbox (badness 10000) in paragraph at lines 213--220
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 195--199
+Underfull \hbox (badness 10000) in paragraph at lines 227--231
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 206--215
+Underfull \hbox (badness 10000) in paragraph at lines 238--247
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--224
+Underfull \hbox (badness 10000) in paragraph at lines 251--256
 
  []
 
 Package hyperref Info: bookmark level for unknown notation defaults to 0 on inp
-ut line 225.
+ut line 257.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 247.
+(mdframed)              on input line 279.
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on inpu
-t line 247.
-Package mdframed Info: Not enough space on this page on input line 252.
-[6]
-Package mdframed Info: Not enough space on this page on input line 252.
- [7]
-Underfull \hbox (badness 10000) in paragraph at lines 300--304
-
- []
-
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 310.
-
-Underfull \hbox (badness 10000) in paragraph at lines 325--329
-
- []
-
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 332.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 336.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 341.
+t line 279.
 
 Package mdframed Warning: You got a bad break
 (mdframed)                because the last box will be empty
 (mdframed)                you have to change it manually
 (mdframed)                by changing the text, the space
-(mdframed)                or something else on input line 346.
+(mdframed)                or something else on input line 284.
 
+Package mdframed Info: Box was splittet wrong
+ starting loop to iterate the splitting point
+(mdframed)              on input line 284.
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 332--336
+
+ []
+
+[7]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 342.
+
+Underfull \hbox (badness 10000) in paragraph at lines 357--361
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 364.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 368.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 373.
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 358--369
+Underfull \hbox (badness 10000) in paragraph at lines 390--401
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 370--372
+Underfull \hbox (badness 10000) in paragraph at lines 402--404
 
  []
 
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 380.
+(mdframed)              on input line 412.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 399.
+(mdframed)              on input line 431.
+Package mdframed Info: Box was splittet wrong
+ starting loop to iterate the splitting point
+(mdframed)              on input line 438.
 [9]
-Package mdframed Info: Not enough space on this page on input line 406.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 411.
+(mdframed)              on input line 443.
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
-line 412.
+line 444.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 437.
+(mdframed)              on input line 469.
  [10]
-Underfull \hbox (badness 10000) in paragraph at lines 474--476
+Underfull \hbox (badness 10000) in paragraph at lines 506--508
 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 495--499
+Underfull \hbox (badness 10000) in paragraph at lines 527--531
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 500--506
+Underfull \hbox (badness 10000) in paragraph at lines 532--538
 
  []
 
 [12
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 516--521
+Underfull \hbox (badness 10000) in paragraph at lines 548--553
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 522--534
+Underfull \hbox (badness 10000) in paragraph at lines 554--566
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 555--561
+Underfull \hbox (badness 10000) in paragraph at lines 587--593
 
  []
 
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 563.
-./essay.tex:568: Missing $ inserted.
+./essay.tex:600: Missing $ inserted.
 <inserted text> 
                 $
-l.568     \State $W$ \leftarrow
+l.600     \State $W$ \leftarrow
                                 initWalks($\V^1_{\text{affected}}, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:568: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:600: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.568     \State $W$ \leftarrow initWalks($\V
+l.600     \State $W$ \leftarrow initWalks($\V
                                              ^1_{\text{affected}}, r$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:568: Missing $ inserted.
+./essay.tex:600: Missing $ inserted.
 <inserted text> 
                 $
-l.568     \State $W$ \leftarrow initWalks($\V^
+l.600     \State $W$ \leftarrow initWalks($\V^
                                               1_{\text{affected}}, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:570: Missing $ inserted.
+./essay.tex:602: Missing $ inserted.
 <inserted text> 
                 $
-l.570     \State $W^{t+1}$ \leftarrow
+l.602     \State $W^{t+1}$ \leftarrow
                                       randomwalk($W, l \G^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:570: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:602: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.570 ... $W^{t+1}$ \leftarrow randomwalk($W, l \G
+l.602 ... $W^{t+1}$ \leftarrow randomwalk($W, l \G
                                                   ^{t+1}$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:570: Missing $ inserted.
+./essay.tex:602: Missing $ inserted.
 <inserted text> 
                 $
-l.570 ...$W^{t+1}$ \leftarrow randomwalk($W, l \G^
+l.602 ...$W^{t+1}$ \leftarrow randomwalk($W, l \G^
                                                   {t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:572: Missing $ inserted.
+./essay.tex:604: Missing $ inserted.
 <inserted text> 
                 $
-l.572     \State $W^{t+1}$ \leftarrow
+l.604     \State $W^{t+1}$ \leftarrow
                                       update($W^t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:572: Missing $ inserted.
+./essay.tex:604: Missing $ inserted.
 <inserted text> 
                 $
-l.572     \State $W^{t+1}$ \leftarrow update($W^
+l.604     \State $W^{t+1}$ \leftarrow update($W^
                                                 t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -1716,245 +1719,245 @@ you left one out. Proceed, with fingers crossed.
 [13
 
 ]
-./essay.tex:597: Missing $ inserted.
+./essay.tex:629: Missing $ inserted.
 <inserted text> 
                 $
-l.597     \State $\V_n$ \leftarrow
+l.629     \State $\V_n$ \leftarrow
                                    newVertices($\V_{\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:597: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:629: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.597     \State $\V_n$ \leftarrow newVertices($\V
+l.629     \State $\V_n$ \leftarrow newVertices($\V
                                                   _{\text{affected}}^1$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:597: Missing $ inserted.
+./essay.tex:629: Missing $ inserted.
 <inserted text> 
                 $
-l.597 ...\State $\V_n$ \leftarrow newVertices($\V_
+l.629 ...\State $\V_n$ \leftarrow newVertices($\V_
                                                   {\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:598: Missing $ inserted.
+./essay.tex:630: Missing $ inserted.
 <inserted text> 
                 $
-l.598     \State $V_e$ \leftarrow
+l.630     \State $V_e$ \leftarrow
                                   existingVertices($\V_{\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:598: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:630: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.598 ...ate $V_e$ \leftarrow existingVertices($\V
+l.630 ...ate $V_e$ \leftarrow existingVertices($\V
                                                   _{\text{affected}}^1$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:598: Missing $ inserted.
+./essay.tex:630: Missing $ inserted.
 <inserted text> 
                 $
-l.598 ...te $V_e$ \leftarrow existingVertices($\V_
+l.630 ...te $V_e$ \leftarrow existingVertices($\V_
                                                   {\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:601: Missing $ inserted.
+./essay.tex:633: Missing $ inserted.
 <inserted text> 
                 $
-l.601     \State $W_{\text{affected}}$ \leftarrow
+l.633     \State $W_{\text{affected}}$ \leftarrow
                                                   filter($W^t, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:601: Missing $ inserted.
+./essay.tex:633: Missing $ inserted.
 <inserted text> 
                 $
-l.601 ..._{\text{affected}}$ \leftarrow filter($W^
+l.633 ..._{\text{affected}}$ \leftarrow filter($W^
                                                   t, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:603: Missing $ inserted.
+./essay.tex:635: Missing $ inserted.
 <inserted text> 
                 $
-l.603     \State $W_e$ \leftarrow
+l.635     \State $W_e$ \leftarrow
                                   trim($W_{\text{affected}}, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:603: Missing $ inserted.
+./essay.tex:635: Missing $ inserted.
 <inserted text> 
                 $
-l.603     \State $W_e$ \leftarrow trim($W_
+l.635     \State $W_e$ \leftarrow trim($W_
                                           {\text{affected}}, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:604: Missing $ inserted.
+./essay.tex:636: Missing $ inserted.
 <inserted text> 
                 $
-l.604     \LineComment \leftarrow
+l.636     \LineComment \leftarrow
                                   Initialise r walks from each of the new ve...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:604: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:636: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.604 ...alks from each of the new vertices in $\V
+l.636 ...alks from each of the new vertices in $\V
                                                   _n$
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:604: Missing $ inserted.
+./essay.tex:636: Missing $ inserted.
 <inserted text> 
                 $
-l.604 ...lks from each of the new vertices in $\V_
+l.636 ...lks from each of the new vertices in $\V_
                                                   n$
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:605: Missing $ inserted.
+./essay.tex:637: Missing $ inserted.
 <inserted text> 
                 $
-l.605     \State $W_n$ \leftarrow
+l.637     \State $W_n$ \leftarrow
                                   initWalks($\V_n, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:605: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:637: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.605     \State $W_n$ \leftarrow initWalks($\V
+l.637     \State $W_n$ \leftarrow initWalks($\V
                                                _n, r$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:605: Missing $ inserted.
+./essay.tex:637: Missing $ inserted.
 <inserted text> 
                 $
-l.605     \State $W_n$ \leftarrow initWalks($\V_
+l.637     \State $W_n$ \leftarrow initWalks($\V_
                                                 n, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:607: Missing $ inserted.
+./essay.tex:639: Missing $ inserted.
 <inserted text> 
                 $
-l.607     \State $W$ \leftarrow
+l.639     \State $W$ \leftarrow
                                 $W_e \cup W_n$
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:607: Missing $ inserted.
+./essay.tex:639: Missing $ inserted.
 <inserted text> 
                 $
-l.607     \State $W$ \leftarrow $W_
+l.639     \State $W$ \leftarrow $W_
                                    e \cup W_n$
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:608: Missing $ inserted.
+./essay.tex:640: Missing $ inserted.
 <inserted text> 
                 $
-l.608     \State $W^{t+1}$ \leftarrow
+l.640     \State $W^{t+1}$ \leftarrow
                                       randomwalk($W, l, \G^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:608: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:640: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.608 ...$W^{t+1}$ \leftarrow randomwalk($W, l, \G
+l.640 ...$W^{t+1}$ \leftarrow randomwalk($W, l, \G
                                                   ^{t+1}$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:608: Missing $ inserted.
+./essay.tex:640: Missing $ inserted.
 <inserted text> 
                 $
-l.608 ...W^{t+1}$ \leftarrow randomwalk($W, l, \G^
+l.640 ...W^{t+1}$ \leftarrow randomwalk($W, l, \G^
                                                   {t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:609: Missing $ inserted.
+./essay.tex:641: Missing $ inserted.
 <inserted text> 
                 $
-l.609     \State $W^{t+1}$ \leftarrow
+l.641     \State $W^{t+1}$ \leftarrow
                                       update($W^t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:609: Missing $ inserted.
+./essay.tex:641: Missing $ inserted.
 <inserted text> 
                 $
-l.609     \State $W^{t+1}$ \leftarrow update($W^
+l.641     \State $W^{t+1}$ \leftarrow update($W^
                                                 t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 618--626
+Underfull \hbox (badness 10000) in paragraph at lines 650--658
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 627--637
+Underfull \hbox (badness 10000) in paragraph at lines 659--669
 
  []
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 638--643
+Underfull \hbox (badness 10000) in paragraph at lines 670--675
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 645--648
+Underfull \hbox (badness 10000) in paragraph at lines 677--680
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 655--661
+Underfull \hbox (badness 10000) in paragraph at lines 687--693
 
  []
 
 [15] (./essay.bbl [16
 
 ]
-Underfull \hbox (badness 1137) in paragraph at lines 9--12
+Underfull \hbox (badness 1137) in paragraph at lines 17--20
 []\OT1/cmr/m/n/10 H. P. Saj-jad, A. Docherty, and Y. Tyshet-skiy, ``Ef-fi-cient
  rep-re-sen-
  []
 
 
-Underfull \hbox (badness 2680) in paragraph at lines 9--12
+Underfull \hbox (badness 2680) in paragraph at lines 17--20
 \OT1/cmr/m/n/10 ta-tion learn-ing us-ing ran-dom walks for dy-namic graphs,'' \
 OT1/cmr/m/it/10 CoRR\OT1/cmr/m/n/10 ,
  []
@@ -1965,22 +1968,26 @@ OT1/cmr/m/it/10 CoRR\OT1/cmr/m/n/10 ,
 runsystem(makeindex essay.idx)...executed safely (allowed).
 
  (./essay.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 686.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 686.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 718.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 718.
  (./essay.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 686.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 686.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 718.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 718.
 Package rerunfilecheck Info: File `essay.out' has not changed.
-(rerunfilecheck)             Checksum: 823E84AEF53DE3B7B54D182BE18747E2;2524.
+(rerunfilecheck)             Checksum: 71A3504627E280458C25F57FC3E9C430;2699.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 47865 strings out of 492616
- 1059617 string characters out of 6129480
- 1210606 words of memory out of 5000000
- 51071 multiletter control sequences out of 15000+600000
+ 47883 strings out of 492616
+ 1059966 string characters out of 6129480
+ 1210629 words of memory out of 5000000
+ 51081 multiletter control sequences out of 15000+600000
  539966 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,23n,119p,824b,1069s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,23n,119p,824b,1077s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb>
@@ -1999,10 +2006,10 @@ e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 9/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2019
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2019/
 texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on essay.pdf (18 pages, 262553 bytes).
+Output written on essay.pdf (18 pages, 365220 bytes).
 PDF statistics:
- 299 PDF objects out of 1000 (max. 8388607)
- 258 compressed objects within 3 object streams
- 70 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 316 PDF objects out of 1000 (max. 8388607)
+ 272 compressed objects within 3 object streams
+ 75 named destinations out of 1000 (max. 500000)
+ 138 words of extra memory for PDF output out of 10000 (max. 10000000)
 

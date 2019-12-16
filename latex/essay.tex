@@ -30,11 +30,9 @@
 \tableofcontents
 
 \section{Introduction}
-
 The motivation of this essay and the methods it presents comes from
 the desire to understand networks of people and the relationships
 between them.\\
-
 From a mathematical perspective, the natural way to go about studying social
 networks is to let nodes of a graph $G$ represent persons and edges
 the relationship between them. From this, we can induce some understanding
@@ -43,7 +41,6 @@ communities that exist in a social network is a complex one; even with a
 relatively small number of people it is not a task for which humans perform very
 well and the task rapidly becomes difficult as the size of the network
 increases.\\
-
 Network embeddings are a useful way to characterise the complex structures that
 can exist in these graphs. The idea behind them is to represent each member of a
 network with a point in space, where the distance according to some metric
@@ -54,6 +51,18 @@ similarity function $s(p_1, p_2)$ that gives a good picture of the network
 structure. This ambiguity of similarity has led to a diverse range of algorithms
 for calculating network embeddings.\\
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width = 1\textwidth]{src/DeepWalkOnKarateGraph.png}
+
+  \caption{Two dimensional network embeddings calculated using
+    DeepWalk on Zachary's Karate network\cite{zachary1977}. There is a strong
+    correspondence between community structure in the original graph and
+    in the embedding space. Vertex colours are representing a modularity-based
+    clustering of the input graph. In practive, network embeddings have dimensions
+    in the tens to low-hundreds and t-SNE is often used to visualise these embeddings in 2D
+    space.\cite{maaten2008}}
+\end{figure}
 The problem of analysing social structures is made more difficult still by the
 fact that such networks often change over time. As new connections are formed
 and others die away, the network moves and over a long time period it can
@@ -62,8 +71,6 @@ graph, where the size of the network is often in the millions or billions, takes
 a lot of time. It is therefore computationally infeasable to recalculate these
 representations at every time step and so a more intelligent approach to this
 problem is required.\\
-
-
 This essay looks at DeepWalk, an algorithm that calculates vertex
 representations for large social graphs, using techniques adapted from natural
 language processing. When proposed in 2014, the algorithm was a first of its
@@ -72,8 +79,7 @@ algorithms improving upon it using similar methods. The core idea behind
 DeepWalk is to model random walks on a graph similarly to sentences in large
 corpus of text, this idea is explored further throughout the essay.
 
-\section{Summary}
-
+\subsection{Summary}
 The section on DeepWalk explores the fundamental connection between DeepWalk and
 matrix factorisation as presented in the paper by Qiu et al.\cite{qiu2018}. In
 this section, we demonstrate the conditions under which DeepWalk is factorising
@@ -93,7 +99,46 @@ essay applies the Unbiased Update algorithm introduced by Sajjad et
 al.\cite{sajjad2019} to data from users on the social network Gab to look at how
 user interaction on the network changes with time. 
 
+\subsection{Preliminary Notation}
+I have endevoured to use similar notation to the original DeepWalk paper\cite{deepwalk} to ease
+cross-referencing. However given that a number of other papers are touched upon
+throughout the essay, there are a number of pieces of notation I have opted to change.
+If reading through the essay systematically, the reader should not find
+difficulty following the notation.
+
+\begin{definition}[(Partially Labelled) Network Graph]
+  Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
+  members of the network, commonly referred to as the \textit{nodes} or \textit{vertices} and $E \subset V
+  \times V$ represents their connections, usually referred to as
+  \textit{edges}.\\
+  The nodes and edges have labels and $G_L = (V, E, X, Y)$ represents the
+  partially labelled network. $X \in \R^{|V| \times S}$ where $S$ is the size of
+  the feature space for each attribute vector and $Y \in \R^{|V|
+    \times|\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
+\end{definition}
+
+*** Note partially labelled graphs have not been touched upon, what are the
+labels being used for? Are they being used pre or post embedding? ***
+Our goal is to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
+of latent dimensions ($d \ll |V|$) such that each of the rows in $W$
+corresponds to a $d$ dimensional embedding of a node in $V$.
+
+
 \section{DeepWalk}
+
+\begin{algorithm}
+  \caption{DeepWalk}
+  \begin{algorithmic}[1]
+
+    \Procedure{DeepWalk}{$G, w, d, \gamma, l$}
+    \Input{network $G(V, E)$}
+    \EndProcedure
+
+  \end{algorithmic}
+\end{algorithm}
+
+*** Define the DeepWalk algorithm here, probably use the version from Paper 2/2'***
+
 This section gives an outline of the social representation learning algorithm
 DeepWalk, first introduced in the seminal paper DeepWalk: Online Learning of Social
 Representations by B. Perozzi et. al. \cite{deepwalk}. The method proposed in
@@ -109,23 +154,10 @@ crucial concept of DeepWalk from which the remaining details naturally follow.
 The original paper on DeepWalk is lacking in a mathematical underpinning and in
 this section we will model the algorithm mathematically. It is suggested that the reader
 is familiar with the concepts outlined in the paper by Perozzi et. al. prior to
-reading this (more) mathematical exposition. I have endevoured to use similar
-notation to the original paper to ease cross-referencing. Without further ado, let us begin
-our journey.
+reading this (more) mathematical exposition.
 
-\begin{definition}
-  Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
-  members of the network, commonly referred to as the nodes and $E \subset V
-  \times V$ represents their connections.\\
 
-  The nodes and edges have lables and $G_L = (V, E, X, Y)$ represents the
-  partially labelled network. $X \in \R^{|V| \times S}$ where $S$ is the size of
-  the feature space for each attribute vector and $Y \in \R^{|V| \times
-    |\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
-\end{definition}
-
-Our goal is to learn $X_E \in \R^{|V| \times d}$ where $d$ is a small number
-of latent dimensions. The idea is that each latent dimension contributes a 
+The idea is that each latent dimension contributes a 
 dimensional...
 
 *** Explain the DeepWalk algorithm here ***

@@ -11,6 +11,8 @@
     "yangalternative2015"
     "yang2015"
     "sajjad2019"
-    "markov_chains"))
+    "markov_chains"
+    "zachary1977"
+    "maaten2008"))
  :bibtex)
 
