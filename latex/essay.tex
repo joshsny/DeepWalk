@@ -546,8 +546,9 @@ random walks initiated from new vertices.\\
   \begin{algorithmic}[1]
 
     \Procedure{NaïveUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}
-    \LineComment{Initialise new walks from affected vertices}
+    \LineComment{Initialise r new walks from each of the affected vertices in $\V^1_{\text{affected}}$}
     \State $W$ \leftarrow initWalks($\V^1_{\text{affected}}, r$)
+    \LineComment *** WHAT DOES THIS ACTUALLY DO? ***
     \State $W^{t+1}$ \leftarrow randomwalk($W, l \G^{t+1}$)
     \LineComment{Replace the old walks and add new ones}
     \State $W^{t+1}$ \leftarrow update($W^t, W^{t+1}$)
@@ -580,11 +581,11 @@ too long ***
     \LineComment Filter the existing random walk corpus to get only the walks
     that contain affected vertices (in $\V_e$)
     \State $W_{\text{affected}}$ \leftarrow filter($W^t, \V_e$)
-    \LineComment Trim the affected walks
+    \LineComment Trim the affected walks to the first affected vertex
     \State $W_e$ \leftarrow trim($W_{\text{affected}}, \V_e$)
-    \LineComment \leftarrow Initialise walks of length r from the new vertices
+    \LineComment \leftarrow Initialise r walks from each of the new vertices in $\V_n$
     \State $W_n$ \leftarrow initWalks($\V_n, r$)
-    \LineComment Take the union of the new walks to create the update corpus
+    \LineComment Take the union of the new walks to create the updated corpus
     \State $W$ \leftarrow $W_e \cup W_n$
     \State $W^{t+1}$ \leftarrow randomwalk($W, l, \G^{t+1}$)
     \State $W^{t+1}$ \leftarrow update($W^t, W^{t+1}$)
@@ -593,10 +594,63 @@ too long ***
   \end{algorithmic}
 \end{algorithm}
 
+*** In the procedures I need to be clear about what initWalks and randomwalk are
+doing ***
 
-    
+The motivation behind the unbiased update algorithm is the following: Consider a
+random walk that has arrived at a vertex $v$ at any point along the walk, if
+this vertex is not in the set $\V^{t+1}_{\text{affected}}$ then there is no
+change to it's neighbours and thus the choice for the next vertex in the random
+walk remains the same. However if $v \in \V^{t+1}_{\text{affected}}$ then the
+neighbours of the vertex have changed which makes the random walk biased from
+this vertex onwards since it evolves with incorrect transition probabilities.
+Therefore only the affected walks need to be updates to retain a statistically
+satisfactory set of random walks at time $t+1$.\\
+
+The Unbiased Update algorithm updates only those walks that contain vertices in
+$\V^{t+1}_{\text{affected}}$ and does so by re-sampling the affected walks from
+the first affected vertex in the walk. Searching for the affected vertices in
+each of the affected walks is computationally expensive so another algorithm,
+Fast Update, is also suggested that generates the affected walks from the
+begginning instead of trimming them. Whilst computationally more efficient, this
+generates a biased random walk corpus. This is because by applying the Fast Update routine, we have
+effectively generated random walks on the graph $\G^{t+1}$ and then regenerated
+all walks that hit an affected vertex, which is clearly biased towards walks
+that do not visit the affected vertices.\\
+
+In practice, when implementing the Unbiased Update algorithm the random seed
+that is used to generate each of the random walks can be stored and then used to
+regenerate the random walks up to their first affected vertex by reusing the
+seed. Therefore the Unbiased Update algorithm can be implemented with the same
+complexity as the Fast Update algorithm.\\
 
 
+*** Can I give a proof that the Unbiased Update algorithm does indeed generate
+an unbiased corpus? They have given an explanation but it is not very
+mathematical. ***
+
+
+*** Can include the complexity analysis if need be but it is not particularly
+informative ***
+
+\subsection{Updating the Vertex Representations Efficiently}
+
+Once the updated random walk corpus $W^{t+1}$ has been calculated, the vertex
+representations must be updated. In the DeepWalk algorithm, SkipGram is used to
+optimize the objective function [Point to SGNS Objective function] using SGNS.
+The algorithm starts by initialising the vertex representations randomly and
+uses stochastic gradient descent to optimize the objective function.
+
+One option for this is to simply recalculate
+all of the vertex representations, however this would be very inneficient since
+it is possible to use the previous representations, since the new
+representations will be very similar if only a small portion of the graph
+structure has been changed. 
+
+
+
+The idea behind this is similar to using pretrained weights in a transfer
+learning problem instead of initialising weights randomly.
 \section{Discussion of an application}
 
 The aim of this section is to bring the theory discussed on Dynamic DeepWalking
