@@ -18,10 +18,11 @@
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
 \newcommand{\D}{\mathcal D}
-\newcommand{\G}{\mathcal G}
-\newcommand{\V}{\mathcal V}
+\renewcommand{\G}{\mathcal G}
+\renewcommand{\V}{\mathcal V}
 \newcommand{\rar}{\overrightarrow r}
 \newcommand{\lar}{\overleftarrow r}
+\algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
 \begin{document}
 
 \input{titlepage}
@@ -540,6 +541,22 @@ walks of length $l$. Once this is complete, it updates the random walks $W^t$ by
 replacing the old walks with the corresponding re-generated walks and adds the
 random walks initiated from new vertices.\\
 
+\begin{algorithm}
+  \caption{Naïve Update}
+  \begin{algorithmic}[1]
+
+    \Procedure{NaïveUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}
+    \LineComment{Initialise new walks from affected vertices}
+    \State $W$ \leftarrow initWalks($\V^1_{\text{affected}}, r$)
+    \State $W^{t+1}$ \leftarrow randomwalk($W, l \G^{t+1}$)
+    \LineComment{Replace the old walks and add new ones}
+    \State $W^{t+1}$ \leftarrow update($W^t, W^{t+1}$)
+    \State \textbf{return} $W^{t+1}$
+    \EndProcedure
+
+  \end{algorithmic}
+\end{algorithm}
+
 However, the authors show by way of example that the Naïve update algorithm has
 biased empirical transition probabilities and that the resulting corpus of
 random walks is not statistically indistinguishable from generating a new random
@@ -549,32 +566,31 @@ must be introduced.
 \subsubsection{Unbiased Update}
 
 \begin{algorithm}
-  \caption{Naïve Update}
+  \caption{Unbiased Update}
   \begin{algorithmic}[1]
 
-    \Procedure{NaïveUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}       \Comment{This is a test}
-    \State W \leftarrow initWalks($\V^1_{\text{affected}}$, r)
-    \State W^{t+1} \leftarrow randomwalk($W, l \G^{t+1}$)
-    \If{$condition = True$}
-    \State Do this
-    \If{$Condition \geq 1$}
-    \State Do that
-    \ElsIf{$Condition \neq 5$}
-    \State Do another
-    \State Do that as well
-    \Else
-    \State Do otherwise
-    \EndIf
-    \EndIf
-
-    \While{$something \not= 0$}  \Comment{put some comments here}
-    \State $var1 \leftarrow var2$  \Comment{another comment}
-    \State $var3 \leftarrow var4$
-    \EndWhile  \label{roy's loop}
+    \Procedure{UnbiasedUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}
+    \LineComment Partition the affected vertices into new and existing ones
+    \State $\V_n$ \leftarrow newVertices($\V_{\text{affected}}^1$)
+    \State $V_e$ \leftarrow existingVertices($\V_{\text{affected}}^1$)
+    \LineComment Filter the existing random walk corpus to get only the walks
+    that contain affected vertices (in $\V_e$)
+    \State $W_{\text{affected}}$ \leftarrow filter($W^t, \V_e$)
+    \LineComment Trim the affected walks
+    \State $W_e$ \leftarrow trim($W_{\text{affected}}, \V_e$)
+    \LineComment \leftarrow Initialise walks of length r from the new vertices
+    \State $W_n$ \leftarrow initWalks($\V_n, r$)
+    \LineComment Take the union of the new walks to create the update corpus
+    \State $W$ \leftarrow $W_e \cup W_n$
+    \State $W^{t+1}$ \leftarrow randomwalk($W, l, \G^{t+1}$)
+    \State $W^{t+1}$ \leftarrow update($W^t, W^{t+1}$)
+    \State \textbf{return} $W^{t+1}$
     \EndProcedure
-
   \end{algorithmic}
 \end{algorithm}
+
+
+    
 
 
 \section{Discussion of an application}
