@@ -34,7 +34,21 @@ between them represent connections from which we can induce some understanding
 of relationship or trust between two people. This task is difficult; even with a
 relatively small number of people it is not a task on which humans perform very
 well and the task rapidly becomes difficult as the number of nodes in the graph increases.\\
-Many of the networks which we wish to study are dynamic; that is they change with time. In a large network it is common that small changes occur during each epoch of time that over time cause larger changes to the network structure. How do we quantify these changes and their impact on the relationships in the network without having to completely re-analyse the network after ever epoch of time, losing the information that we already learned. A frequent example upon which we can draw similarity is that of social networks. A large social network has new users (nodes) being added and new relationships (edges) formed in each epoch of time, however in any given short time period the graph representing the social network does not change substantially. It would be both foolish and costly to re-analyse the graph after each epoch however most of the previous literature has focused on static graphs. In the latter half of this essay I will give an account of recent progress into the application of DeepWalk and similar algorithms to dynamic graphs.
+Many of the networks which we wish to study are dynamic; that is they change
+with time. In a large network it is common that small changes occur during each
+epoch of time that over time cause larger changes to the network structure. How
+do we quantify these changes and their impact on the relationships in the
+network without having to completely re-analyse the network after ever epoch of
+time, losing the information that we already learned. A frequent example upon
+which we can draw similarity is that of social networks. A large social network
+has new users (nodes) being added and new relationships (edges) formed in each
+epoch of time, however in any given short time period the graph representing the
+social network does not change substantially. It would be both foolish and
+costly to re-analyse the graph after each epoch however most of the previous
+literature has focused on static graphs. In the latter half of this essay I will
+give an account of recent progress into the application of DeepWalk and similar
+algorithms to dynamic graphs.
+
 \section{Summary}
 There are three main objectives of this essay:
 \begin{itemize}
@@ -54,6 +68,21 @@ There are three main objectives of this essay:
   to good applications of Dynamic DeepWalking. [talk here about the
   application once I have found one]
 \end{itemize}
+
+The section on DeepWalk explores the fundamental connection between DeepWalk and
+matrix factorisation as presented in the paper by Qiu et al.\cite{qiu2018}. In
+this section, we demonstrate the conditions under which DeepWalk is factorising
+an appropriate matrix that stores some measure of similarity between
+nodes in the graph. In the section ``Why DeepWalk sucks'' we look at some of the
+criticism that followed the original DeepWalk paper and how these criticisms
+were addressed by future authors, the section is indicative of the shortcomings
+of DeepWalk but is by no means exhaustive.\\
+After this, the section ``Dynamic DeepWalking'' focusses on applying a variant of the DeepWalk algorithm, proposed
+by Sajjad et al. \cite{sajjad2019}, for dynamic graphs. This is especially
+important in the context of social graphs, which usually contain information
+about the interactions of individuals over time. Learning social
+representations for dynamic graphs can allow for a better understanding of how
+communities move and change over time.
 
 \section{DeepWalk}
 This section gives an outline of the social representation learning algorithm
@@ -483,7 +512,14 @@ As stated in the motivation for the paper, most of the recently developed
 representation learning methods can only be applied to static graphs while many
 real-world graphs are constantly changing over time. Therefore, to apply these
 methods the graph must be reanalysed at regular snapshots in time. This is very
-inneficient and leads. Hifd
+inneficient since in a given epoch, it is unlikely that the graph structure will
+change dramatically. Sajjad et al. proposed a modified version of the DeepWalk
+algorithm that is better suited to dynamic graphs and utilises the fact that the
+graph structure is unlikely to change significantly to develop a much more
+efficient way of analyzing social representation on dynamic graphs.
+The computational complexity of the algorithm depends on the graph density and
+number of edges added per epoch, however in the case of social networks these
+are both low and so the alggorithm is well suited to this application.
 
 
 \section{Discussion of an application}
