@@ -29,31 +29,48 @@
 
 \tableofcontents
 
-\section{Motivation}
-The motivation for studying nodes in graphs and their representations comes from the desire to understand networks of people or objects and their relations. The motivating question for this essay is
-\begin{question}[Motivating Question]
-  Given a large network of people how can we quantify the relationships between them?
-\end{question}
-The natural way to go about this is to let nodes represent persons and let edges
-between them represent connections from which we can induce some understanding
-of relationship or trust between two people. This task is difficult; even with a
-relatively small number of people it is not a task on which humans perform very
-well and the task rapidly becomes difficult as the number of nodes in the graph increases.\\
-Many of the networks which we wish to study are dynamic; that is they change
-with time. In a large network it is common that small changes occur during each
-epoch of time that over time cause larger changes to the network structure. How
-do we quantify these changes and their impact on the relationships in the
-network without having to completely re-analyse the network after ever epoch of
-time, losing the information that we already learned. A frequent example upon
-which we can draw similarity is that of social networks. A large social network
-has new users (nodes) being added and new relationships (edges) formed in each
-epoch of time, however in any given short time period the graph representing the
-social network does not change substantially. It would be both foolish and
-costly to re-analyse the graph after each epoch however most of the previous
-literature has focused on static graphs. In the latter half of this essay I will
-give an account of recent progress into the application of DeepWalk and similar
-algorithms to dynamic graphs.
+\section{Introduction}
 
+The motivation of this essay and the methods it presents comes from
+the desire to understand networks of people and the relationships
+between them.\\
+
+From a mathematical perspective, the natural way to go about studying social
+networks is to let nodes of a graph $G$ represent persons and edges
+the relationship between them. From this, we can induce some understanding
+of the communities that a network consists of. This task of understanding the
+communities that exist in a social network is a complex one; even with a
+relatively small number of people it is not a task for which humans perform very
+well and the task rapidly becomes difficult as the size of the network
+increases.\\
+
+Network embeddings are a useful way to characterise the complex structures that
+can exist in these graphs. The idea behind them is to represent each member of a
+network with a point in space, where the distance according to some metric
+(often simply Euclidean) between any two points corresponds to the similarity of
+the members in the network. These points in space are called vertex
+representations. The difficulty with this is defining an appropriate
+similarity function $s(p_1, p_2)$ that gives a good picture of the network
+structure. This ambiguity of similarity has led to a diverse range of algorithms
+for calculating network embeddings.\\
+
+The problem of analysing social structures is made more difficult still by the
+fact that such networks often change over time. As new connections are formed
+and others die away, the network moves and over a long time period it can
+change significantly. Calculating the vertex representations for a large social
+graph, where the size of the network is often in the millions or billions, takes
+a lot of time. It is therefore computationally infeasable to recalculate these
+representations at every time step and so a more intelligent approach to this
+problem is required.\\
+
+
+This essay looks at DeepWalk, an algorithm that calculates vertex
+representations for large social graphs, using techniques adapted from natural
+language processing. When proposed in 2014, the algorithm was a first of its
+kind and has since sparked a large amount of future research, with new
+algorithms improving upon it using similar methods. The core idea behind
+DeepWalk is to model random walks on a graph similarly to sentences in large
+corpus of text, this idea is explored further throughout the essay.
 \section{Summary}
 
 The section on DeepWalk explores the fundamental connection between DeepWalk and
@@ -527,8 +544,8 @@ be split into two main tasks:
   statistically indistinguishable from generating a set of random walks from
   scratch on the new snapshot of the graph.
   
-\item  Update the vertex representations incrementally so that the
-  representations do not need to be generated for every time step.
+\item  Update the vertex representations incrementally so that they do not need
+  to be generated from scratch every time step.
   
 \end{enumerate}
 
@@ -654,10 +671,6 @@ stochastic gradient descent converging at a much faster rate.
 *** A downside of this is if the function is not convex and SGD gets stuck in a
 local minima then it is more likely to stay there ***
 
-SinOne option for this is to simply recalculate all of the vertex representations,
-however this would be very inneficient since it is possible to use the previous
-representations, since the new representations will be very similar if only a
-small portion of the graph structure has been changed. 
 \section{Discussion of an application}
 
 The aim of this section is to bring the theory discussed on Dynamic DeepWalking
