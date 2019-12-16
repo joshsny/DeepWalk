@@ -86,9 +86,11 @@ our journey.
     |\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
 
-Our goal is to learn $X_E \in \R mb^{|V| \times d}$ where $d$ is a small number
+Our goal is to learn $X_E \in \R^{|V| \times d}$ where $d$ is a small number
 of latent dimensions. The idea is that each latent dimension contributes a 
-dimensional
+dimensional...
+
+*** Explain the DeepWalk algorithm here ***
 
 \subsection{Introduction to SkipGram}
 To understand DeepWalk mathematically, we first need to understand what the SkipGram
@@ -310,7 +312,7 @@ algorithm by proving the following theorem:
 
 \begin{restatable}[DeepWalk as implicit matrix factorisation]{theorem}{MainDeepWalk}
   As $t \to \infty$, DeepWalk is equivalent to factorising
-  \[\log{\left(\frac{2|E|}{T}\left( \sum_{r = 1}^T P^r  \right) D^{-1}
+  \[\log{\left(\frac{2|E|}{w}\left( \sum_{r = 1}^w P^r  \right) D^{-1}
       \right)} - \log{b}\]
   where $b$ is the negative sampling rate.
 \end{restatable}
@@ -424,21 +426,65 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
   it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\to} \pi_c$.\\
   Using this and by applying the continuous mapping theorem
   \begin{align*}
-    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,
-    c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} &\overset{p}{\to} \frac{\frac{1}{r}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
-    &=1 
-    
-    \end{align*}
+    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} & \overset{p}{\to} \frac{\frac{1}{w}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
+                                                                                                                             &=\frac{2|E|}{w}\sum_{r=1}^w (P^r)_{v,c} \frac{1}{d_c} = \frac{2|E|}{w}\left( \sum_{r=1}^w(P^rD^{-1})_{v,c} \right)
+  \end{align*}
+  where the last equality follows since $D$ is diagonal.\\
+
+  From this, applying [Theorem XX] gives that as $t \to \infty$ DeepWalk is equivalent to
+  factorising
+  \[\log \left( \frac{2|E|}{w}\left( \sum_{r=1}^w P^r \right)D^{-1}\right) - \log{b}\]
 \end{proof}
 
+This proof gives a better understanding of what the DeepWalk algorithm is doing.
+There are many other good questions to ask about DeepWalk, for example whether
+the algorithm is garunteed to converge under stochastic gradient descent, but we
+will not explore this any further in this essay.
+
+*** Here can talk about how long it takes to tend towards this, potentially talk
+briefly on convergence of stochastic gradient descent etc. Important point, how
+large does $t$ need to be for this to be meaningful? ***
+
+*** Can I try and use the above result to show that DeepWalk is garunteed to
+converge, in other words that the objective function is convex ***
+
 \section{Matters of Convergence}
+
+*** This section is unlikely to be included ***
 \section{DeepWalk Sucks}
+Whilst the original DeepWalk paper made a huge impact on the future development
+of social representation learning on graphs, the algorithm itself has a number
+of drawbacks that have been pointed out in subsequent papers. In this short
+section, I will detail some of the issues and criticism of the implementation of DeepWalk.\\
+
+Firstly, as has briefly been mentioned, in the original paper Hierarchical
+Softmax was used to estimate the probabilities in the softmax layer of SkipGram.
+This is important, since to calculate the partition function (denominator of the
+softmax probability) would normally have complexity $O(|V|)$. Using Hierarchical
+softmax however, the nodes are asssigned to the leaves of a binary tree. This
+reduces the computational complexity to $O(\log{|V|})$.\\
+
+Negative Sampling on the other hand is developed ...
+
+*** Talk about Node2Vec and improvements to DeepWalk etc. Talk about various
+shortcomings, just look at papers that came afterwards that shred DeepWalk.
+Point to the algorithms that improved it.
+
+Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
+***
 \section{Dynamic DeepWalking}
 In this section we transition away from the static implementation of DeepWalk
 towards network embeddings for Dynamic datasets. In particular, the focus of the
 section is to introduce an adaptation of DeepWalk to dynamic datasets as
 proposed in the paper published by Sajjad et al.\cite{sajjad2019} in early
 2019.\\
+
+As stated in the motivation for the paper, most of the recently developed
+representation learning methods can only be applied to static graphs while many
+real-world graphs are constantly changing over time. Therefore, to apply these
+methods the graph must be reanalysed at regular snapshots in time. This is very
+inneficient and leads.
+
 
 \section{Discussion of an application}
 

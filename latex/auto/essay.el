@@ -21,6 +21,8 @@
     "ndate"
     "SO")
    (LaTeX-add-bibliographies
-    "references"))
+    "references")
+   (LaTeX-add-thmrestate-restatable-macros
+    "MainDeepWalk"))
  :latex)
 
