@@ -30,27 +30,16 @@
 \tableofcontents
 
 \section{Introduction}
-The motivation of this essay and the methods it presents comes from
-the desire to understand networks of people and the relationships
-between them.\\
-From a mathematical perspective, the natural way to go about studying social
-networks is to let nodes of a graph $G$ represent persons and edges
-the relationship between them. From this, we can induce some understanding
-of the communities that a network consists of. This task of understanding the
-communities that exist in a social network is a complex one; even with a
-relatively small number of people it is not a task for which humans perform very
-well and the task rapidly becomes difficult as the size of the network
-increases.\\
+The motivation of this essay and the methods it presents comes from the desire to understand networks of people and the relationships between them.
+From a mathematical perspective, the natural way to go about studying social networks is to let nodes of a graph G represent the people and edges their relationships. From this, we can induce some understanding of the neighbourhoods that a network consists of. This task of understanding the communities that exist in a social network is a complex one; even with a relatively small number of people it is not a task for which humans perform very well and the task rapidly becomes difficult as the size of the network increases.\\
 Network embeddings are a useful way to characterise the complex structures that
 can exist in these graphs. The idea behind them is to represent each member of a
 network with a point in space, where the distance according to some metric
 (often simply Euclidean) between any two points corresponds to the similarity of
 the members in the network. These points in space are called vertex
-representations. The difficulty with this is defining an appropriate
-similarity function $s(p_1, p_2)$ that gives a good picture of the network
-structure. This ambiguity of similarity has led to a diverse range of algorithms
-for calculating network embeddings.\\
-
+representations. The difficulty with this approach is defining a suitable
+similarity function $f(p1,p2)$ that gives a good understanding of the network
+structure. This ambiguity of similarity has led to a diverse range of algorithms for calculating network embeddings.
 \begin{figure}[h!]
   \centering
   \includegraphics[width = 1\textwidth]{src/DeepWalkOnKarateGraph.png}
@@ -62,22 +51,19 @@ for calculating network embeddings.\\
     clustering of the input graph. In practive, network embeddings have dimensions
     in the tens to low-hundreds and t-SNE is often used to visualise these embeddings in 2D
     space.\cite{maaten2008}}
-\end{figure}
+\end{figure}\\
 The problem of analysing social structures is made more difficult still by the
 fact that such networks often change over time. As new connections are formed
-and others die away, the network moves and over a long time period it can
+and others die away, the network moves and over a long time period, it can
 change significantly. Calculating the vertex representations for a large social
 graph, where the size of the network is often in the millions or billions, takes
-a lot of time. It is therefore computationally infeasable to recalculate these
+a lot of time. It is therefore computationally infeasible to recalculate these
 representations at every time step and so a more intelligent approach to this
 problem is required.\\
-This essay looks at DeepWalk, an algorithm that calculates vertex
-representations for large social graphs, using techniques adapted from natural
-language processing. When proposed in 2014, the algorithm was a first of its
-kind and has since sparked a large amount of future research, with new
-algorithms improving upon it using similar methods. The core idea behind
-DeepWalk is to model random walks on a graph similarly to sentences in large
-corpus of text, this idea is explored further throughout the essay.
+This essay looks at DeepWalk and how it can be modified for dealing with dynamic
+graphs. DeepWalk is an algorithm that calculates vertex representations for
+large social graphs by using techniques adapted from natural language processing. When proposed in 2014, the algorithm was a first of its kind and has since sparked a large amount of future research, with new algorithms improving upon it using similar methods. The core idea behind DeepWalk is to model random walks on a graph similar to sentences in a large corpus of text, this idea is explored further throughout the essay.
+
 
 \subsection{Summary}
 The section on DeepWalk explores the fundamental connection between DeepWalk and
@@ -90,19 +76,19 @@ were addressed by future authors, the section is indicative of the shortcomings
 of DeepWalk but is by no means exhaustive.\\
 After this, the section ``Dynamic DeepWalking'' focusses on applying a variant of the DeepWalk algorithm, proposed
 by Sajjad et al. \cite{sajjad2019}, for dynamic graphs. This is especially
-important in the context of social graphs, which usually contain information
-about the interactions of individuals over time. Learning social
+important in the context of social graphs, which usually contain temporal information
+about user interactions. Learning social
 representations for dynamic graphs can allow for a better understanding of how
 communities move and change over time.\\
 Finally, to exhibit Dynamic DeepWalking in practice, the final section of this
 essay applies the Unbiased Update algorithm introduced by Sajjad et
 al.\cite{sajjad2019} to data from users on the social network Gab to look at how
-user interaction on the network changes with time. 
+user interaction on the network varies with time. 
 
 \subsection{Preliminary Notation}
-I have endevoured to use similar notation to the original DeepWalk paper\cite{deepwalk} to ease
+I have endeavoured to use similar notation to the original DeepWalk paper\cite{deepwalk} to ease
 cross-referencing. However given that a number of other papers are touched upon
-throughout the essay, there are a number of pieces of notation I have opted to change.
+throughout the essay, there are some pieces of notation that have been changed.
 If reading through the essay systematically, the reader should not find
 difficulty following the notation.
 
@@ -116,14 +102,11 @@ difficulty following the notation.
   the feature space for each attribute vector and $Y \in \R^{|V|
     \times|\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
-
 *** Note partially labelled graphs have not been touched upon, what are the
 labels being used for? Are they being used pre or post embedding? ***
 Our goal is to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
 of latent dimensions ($d \ll |V|$) such that each of the rows in $W$
 corresponds to a $d$ dimensional embedding of a node in $V$.
-
-
 \section{DeepWalk}
 
 \begin{algorithm}
@@ -144,30 +127,57 @@ DeepWalk, first introduced in the seminal paper DeepWalk: Online Learning of Soc
 Representations by B. Perozzi et. al. \cite{deepwalk}. The method proposed in
 this paper not only demonstrated performance improvements from previous methodologies but
 also motivated an entirely different approach. At the time of the paper being
-written, significant advancements were being made in natural languade processing (NLP)
+written, significant advancements were being made in natural language processing (NLP)
 and the idea of word embeddings was becoming popular through an embedding
 algorithm known as Word2Vec \cite{mikolov2013efficient,mikolov2013distributed}.
-DeepWalk implements this algoritm but replaces the idea of the context of a word in
+DeepWalk implements this algorithm but replaces the idea of the context of a word in
 a sentence with the context of a node in a random walk on a graph. This is the
-crucial concept of DeepWalk from which the remaining details naturally follow.
+crucial concept of DeepWalk from which the remaining details of the algorithm naturally follow.
 
-The original paper on DeepWalk is lacking in a mathematical underpinning and in
+The original paper on DeepWalk is lacking in a mathematical foundation and so in
 this section we will model the algorithm mathematically. It is suggested that the reader
 is familiar with the concepts outlined in the paper by Perozzi et. al. prior to
 reading this (more) mathematical exposition.
 
-
-The idea is that each latent dimension contributes a 
-dimensional...
-
-*** Explain the DeepWalk algorithm here ***
-
 \subsection{Introduction to SkipGram}
 To understand DeepWalk mathematically, we first need to understand what the SkipGram
-model is doing, since this is the model underpinning DeepWalk, which took it
-from NLP and applied it to graphs. In the context of graph networks, SkipGram trains a neural network to do the
+model is doing, since this is the model underpinning DeepWalk. SkipGram was
+prposed by Mikolev et al.\cite{mikolov2013efficient} as an efficient way to
+learn word embeddings. The idea behind SkipGram is to learn embeddings which are good at
+predicting nearby words in sentences. For a sentence $w_1, ... , w_N$, the
+nearby words from $w_i$, known as context words, are defined as the set of words
+within distance $k$ where $k$ is the size of the window. SkipGram
+minimises the following objective function
+
+\[L = - \sum_{c \in C(w)} \log{\P(c | w)}\]
+
+where $\P(c | w)$ is modelled by a softmax function
+
+\[\P(u|v) = \frac{\exp{(\vec{w} \cdot \vec{c}})}{\sum_{c \in \mathcal{F}}\exp{(\vec{w} \cdot
+    \vec{c}})}\]
+
+where $\mathcal{F}$ is the vocabulary and $\vec{w}$ represents the
+embedding of the word $w$ and $\vec{c}$ the distributed representation of $c$ when it serves as a
+context word.\\
+*** Can I be clearer about what this distributed representation is? ***\\
+Perrozi et al. took this model from NLP and applied it to graphs by observing
+that nodes in the graph can be thought of as words in an antificial language.
+Firstly, to find the context for each node, DeepWalk generates random walks
+which are analagous to sentences in a language. The context nodes are the set of
+nodes within a window of size $k$, from which target-context pairs $(v, c)$ are
+constructed and added to a corpus $\D$. After these context nodes have been
+found the same optimization function as in SkipGram is used to learn embeddings which maximise
+the chance of predicting context nodes.\\
+[Algorithm XX] shows how DeepWalk is applied. $\gamma$ represents the number of
+random walks that are started from each node and at the start of each pass the
+nodes are shuffled so that they are traversed in a random order. For each node
+$v \in V$ a random walk $\mathcal{W_v}$ of length $l$ is generated and used to
+update the network embeddings using the SkipGram algorithm.\\
+*** Why is it important that the vertices are traversed in a random order, given
+we are just building a corpus? ***\\
+In the context of graph networks, SkipGram trains a neural network to do the
 following task:\\
-Given an input vertex $v$ and a random walk, $W_{v}$, of length $2t+1$ with $v$
+Given an input vertex $v$ and a random walk, $W_{v}$, of length $2w+1$ with $v$
 at it's centre. Pick a nearby vertex at random. The task of the neural network is to
 predict the probability that each vertex in $V$ will be the randomly chosen
 vertex. Therefore, verticies far away on the graph that correspond to unfamiliar
@@ -177,7 +187,7 @@ co-occur on a random walk with input $v$ and thus will be assigned higher
 probabilities. This allows us to train a network with weights that represent the
 connectedness between nodes on the graph. The neural network is trained by
 feeding it pairs of nodes $(v, c)$ where $v$ represents the input node and $c$ is a context node, which lies within distance
-$t$ of the vertex $v$.\\ 
+$w$ of the vertex $v$.\\ 
 
 To formalise this, each of the nodes $v \in V$ are represented by a one-hot
 encoding vector $e_v \in \mathbb{R}^{|V|}$ allowing us to feed $e_v$ into the
@@ -248,7 +258,7 @@ context, if the network is dense, then this may be an unreasonable assumption.\\
 According to this assumption, the objective function of SGNS for a single
 observation $(v,c)$ is:
 
-\[\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
+\[l(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
 where the minus sign comes from the fact that $1 - \sigma(x) = \sigma(-x)$, $b$
 is the number of negative samples and $c_N$ is the sampled context node, drawn
 according to $P_D (c) = \frac{\#(c)}{| \D |}$ which is known as the unigram
@@ -263,8 +273,7 @@ This objective function is trained using stochastic gradient descent with
 updates after each  observed pair in the random-walk corpus $\D$. The resulting
 global objective becomes
 \begin{equation}
-  l = \sum_{v \in V} \sum_{c \in V}\#(v,c)\log{\sigma(\vec{v} \cdot \vec{c})} +
-  b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}
+  \mathcal{L} = \sum_{v \in V} \sum_{c \in V} l(v, c)
 \end{equation}
 
 \subsubsection{Finding the similarity function learned by SkipGram}
@@ -275,7 +284,7 @@ $c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry 
 \vec{c_j}$. Therefore SGNS is factorising a matrix in which each row corresponds
 to an input node $v_i \in |V|$ and each column to a context node $c_j \in |V|$ and the value of $M_{ij}$ expresses the
 strength of association between the input-context pair $(v_i, c_j)$ using some similarity
-function $s(v_i,c_j)$. 
+function $s(v_i,c_j)$. What is the similarity function learned by SkipGram? 
 \begin{theorem}[Levy, Goldberg (2014)]
   SkipGram with Negative Sampling (SGNS) is implicitly factorising a matrix $M =
   WC^T$ with
@@ -293,23 +302,22 @@ function $s(v_i,c_j)$.
   Due to this independence, the objective function $l$ can be maximised with
   respect to each pair $v \cdot c$ individually.
 
-  The expectation term in $l$ can be written explicitly as
+  The expectation term can be written explicitly as
   \begin{align*}
     \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] &= \sum_{\tilde{c} \in V}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}\\
                                                                              &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{\tilde{c} \in V \setminus \{c\}}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}
   \end{align*}
-  and the objective function $l$ can be expressed as
+  and the objective function $\mathcal{L}$ can be expressed as
   \begin{equation*}
-    l =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] \right)
+    \mathcal{L} =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] \right)
   \end{equation*}
   where the second term comes from the fact that $\#(v) = \sum_{c \in V}\#(v,c)$
-  by definition.\\
-  Combining these equations gives that the local objective for an input-context
+  by definition. Combining these equations gives that the local objective for an input-context
   pair is
   \begin{equation}
     l(v, c) = \#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \#(v)\cdot \frac{\#(c)}{|\D|}\log{-\sigma(-\vec{v} \cdot \vec{c})} 
   \end{equation}
-  Now to simplify the notation let $x = \vec{v} \cdot \vec{c}$ and, since we are
+  To simplify the notation let $x = \vec{v} \cdot \vec{c}$ and, since we are
   assuming each of the $\vec{v_i} \cdot \vec{c_j}$ to take their values
   independently, we take the partial derivatve with respect to $x$ and optimise
   the local objective:
@@ -323,17 +331,17 @@ function $s(v_i,c_j)$.
   This is a quadratic equation in $e^x$ with two solutions. The first solution,
   $e^x = -1$ is infeasable since $x \in \R$ and so the appropriate solution is
   \[e^x = \frac{\#(v,c) \cdot |\D|}{\#(v)\#(c)} \cdot \frac{1}{b}\]
-  and substituting $x = \vec{v} \cdot \vec{c}$ back into the equation gives
+  Substituting $x = \vec{v} \cdot \vec{c}$ back into the equation and taking
+  logs gives
   \[M_{ij} = \vec{v} \cdot \vec{c} = log{\left( \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot
           \#(c)} \right)} - \log{b}\]
   
 \end{proof}
-
 Most interestingly, the resulting expression for the similarity function $s$ is
 the pointwise mutual information (PMI) shifted by a factor of $\log b$. PMI was
 introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
-
+*** Would make sense to go into this more ***\\
 There is an equivalent theorem for SkipGram with Softmax that was proved by Yang
 et al.\cite{yangalternative2015} and was later used in their development of
 text-associated DeepWalk (TADW)\cite{yang2015} which encorporates text features
@@ -343,17 +351,10 @@ of the verticies in a social graph.
   SkipGram with Softmax is implicitly factorising the matrix $M = WC^T$ with
   \[M_{ij} = \log{\frac{\#(v_i,v_j)}{\#(v_i)}}\]
 \end{theorem}
-
 The proof of this follows very similarly to the previous theorem and will not be
 shown here since we will only be concerned with SGNS.
 
-
-
-*** At some point I need to actually outline these algorithms as the other
-papers have done, there needs to be an explicit DeepWalk algorithm ***
-
 \subsection{DeepWalk as matrix factorisation}
-
 We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
 al.\cite{qiu2018} published in 2018 building upon work by Yang et al.\cite{yang2015}
 from 2015. The aim of the former paper was to lay the foundationds for, and

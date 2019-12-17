@@ -3,13 +3,13 @@
 \contentsline {subsection}{\numberline {1.2}Preliminary Notation}{3}{subsection.1.2}% 
 \contentsline {section}{\numberline {2}DeepWalk}{4}{section.2}% 
 \contentsline {subsection}{\numberline {2.1}Introduction to SkipGram}{4}{subsection.2.1}% 
-\contentsline {subsection}{\numberline {2.2}SkipGram as matrix factorisation}{5}{subsection.2.2}% 
-\contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{5}{subsubsection.2.2.1}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Finding the similarity function learned by SkipGram}{6}{subsubsection.2.2.2}% 
-\contentsline {subsection}{\numberline {2.3}DeepWalk as matrix factorisation}{8}{subsection.2.3}% 
-\contentsline {section}{\numberline {3}DeepWalk Sucks}{12}{section.3}% 
-\contentsline {section}{\numberline {4}Dynamic DeepWalking}{13}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{13}{subsection.4.1}% 
-\contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{14}{subsubsection.4.1.1}% 
-\contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{15}{subsection.4.2}% 
-\contentsline {section}{\numberline {5}Discussion of an application}{16}{section.5}% 
+\contentsline {subsection}{\numberline {2.2}SkipGram as matrix factorisation}{6}{subsection.2.2}% 
+\contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{6}{subsubsection.2.2.1}% 
+\contentsline {subsubsection}{\numberline {2.2.2}Finding the similarity function learned by SkipGram}{7}{subsubsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.3}DeepWalk as matrix factorisation}{9}{subsection.2.3}% 
+\contentsline {section}{\numberline {3}DeepWalk Sucks}{13}{section.3}% 
+\contentsline {section}{\numberline {4}Dynamic DeepWalking}{14}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{14}{subsection.4.1}% 
+\contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{15}{subsubsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{16}{subsection.4.2}% 
+\contentsline {section}{\numberline {5}Discussion of an application}{17}{section.5}% 
