@@ -4,7 +4,7 @@
 \contentsline {section}{\numberline {2}DeepWalk}{4}{section.2}% 
 \contentsline {subsection}{\numberline {2.1}Introduction to DeepWalk}{4}{subsection.2.1}% 
 \contentsline {subsection}{\numberline {2.2}SkipGram as matrix factorisation}{6}{subsection.2.2}% 
-\contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{6}{subsubsection.2.2.1}% 
+\contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{7}{subsubsection.2.2.1}% 
 \contentsline {subsubsection}{\numberline {2.2.2}Finding the similarity function learned by SkipGram}{7}{subsubsection.2.2.2}% 
 \contentsline {subsection}{\numberline {2.3}DeepWalk as matrix factorisation}{9}{subsection.2.3}% 
 \contentsline {section}{\numberline {3}DeepWalk Sucks}{13}{section.3}% 
