@@ -12,8 +12,7 @@
     "tkz-graph"
     "thm-restate"
     "algpseudocode"
-    "algorithm"
-    "neuralnetwork")
+    "algorithm")
    (TeX-add-symbols
     "shadow"
     "D"
