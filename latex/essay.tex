@@ -197,7 +197,7 @@ encoding vector $e_v \in \mathbb{R}^{|V|}$ allowing us to feed $e_v$ into the
 neural network. When $e_v$ is fed into the network, a single linear hidden layer with
 $d$ neurons is used, where $d$ is the desired dimension of the latent
 representations, which is then passed to a softmax classifier for output. The
-output of the network is a vector $o \in \mathbb{R}^d$ containing the estimated
+output of the network is a vector $o \in \mathbb{R}^{|V|}$ containing the estimated
 probabilities that a randomly selected nearby word is that vocabulary word.
 
 The idea behind having a linear hidden layer, which does not use an activation
@@ -208,56 +208,60 @@ information as possible to distinguish the nodes, but is only allowed $d$
 neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
 
 *** Create here an image resembling the one found in the blog post on SkipGram
-but for graphs and with $d$ dimensions ***
+but for graphs and with $d$ dimensions ***\\
+
+% This creates the neural network diagram for the SkipGram neural network
 
 \tikzset{%
   every neuron/.style={
     circle,
     draw,
-    minimum size=1cm
+    minimum size=0.6cm
   },
   neuron missing/.style={
     draw=none, 
-    scale=4,
-    text height=0.333cm,
+    scale=3,
+    text height=0.2cm,
     execute at begin node=\color{black}$\vdots$
   },
 }
 
 \begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
 
-\foreach \m/\l [count=\y] in {1,2,3,missing,4}
-  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,2.5-\y) {};
+\foreach \m/\l [count=\y] in {1}
+  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,0) {};
 
-\foreach \m [count=\y] in {1,missing,2}
-  \node [every neuron/.try, neuron \m/.try ] (hidden-\m) at (2,2-\y*1.25) {};
+\foreach \m [count=\y] in {1, missing,2}
+  \node [every neuron/.try, neuron \m/.try ] (hidden-\m) at (2,2 - \y) {};
 
-\foreach \m [count=\y] in {1,missing,2}
-  \node [every neuron/.try, neuron \m/.try ] (output-\m) at (4,1.5-\y) {};
+\foreach \m [count=\y] in {1,2,3,missing,4}
+  \node [every neuron/.try, neuron \m/.try ] (output-\m) at (4,2.25-\y*0.75) {};
 
-\foreach \l [count=\i] in {1,2,3,n}
+\foreach \l [count=\i] in {1}
   \draw [<-] (input-\i) -- ++(-1,0)
-    node [above, midway] {$I_\l$};
+    node [above, midway] {$e_v$};
 
-\foreach \l [count=\i] in {1,n}
+\foreach \l [count=\i] in {1,d}
   \node [above] at (hidden-\i.north) {$H_\l$};
 
-\foreach \l [count=\i] in {1,n}
+\foreach \l [count=\i] in {1,2,3,n}
   \draw [->] (output-\i) -- ++(1,0)
-    node [above, midway] {$O_\l$};
+    node [above, midway] {$o_{\l}$};
 
-\foreach \i in {1,...,4}
+\foreach \i in {1}
   \foreach \j in {1,...,2}
-    \draw [->] (input-\i) -- (hidden-\j);
+    \draw[orange] [->] (input-\i) -- (hidden-\j);
 
 \foreach \i in {1,...,2}
-  \foreach \j in {1,...,2}
-    \draw [->] (hidden-\i) -- (output-\j);
+  \foreach \j in {1,2,3,...,4}
+    \draw[orange] [->] (hidden-\i) -- (output-\j);
 
-\foreach \l [count=\x from 0] in {Input, Hidden, Ouput}
-  \node [align=center, above] at (\x*2,2) {\l \\ layer};
+\node [align=center, above] at (0,2) {Input\\Vector};
+\node [align=center, above] at (2,2) {Hidden Layer\\Linear};
+\node [align=center, above] at (4,2) {Output Layer\\Softmax};
 
-\end{tikzpicture}
+
+\end{tikzpicture}\\
 The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
 discussed. Calculating the normalization factor in the Softmax layer requires a
 computational complexity of $O(|V|)$, in the original DeepWalk paper this is
