@@ -98,16 +98,20 @@ difficulty following the notation.
   members of the network, commonly referred to as the \textit{nodes} or \textit{vertices} and $E \subset V
   \times V$ represents their connections, usually referred to as
   \textit{edges}.\\
-  The nodes and edges have labels and $G_L = (V, E, X, Y)$ represents the
-  partially labelled network. $X \in \R^{|V| \times S}$ where $S$ is the size of
-  the feature space for each attribute vector and $Y \in \R^{|V|
+  Some of the nodes and edges have labels and $G_L = (V, E, X, Y)$ represents the
+  partially labelled network. The node features are represented by $X \in \R^{|V| \times S}$ where $S$ is the size of
+  the feature space for each attribute vector. The node labels are represented by $Y \in \R^{|V|
     \times|\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
-*** Note partially labelled graphs have not been touched upon, what are the
-labels being used for? Are they being used pre or post embedding? ***
-Our goal is to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
+Some of the nodes are labelled with $y \in \mathcal{Y}$ and the end task is to
+predict the labels of the other nodes. This is called a \termit{relational
+  classification problem}. The aim of the DeepWalk algorithm is to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
 of latent dimensions ($d \ll |V|$) such that each of the rows in $W$
-corresponds to a $d$ dimensional embedding of a node in $V$.
+corresponds to a $d$ dimensional embedding of a node in $V$.\\
+To avoid confusion, it is important to distinguish that the goal of DeepWalk is
+not to classify the nodes, but to generate useful embeddings. These embeddings
+are then treated as additional features and are combined with the features $X$
+to be inputted into a classification algorithm.
 \section{DeepWalk}
 This section gives an outline of the social representation learning algorithm
 DeepWalk, first introduced in the seminal paper DeepWalk: Online Learning of
@@ -271,7 +275,8 @@ used to reduce the access time of frequent elements in the tree, as suggested by
 Mikolov et al. in the original Word2Vec
 papers.\cite{mikolov2013efficient,mikolov2013distributed}\\
 In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used instead of
-Hierarchical Softmax. In the remainder of this essay, when referring to DeepWalk, it will be
+Hierarchical Softmax. Negative Sampling updates only a sample of the output
+vectors per iteration. In the remainder of this essay, when referring to DeepWalk, it will be
 implicitly assumed that Negative Sampling is used as appose to Hierarchical
 Softmax. This is because SGNS has been found to be more efficient
 and therefore has been adopted by much of the further literature. This convention will also
@@ -550,7 +555,7 @@ these questions will not explored in this essay.
 
 *** Here can talk about how long it takes to tend towards this. Important point, how
 large does $l$ need to be for this to be meaningful? ***
-\section{DeepWalk Sucks}
+\section{Deep Drawbacks}
 Whilst the original DeepWalk paper made a huge impact on the future development
 of social representation learning on graphs, the algorithm itself has a number
 of drawbacks that have been pointed out in subsequent papers. In this short
@@ -571,6 +576,30 @@ Point to the algorithms that improved it.
 
 Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
 ***
+
+*** node2vec ***
+
+\subsection{Capturing Structural Similarity}
+Another drawback of both DeepWalk and node2vec is that both of these algorithms
+do well at capturing neighbourhouds in the graph, but they do not perform well
+at capturing structural similarities amongst nodes. Applying DeepWalk to two nodes
+that have a similar structural role in the graph but are in far away locations
+will result in embeddings that are distant from eachother. An alternative
+approach that performs significantly better at this task was suggested by
+Ribeiro et al. in their paper on struc2vec\cite{}. Unlike DeepWalk, struc2vec does not
+take distance between nodes into account and instead builds a context graph
+whhere nodes are close together if they are structurally similar and then
+SkipGram is applied in a simmilar mannner to DeepWalk, but this time on the
+context graph instead of the original graph.\\
+The approach of struc2vec is clearly to recognise a different kind of network
+structure to the one DeepWalk was created to recognise. struc2vec is more
+applicable to classification tasks where the labels depend heavily on the
+structural role of the nodes. As an example, struc2vec would be more suitable
+for the task of finding social group leaders within a large network
+graph. In such a task it is not the communities that are important to identify,
+but the roles people play within their communities. For this reason, it is
+important to identify the suitability of a relational classification problem to
+the application of DeepWalk.
 \section{Dynamic DeepWalking}
 In this section we transition away from the static implementation of DeepWalk
 towards network embeddings for Dynamic datasets. In particular, the focus of the
@@ -624,12 +653,15 @@ adding/removing vertices and/or edges to the graph.
 Then to analyse the effect of changes on the random walks we define the
 following terms:
 \begin{itemize}
-  \item \textit{Affected vertices}: All vertices that are in the set of vertices
-    contained in the set of added edges and the set of removed edges which have
-    not been deleted.
+  \item \textit{Affected vertices}: All vertices that are in an added or removed
+    edge which have not been deleted.
     \[\V_{\text{affected}}^{t+1} = \V(A_{\mathcal{E}}^{t+1}) \cup
       \V(D_{\mathcal{E}}^{t+1}) \setminus D_{\V}^{t+1}\]
-\end{itemize}
+    \item \textit{Affected walks}: All random walks i the corpus of random walks
+      $W^t$ that contain at least one affected vertex.
+    \end{itemize}
+Importantly all unaffected walks in the corpus $W^t$ remain valid random walks
+on the graph $\G_{t+1}$
 \subsection{Updating the Random Walk Corpus}
 As a preliminary solution to the problem of generating new random walks for the random
 walk corpus an algorithm called Naïve Update Algorithm 2 is introduced. This
@@ -733,9 +765,11 @@ A potential downside of this is that if the objective function is not convex and
 stochastic gradient descent gets stuck in a local minima whilst training then it
 is more likely to stay there.\\
 \section{Discussion of an application}
-
 The aim of this section is to bring the theory discussed on Dynamic DeepWalking
 into practice.
+\section{Conclusion}
+See the esssay descriptors. It is required to have a conclusion and suggested to
+reccomend further areas of research!
 
 \bibliography{references}
 \bibliographystyle{ieeetr}
