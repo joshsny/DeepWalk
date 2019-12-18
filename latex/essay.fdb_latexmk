@@ -1,18 +1,18 @@
 # Fdb version 3
-["bibtex essay"] 1576674842 "essay.aux" "essay.bbl" "essay" 1576674925
+["bibtex essay"] 1576674842 "essay.aux" "essay.bbl" "essay" 1576675037
   "/usr/local/texlive/2019/texmf-dist/bibtex/bst/base/ieeetr.bst" 1292289607 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "essay.aux" 1576674858 7992 55a09e2b48699baa36941253254a78f8 "pdflatex"
+  "essay.aux" 1576675013 7992 55a09e2b48699baa36941253254a78f8 "pdflatex"
   "references.bib" 1576529861 4664 ca6c4f278a9b5ebb15e91c7141c20390 ""
   (generated)
   "essay.bbl"
   "essay.blg"
-["makeindex essay.idx"] 1575994572 "essay.idx" "essay.ind" "essay" 1576674925
-  "essay.idx" 1576674856 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex essay.idx"] 1575994572 "essay.idx" "essay.ind" "essay" 1576675037
+  "essay.idx" 1576675011 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
-  "essay.ilg"
   "essay.ind"
-["pdflatex"] 1576674925 "essay.tex" "essay.pdf" "essay" 1576674925
-  "/dev/null" 1576674922 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "essay.ilg"
+["pdflatex"] 1576675037 "essay.tex" "essay.pdf" "essay" 1576675037
+  "/dev/null" 1576675029 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -274,19 +274,19 @@
   "/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1557342064 3277517 23507ed665b4dd9046f0f2a94bbef2be ""
   "/usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1573753515 4259637 1d5f180e6a9a9162d2940f192b4a6438 ""
   "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
-  "essay.aux" 1576674858 7992 55a09e2b48699baa36941253254a78f8 "pdflatex"
+  "essay.aux" 1576675013 7992 55a09e2b48699baa36941253254a78f8 "pdflatex"
   "essay.bbl" 1576674843 2149 9aeba057d1768170698b995d8295f52f "bibtex essay"
-  "essay.ind" 1576674858 0 d41d8cd98f00b204e9800998ecf8427e "makeindex essay.idx"
-  "essay.out" 1576674858 2699 0a81a4a2f9241167f6c226c233045888 "pdflatex"
-  "essay.tex" 1576674924 41870 c01fb4b96ce35f5e9669e177c8ba11ca ""
-  "essay.toc" 1576674858 1348 11e5aeddf1d07c025fc6c225207ea790 "pdflatex"
+  "essay.ind" 1576675013 0 d41d8cd98f00b204e9800998ecf8427e "makeindex essay.idx"
+  "essay.out" 1576675013 2699 0a81a4a2f9241167f6c226c233045888 "pdflatex"
+  "essay.tex" 1576675036 41868 d99da5a77f7a7f090bcc09b7a461d132 ""
+  "essay.toc" 1576675013 1348 11e5aeddf1d07c025fc6c225207ea790 "pdflatex"
   "header.tex" 1574263364 7853 1281ad587fca0e9b61a6af20cd4ad2de ""
   "src/DeepWalkOnKarateGraph.png" 1576528551 112754 16562e906b287d0c45e5292fb1e6b616 ""
   "titlepage.tex" 1572867528 522 fd652871a20616bf781724b5030399f6 ""
   (generated)
+  "essay.pdf"
+  "essay.log"
+  "essay.idx"
+  "essay.aux"
   "essay.toc"
   "essay.out"
-  "essay.log"
-  "essay.aux"
-  "essay.idx"
-  "essay.pdf"

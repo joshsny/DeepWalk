@@ -423,7 +423,7 @@ In their paper, Qiu et al. gave a theoretical understanding of the DeepWalk
 algorithm by proving the following theorem:
 \begin{restatable}[DeepWalk as implicit matrix factorisation]{theorem}{MainDeepWalk}
   As $l \to \infty$, DeepWalk is equivalent to factorising
-  \[\log{\left(\frac{2|E|}{w}\left( \sum_{r = 1}^w P^r  \right) D^{-1}
+  \[\log{\left(\frac{2|E|}{k}\left( \sum_{r = 1}^k P^r  \right) D^{-1}
       \right)} - \log{b}\]
   where $b$ is the negative sampling rate.
 \end{restatable}
@@ -504,14 +504,14 @@ in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
 \end{proof}
 From this we can show that
 \begin{lemma}
-  When $l \to \infty$, we have
-  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{w} \sum_{r = 1}^w \pi_v
+  As $l \to \infty$, we have
+  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{k} \sum_{r = 1}^k \pi_v
     (P^r)_{v,c}\]
 \end{lemma}
 \begin{proof}
   \begin{align*}
     \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^k (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^k (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2k} \sum_{r=1}^k \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
-                          &\overset{p}{\to} \frac{1}{r}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}
+                          &\overset{p}{\to} \frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}
   \end{align*}
   where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
   \frac{|\D|}{2k}$ and the convergence comes from applying [Theorem XX],
@@ -523,14 +523,14 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
 \begin{proof}
   Firstly, by summing the result of [Theorem XX] we get
   \begin{align*}
-    \frac{\#(w)}{|\D|} &= \sum_{c \in V}\#(w, c)\\
-                       &\overset{p}{\to} \sum_{c \in V} \frac{1}{w}\sum_{r=1}^w \pi_v(P^r)_{v, c}\\
-                       &\frac{\pi_v}{w}\sum_{r = 1}^w \sum_{c \in V}(P^r)_{v,c} = \frac{\pi_v}{w}\sum_{r = 1}^w 1 = \pi_v
+    \frac{\#(v)}{|\D|} &= \sum_{c \in V}\#(v, c)\\
+                       &\overset{p}{\to} \sum_{c \in V} \frac{1}{k}\sum_{r=1}^k \pi_v(P^r)_{v, c}\\
+                       &\frac{\pi_v}{k}\sum_{r = 1}^k \sum_{c \in V}(P^r)_{v,c} = \frac{\pi_v}{k}\sum_{r = 1}^k 1 = \pi_v
   \end{align*}
   since $P^r$ is stochastic for any $r$.\\
   Similarly, using the fact that $\pi$ is in detailed balance with $P$, and thus
   the result of [Theorem XX] can be rewritten as
-  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{w} \sum_{r = 1}^w \pi_c
+  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{k} \sum_{r = 1}^k \pi_c
     (P^r)_{c,v}\]
   it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\to} \pi_c$.\\
   Using this and by applying the continuous mapping theorem
