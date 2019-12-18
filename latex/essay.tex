@@ -150,7 +150,7 @@ prposed by Mikolev et al.\cite{mikolov2013efficient} as an efficient way to
 learn word embeddings. The idea behind SkipGram is to learn embeddings which are good at
 predicting nearby words in sentences. For a sentence $w_1, ... , w_N$, the
 nearby words from $w_i$, known as context words, are defined as the set of words
-within distance $k$, $\{w_{i-k}, w_{i-k+1}, \dots , w_{i+k}\} \setdiff w_i$, where $k$ is the size of the window. SkipGram
+within distance $k$, $\{w_{i-k}, w_{i-k+1}, \dots , w_{i+k}\} \setminus w_i$, where $k$ is the size of the window. SkipGram
 minimises the following objective function
 \[\mathcal{L} = - \sum_{c \in C(w)} \log{\P(c | w)}\]
 where $\P(c | w)$ is modelled by a softmax function
@@ -206,12 +206,9 @@ function, is to use the resulting weight matrix $W \in \mathbb{R}^{|V| \times
 the hidden layer acts as a bottleneck that tries to represent as much
 information as possible to distinguish the nodes, but is only allowed $d$
 neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
-
-*** Create here an image resembling the one found in the blog post on SkipGram
-but for graphs and with $d$ dimensions ***\\
-
 % This creates the neural network diagram for the SkipGram neural network
-
+\begin{figure}[h!]
+  \centering
 \tikzset{%
   every neuron/.style={
     circle,
@@ -239,12 +236,12 @@ but for graphs and with $d$ dimensions ***\\
 
 \foreach \l [count=\i] in {1}
   \draw [<-] (input-\i) -- ++(-1,0)
-    node [above, midway] {$e_v$};
+    node [above, midway] {$e_v \in \R^{|V|}$};
 
 \foreach \l [count=\i] in {1,d}
   \node [above] at (hidden-\i.north) {$H_\l$};
 
-\foreach \l [count=\i] in {1,2,3,n}
+\foreach \l [count=\i] in {1,2,3,|V|}
   \draw [->] (output-\i) -- ++(1,0)
     node [above, midway] {$o_{\l}$};
 
@@ -256,21 +253,23 @@ but for graphs and with $d$ dimensions ***\\
   \foreach \j in {1,2,3,...,4}
     \draw[orange] [->] (hidden-\i) -- (output-\j);
 
-\node [align=center, above] at (0,2) {Input\\Vector};
-\node [align=center, above] at (2,2) {Hidden Layer\\Linear};
-\node [align=center, above] at (4,2) {Output Layer\\Softmax};
-
-
-\end{tikzpicture}\\
+\node [align=center, above] at (0,2) {Input Vector};
+\node [align=center, above] at (2,2) {Hidden Layer\\\textit{Linear}};
+\node [align=center, above] at (4,2) {Output Layer\\\textit{Softmax}};
+\end{tikzpicture}
+\caption{The structure of the neural network that is trained to obtain
+  the weight matrix $W$ used for the network embeddings in the SkipGram algorithm.}
+\end{figure}
+\\
 The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
 discussed. Calculating the normalization factor in the Softmax layer requires a
-computational complexity of $O(|V|)$, in the original DeepWalk paper this is
+computational complexity of $O(|V|)$, which is intractable since this is often
+in the millions or billions. In the original DeepWalk paper this is
 reduced by using Hierarchical Softmax to approximate the softmax probabilities,
 requiring a complexity of only $O(log|V|)$. In particular, a Huffman coding is
 used to reduce the access time of frequent elements in the tree, as suggested by
 Mikolov et al. in the original Word2Vec
-papers.\cite{mikolov2013distributed,mikolov2013efficient}
-
+papers.\cite{mikolov2013efficient,mikolov2013distributed}\\
 In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used instead of
 Hierarchical Softmax. In the remainder of this essay, when referring to DeepWalk, it will be
 implicitly assumed that Negative Sampling is used as appose to Hierarchical
@@ -278,59 +277,55 @@ Softmax. This is because SGNS has been found to be more efficient
 and therefore has been adopted by much of the further literature. This convention will also
 serve us well when we look at applying DeepWalk to dynamic graphs since here
 Negative Sampling is also applied.\\
-
 *** Can give a summary of NS here, if so just summarise what is said in Blog
-Post 2 on SkipGram ***
+Post 2 on SkipGram ***\\
 *** Has NS been shown, or just found empirically, to be more efficient then
-Hierarchical Softmax? Check node2vec paper for information on this. ***
-
+Hierarchical Softmax? Check node2vec paper for information on this. ***\\
 \subsection{SkipGram as matrix factorisation}
 In this section we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matricies $W$
-and $C$ where the rows in $W$ correspond to the learned embedding of each vertex. This result was first proved by Levy and
+and $C$ where the rows in $W$ correspond to the learned embedding of each vertex
+in the graph. This result was first proved by Levy and
 Goldberg\cite{levy&goldberg} in the context of word embeddings.\\
 \subsubsection{Objective of SGNS}
 Given an arbitrary input-context pair $(v,c)$ the objective is to determine if
 the pair comes from the random-walk corpus $\mathcal{D}$.\\
 Let $P(\D = 1 | v, c)$ denote the probability that $(v,c)$ comes from a random
 walk on the graph and $P(\D = 0| v, c)$
-the probability it does not. Then the distribution is modelled by a signoid
+the probability it does not. Then the distribution is modelled by a sigmoid
 function
 \[P(D = 1 | v, c) = \sigma(\vec{v} \cdot \vec{c}) = \frac{1}{1 + e^{-\vec{v} \cdot \vec{c}}}\]
 where $\vec{v}$ and $\vec{c}$ are $d$-dimensional vectors to be learned. SGNS attempts to maximise $P(\mathcal{D} = 1 | v,c)$ for observed pairs $(v, c)$
 whilst simultaneously maximising $P(\D = 0 | v, c)$ for randomly sampled
 negative examples.\\
 It assumes that randomly selecting a context $c$ for a given
-node $v$ is likely to result in an unobserved pair $(v,c)$. In the context of
+node $v$ is likely to result in a ``negative sample'', an unobserved pair $(v,c)$. In the context of
 social networks, this assumption is reasonable since social networks are almost
 always sparse (The number of edges is usually $O(|V|)$). However in a different
 context, if the network is dense, then this may be an unreasonable assumption.\\
-
 According to this assumption, the objective function of SGNS for a single
 observation $(v,c)$ is:
-
-\[l(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
+\[\phi(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
 where the minus sign comes from the fact that $1 - \sigma(x) = \sigma(-x)$, $b$
 is the number of negative samples and $c_N$ is the sampled context node, drawn
 according to $P_D (c) = \frac{\#(c)}{| \D |}$ which is known as the unigram
 distribution.\\
 
+*** The objective function and this bit generally needs more explanation, read
+Mikolev et al. to get a better grasp. It is not clear here. ***
 \begin{notation} $\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
   $(v,c)$, vertex $v$ and context $c$ appear in the generated random-walk corpus
   $\mathcal{D}$ respectively.
 \end{notation}
-
 This objective function is trained using stochastic gradient descent with
 updates after each  observed pair in the random-walk corpus $\D$. The resulting
 global objective becomes
 \begin{equation}
-  \mathcal{L} = \sum_{v \in V} \sum_{c \in V} l(v, c)
+  \mathcal{L} = \sum_{v \in V} \sum_{c \in V} \phi(v, c)
 \end{equation}
-
 \subsubsection{Finding the similarity function learned by SkipGram}
-
 If we let $W$ be the matrix with rows $v_i$ (The matrix $W$ is used to highlight
-that it is the weight matrix in the neural network previosly described) and $C$ the matrix with columns
+that it is the weight matrix in the neural network presented in [Figure XX]) and $C$ the matrix with columns
 $c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{v_i} \cdot
 \vec{c_j}$. Therefore SGNS is factorising a matrix in which each row corresponds
 to an input node $v_i \in |V|$ and each column to a context node $c_j \in |V|$ and the value of $M_{ij}$ expresses the
@@ -350,7 +345,7 @@ function $s(v_i,c_j)$. What is the similarity function learned by SkipGram?
   *** WHY. EXPLAIN THIS. Why not sufficiently large value of $|\D|$, why does $d$
   matter here? ***
 
-  Due to this independence, the objective function $l$ can be maximised with
+  Due to this independence, the objective function $\mathcal{L}$ can be maximised with
   respect to each pair $v \cdot c$ individually.
 
   The expectation term can be written explicitly as
@@ -365,16 +360,16 @@ function $s(v_i,c_j)$. What is the similarity function learned by SkipGram?
   where the second term comes from the fact that $\#(v) = \sum_{c \in V}\#(v,c)$
   by definition. Combining these equations gives that the local objective for an input-context
   pair is
-  \begin{equation}
-    l(v, c) = \#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \#(v)\cdot \frac{\#(c)}{|\D|}\log{-\sigma(-\vec{v} \cdot \vec{c})} 
-  \end{equation}
+  \begin{equation*}
+    \phi(v, c) = \#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \#(v)\cdot \frac{\#(c)}{|\D|}\log{-\sigma(-\vec{v} \cdot \vec{c})} 
+  \end{equation*}
   To simplify the notation let $x = \vec{v} \cdot \vec{c}$ and, since we are
   assuming each of the $\vec{v_i} \cdot \vec{c_j}$ to take their values
   independently, we take the partial derivatve with respect to $x$ and optimise
   the local objective:
-  \[\frac{\partial{l}}{\partial{x}} = \#(v, c) \cdot \log{\sigma(-x)} - b \cdot
+  \[\frac{\partial{\phi}}{\partial{x}} = \#(v, c) \cdot \log{\sigma(-x)} - b \cdot
     \#(v) \cdot \frac{\#(c)}{|\D|} \cdot \sigma(x)\]
-  Where the derivatives are since $\frac{d}{dx} \sigma(x) = \sigma(-x)$. Setting
+  Where the derivatives are since $\sigma'(x) = \sigma(-x)$. Setting
   the derivative to zero and multipying through by
   $\frac{-e^x}{\sigma(x)\sigma(-x)}$ gives:
   \[\frac{b \cdot \#(v) \cdot \#(c)}{|\D|}e^{2x} + \left( \frac{b \cdot \#(v)
@@ -386,11 +381,10 @@ function $s(v_i,c_j)$. What is the similarity function learned by SkipGram?
   logs gives
   \[M_{ij} = \vec{v} \cdot \vec{c} = log{\left( \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot
           \#(c)} \right)} - \log{b}\]
-  
 \end{proof}
 Most interestingly, the resulting expression for the similarity function $s$ is
 the pointwise mutual information (PMI) shifted by a factor of $\log b$. PMI was
-introduced as a measure of association between words in 1990 by Church and Hanks
+first introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
 *** Would make sense to go into this more ***\\
 There is an equivalent theorem for SkipGram with Softmax that was proved by Yang
@@ -409,10 +403,7 @@ shown here since we will only be concerned with SGNS.
 We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
 al.\cite{qiu2018} published in 2018 building upon work by Yang et al.\cite{yang2015}
 from 2015. The aim of the former paper was to lay the foundationds for, and
-unify, the SkipGram based network embedding methods.\\
-
-First we give some preliminary definitions.
-
+unify, the SkipGram based network embedding methods. First we give some preliminary definitions.
 \begin{definition}[Adjacency Matrix (A)]
   The adjacency matrix $A \in \R^{|V| \times |V|}$ for a graph $G$ is the matrix with $A_{ij} = 1$ if $(v_i, v_j) \in E(G)$ and $A_{ij} = 0$ otherwise.
 \end{definition}
@@ -428,19 +419,16 @@ First we give some preliminary definitions.
   \in E(G)$ and $P_{ij} = 0$ otherwise. It is the transition matrix
   corresponding to a simple random walk on the graph $G$. 
 \end{definition}
-
 In their paper, Qiu et al. gave a theoretical understanding of the DeepWalk
 algorithm by proving the following theorem:
-
 \begin{restatable}[DeepWalk as implicit matrix factorisation]{theorem}{MainDeepWalk}
-  As $t \to \infty$, DeepWalk is equivalent to factorising
+  As $l \to \infty$, DeepWalk is equivalent to factorising
   \[\log{\left(\frac{2|E|}{w}\left( \sum_{r = 1}^w P^r  \right) D^{-1}
       \right)} - \log{b}\]
   where $b$ is the negative sampling rate.
 \end{restatable}
-
 The theorem assumes that the graph is undirected and that it is connected so
-that $P$ is irreducible. The theorem also assumes that the graph is
+that $P$ is irreducible. It is also assumed that the graph is
 non-bipartite to ensure that the random walk converges to it's invariant distribution. In the application to
 social network graphs, this
 assumption will almost certainly hold as the existence of an odd cycle is
@@ -449,15 +437,13 @@ representing mutual friends or connections). It is possible however that the
 graph is not connected, in this case a dummy node can be introduced which
 contains edges to all nodes which will not affect the community structure,
 provided the graph sub-communities are sufficiently dense.
-What follows is a careful outline of this proof.\\
-
+What follows in the remainder of this section is a careful outline of the proof.\\
 *** If want to include details on bipartite asssumption, see the folder for
 DeepWalk for more information. ***\\
-
-Then $\pi_i = \frac{d_i}{2|E|}$ satisfies the detailed balance equations:
+Firstly, $\pi_i = \frac{d_i}{2|E|}$ satisfies the detailed balance equations:
 \[\pi_i P_{ij} = d_i\cdot \frac{1}{d_i} = d_j \cdot \frac{1}{d_j} = \pi_j P_{ji}\]
 and $\sum_{v_i \in V} \pi_i = 1$.Thus $\pi$ defines a distribution which is
-invariant for the simple random walk on the graph. Since the state space is
+invariant for a simple random walk on the graph. Since the state space is
 finite and by assumption, $P$ is irreducible, a random walk on $G$ defines an
 irreducible Markov Chain $X$ with transition matrix $P$. Therefore $\pi$ is
 unique by the following theorem
@@ -473,15 +459,16 @@ unique by the following theorem
     particular, $\pi$ is unique.
   \end{itemize}
 \end{theorem}
-
 This is a standard proof in any course on Markov Chains and so the proof is
-omitted here. See Page 31 of \cite{markov_chains} for details of a proof.
-
-To proceed with the first important preliminary lemma, one can proceed by
-partitioning the random-walk corpus as follows.
+omitted here. See Page 31 of \cite{markov_chains} for details of a proof. As
+well as this, since $P$ is irreducible and thus positive recurrent since the
+graph is finite, under the further assumption that a simple random walk on the
+graph is aperiodic the distribution of the chain tends towards $\pi$ as
+$l \to \infty$.\\
+To proceed with the first lemma it is useful to partition the random-walk corpus as follows:
 
 \begin{definition}
-  For $r = 1, \dots, t$, we define the following
+  For $r = 1, \dots, k$, we define the following
   \[\D_{\rar} = \{ (v, c) : (v, c) \in \D, v = v_j, c = v_{j+r}\}\]
   \[\D_{\lar} = \{ (v, c) : (v, c) \in \D, v = v_{j+r}, c = v_{j}\}\]
   *** Need to give a proper definition to clarify what I mean here ***
@@ -493,7 +480,7 @@ As an extension of previous definitions, we let $\#(v, c)_{\rar}$ and $\#(v,
 c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
 in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
 \begin{lemma}
-  As $t \to \infty$, we have
+  As $l \to \infty$, we have
   \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \  \text{and}
     \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \]
 \end{lemma}
@@ -515,29 +502,24 @@ in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
   singleton distribution of vertices will tend to the invariant distribution,
   referencing Modern Graph Theory, Bollobas ***
 \end{proof}
-
 From this we can show that
-
 \begin{lemma}
-  When $t \to \infty$, we have
-  \[\frac{\#(w, c)}{|\D|} \overset{p}{\to} \frac{1}{w} \sum_{r = 1}^w \pi_v
+  When $l \to \infty$, we have
+  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{w} \sum_{r = 1}^w \pi_v
     (P^r)_{v,c}\]
 \end{lemma}
 \begin{proof}
-  \begin{align}
-    \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^w (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^w (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2w} \sum_{r=1}^w \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
+  \begin{align*}
+    \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^k (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^k (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2k} \sum_{r=1}^k \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
                           &\overset{p}{\to} \frac{1}{r}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}
-  \end{align}
+  \end{align*}
   where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
-  \frac{|\D|}{2w}$ and the convergence comes from applying [Theorem XX],
+  \frac{|\D|}{2k}$ and the convergence comes from applying [Theorem XX],
   together with the continuous mapping theorem.
 \end{proof}
-
 This gives everything we need to prove the main theorem of this section, that
 allows us to understand the matrix that DeepWalk is implicitely factorising.
-
 \MainDeepWalk*
-
 \begin{proof}
   Firstly, by summing the result of [Theorem XX] we get
   \begin{align*}
