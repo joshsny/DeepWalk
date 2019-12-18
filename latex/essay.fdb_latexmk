@@ -1,18 +1,18 @@
 # Fdb version 3
-["bibtex essay"] 1576675263 "essay.aux" "essay.bbl" "essay" 1576675263
+["bibtex essay"] 1576680158 "essay.aux" "essay.bbl" "essay" 1576680158
   "/usr/local/texlive/2019/texmf-dist/bibtex/bst/base/ieeetr.bst" 1292289607 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
-  "essay.aux" 1576675260 7992 c6b1dcf0ef149951cb60d2136ad4e12c "pdflatex"
+  "essay.aux" 1576679917 8418 26ba5a2c414d4989ddf8acea4e977f8e "pdflatex"
   "references.bib" 1576529861 4664 ca6c4f278a9b5ebb15e91c7141c20390 ""
   (generated)
-  "essay.bbl"
   "essay.blg"
-["makeindex essay.idx"] 1575994572 "essay.idx" "essay.ind" "essay" 1576675263
-  "essay.idx" 1576675258 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "essay.bbl"
+["makeindex essay.idx"] 1575994572 "essay.idx" "essay.ind" "essay" 1576680158
+  "essay.idx" 1576679915 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "essay.ind"
   "essay.ilg"
-["pdflatex"] 1576675263 "essay.tex" "essay.pdf" "essay" 1576675263
-  "/dev/null" 1576675260 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1576680158 "essay.tex" "essay.pdf" "essay" 1576680158
+  "/dev/null" 1576680139 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2019/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2019/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -194,6 +194,7 @@
   "/usr/local/texlive/2019/texmf-dist/tex/latex/amsmath/amstext.sty" 1523134290 2432 8ff93b1137020e8f21930562a874ae66 ""
   "/usr/local/texlive/2019/texmf-dist/tex/latex/base/article.cls" 1544567569 19933 3097d1b31d3c45dc957096f554529032 ""
   "/usr/local/texlive/2019/texmf-dist/tex/latex/base/ifthen.sty" 1523050425 5161 c004ea5a189d4bdcf42e86754ad75a58 ""
+  "/usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd" 1523050425 2472 aa08940f0a4dc6c24ae9f943b04ae0b9 ""
   "/usr/local/texlive/2019/texmf-dist/tex/latex/base/size10.clo" 1544567569 8294 6d6e23d5169c0d89d173f6c7e08a005a ""
   "/usr/local/texlive/2019/texmf-dist/tex/latex/blindtext/blindtext.sty" 1325892463 47295 de48b7f8ebf4b54709a2f6b2c7106dd5 ""
   "/usr/local/texlive/2019/texmf-dist/tex/latex/carlisle/remreset.sty" 1527714620 1374 b7edb155e1fbb0886f1ab01c6cdb811f ""
@@ -274,19 +275,19 @@
   "/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1557342064 3277517 23507ed665b4dd9046f0f2a94bbef2be ""
   "/usr/local/texlive/2019/texmf-var/web2c/pdftex/pdflatex.fmt" 1573753515 4259637 1d5f180e6a9a9162d2940f192b4a6438 ""
   "/usr/local/texlive/2019/texmf.cnf" 1557341546 577 d150fef99ac436ad1156e86b0892f6ef ""
-  "essay.aux" 1576675260 7992 c6b1dcf0ef149951cb60d2136ad4e12c "pdflatex"
-  "essay.bbl" 1576675263 2149 9aeba057d1768170698b995d8295f52f "bibtex essay"
-  "essay.ind" 1576675260 0 d41d8cd98f00b204e9800998ecf8427e "makeindex essay.idx"
-  "essay.out" 1576675260 2699 0a81a4a2f9241167f6c226c233045888 "pdflatex"
-  "essay.tex" 1576675262 41868 ef4af4c88f949e22ba7e8930e62a10dd ""
-  "essay.toc" 1576675260 1348 11e5aeddf1d07c025fc6c225207ea790 "pdflatex"
+  "essay.aux" 1576679917 8418 26ba5a2c414d4989ddf8acea4e977f8e "pdflatex"
+  "essay.bbl" 1576680158 2149 9aeba057d1768170698b995d8295f52f "bibtex essay"
+  "essay.ind" 1576679917 0 d41d8cd98f00b204e9800998ecf8427e "makeindex essay.idx"
+  "essay.out" 1576679917 2699 0a81a4a2f9241167f6c226c233045888 "pdflatex"
+  "essay.tex" 1576680157 42795 2d11860640b594860fc9812b850ceba1 ""
+  "essay.toc" 1576679917 1348 dda32638aae8e96c23a78fbd55737457 "pdflatex"
   "header.tex" 1574263364 7853 1281ad587fca0e9b61a6af20cd4ad2de ""
   "src/DeepWalkOnKarateGraph.png" 1576528551 112754 16562e906b287d0c45e5292fb1e6b616 ""
   "titlepage.tex" 1572867528 522 fd652871a20616bf781724b5030399f6 ""
   (generated)
-  "essay.out"
-  "essay.log"
-  "essay.toc"
-  "essay.pdf"
-  "essay.aux"
   "essay.idx"
+  "essay.toc"
+  "essay.log"
+  "essay.aux"
+  "essay.pdf"
+  "essay.out"

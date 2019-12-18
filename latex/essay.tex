@@ -535,28 +535,21 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
   it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\to} \pi_c$.\\
   Using this and by applying the continuous mapping theorem
   \begin{align*}
-    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} & \overset{p}{\to} \frac{\frac{1}{w}\sum_{r=1}^{w} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
-                                                                                                                             &=\frac{2|E|}{w}\sum_{r=1}^w (P^r)_{v,c} \frac{1}{d_c} = \frac{2|E|}{w}\left( \sum_{r=1}^w(P^rD^{-1})_{v,c} \right)
+    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} & \overset{p}{\to} \frac{\frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
+                                                                                                                             &=\frac{2|E|}{k}\sum_{r=1}^k (P^r)_{v,c} \frac{1}{d_c} = \frac{2|E|}{k}\left( \sum_{r=1}^k(P^rD^{-1})_{v,c} \right)
   \end{align*}
   where the last equality follows since $D$ is diagonal.\\
-
-  From this, applying [Theorem XX] gives that as $t \to \infty$ DeepWalk is equivalent to
+  From this, applying [Theorem XX] gives that as $l \to \infty$ DeepWalk is equivalent to
   factorising
-  \[\log \left( \frac{2|E|}{w}\left( \sum_{r=1}^w P^r \right)D^{-1}\right) - \log{b}\]
+  \[\log \left( \frac{2|E|}{k}\left( \sum_{r=1}^k P^r \right)D^{-1}\right) - \log{b}\]
 \end{proof}
-
 This proof gives a better understanding of what the DeepWalk algorithm is doing.
 There are many other good questions to ask about DeepWalk, for example whether
-the algorithm is garunteed to converge under stochastic gradient descent, but we
-will not explore this any further in this essay.
+the algorithm is gaurunteed to converge under stochastic gradient descent, but
+these questions will not explored in this essay.
 
-*** Here can talk about how long it takes to tend towards this, potentially talk
-briefly on convergence of stochastic gradient descent etc. Important point, how
-large does $t$ need to be for this to be meaningful? ***
-
-*** Can I try and use the above result to show that DeepWalk is garunteed to
-converge, in other words that the objective function is convex ***
-
+*** Here can talk about how long it takes to tend towards this. Important point, how
+large does $l$ need to be for this to be meaningful? ***
 \section{DeepWalk Sucks}
 Whilst the original DeepWalk paper made a huge impact on the future development
 of social representation learning on graphs, the algorithm itself has a number
@@ -584,21 +577,18 @@ towards network embeddings for Dynamic datasets. In particular, the focus of the
 section is to introduce an adaptation of DeepWalk to dynamic datasets as
 proposed in the paper published by Sajjad et al.\cite{sajjad2019} in early
 2019.\\
-
 As stated in the motivation for the paper, most of the recently developed
 representation learning methods can only be applied to static graphs while many
 real-world graphs are constantly changing over time. Therefore, to apply these
 methods the graph must be reanalysed at regular snapshots in time. This is very
-inneficient since in a given epoch, it is unlikely that the graph structure will
-change dramatically. Sajjad et al. proposed a modified version of the DeepWalk
+inneficient. Sajjad et al. proposed a modified version of the DeepWalk
 algorithm that is better suited to dynamic graphs and utilises the fact that the
 graph structure is unlikely to change significantly to develop a much more
 efficient way of analyzing social representation on dynamic graphs.
 The computational complexity of the algorithm depends on the graph density and
 number of edges added per epoch, however in the case of social networks these
-are both low and so the alggorithm is well suited to this application.\\
-
-Previous algorithms to be used on dynamic graphs have not effectively used what
+are both low and thus the algorithm is well suited to this application.\\
+Previous algorithms to be used on dynamic graphs have not used what
 was learned about the graph in previous snapshots to efficiently calculate the
 node representations in the next snapshot of time. The problem of doing so can
 be split into two main tasks:
@@ -615,17 +605,38 @@ be split into two main tasks:
   to be generated from scratch every time step.
   
 \end{enumerate}
-
+In what follows both of these tasks are explored. Firstly it is necessary to introduce notation appropriate for dynamic graphs.
+\begin{definition}
+A dynamic network graph is a series of network graphs $\G^t = \{\V^t,
+  \mathcal{E}^t\}$ with $\V^t = \{v_1^t, \dots, v_{n(t)}^t\}$ and $\mathcal{E}^t = \{e_1^t, \dots,
+  e_{m(t)}^t\}$, with $t$ a discrete series of times.
+\end{definition}
+A dynamic network graph is a series of updates to network graphs that consist of
+adding/removing vertices and/or edges to the graph.
+\begin{definition}[Deleted and added vertex sets]
+  The sets of vertices and edges of the graph that are deleted from time $t$
+  to $t+1$ are denoted by $D_{\V}^{t+1}$ and $D_{\mathcal{E}}^{t+1}$ respectively. The
+  sets of added vertices and edges are denoted $A_{\V}^{t+1}$ and
+  $A_{\mathcal{E}}^{t+1}$.\\
+  The sets of all vertices contained in the added and deleted edges are denoted
+  $\V(A_{\V}^{t+1})$ and $\V(D_{\mathcal{E}}^{t+1})$ respectively.
+\end{definition}
+Then to analyse the effect of changes on the random walks we define the
+following terms:
+\begin{itemize}
+  \item \textit{Affected vertices}: All vertices that are in the set of vertices
+    contained in the set of added edges and the set of removed edges which have
+    not been deleted.
+    \[\V_{\text{affected}}^{t+1} = \V(A_{\mathcal{E}}^{t+1}) \cup
+      \V(D_{\mathcal{E}}^{t+1}) \setminus D_{\V}^{t+1}\]
+\end{itemize}
 \subsection{Updating the Random Walk Corpus}
-
-As a first solution to the problem of generating new random walks for the random
-walk corpus an algorithm called Naïve Update [Algorithm XX] is introduced. This
-algorithm initialises random walks for the affected vertices and creates random
-walks of length $l$. Once this is complete, it updates the random walks $W^t$ by
+As a preliminary solution to the problem of generating new random walks for the random
+walk corpus an algorithm called Naïve Update Algorithm 2 is introduced. This
+algorithm generates random walks of length $l$ for each of the affected vertices. Once this is complete, it updates the random walks $W^t$ by
 replacing the old walks with the corresponding re-generated walks and adds the
 random walks initiated from new vertices.\\
-
-\begin{algorithm}
+\begin{algorithm}[!h]
   \caption{Naïve Update}
   \begin{algorithmic}[1]
 
@@ -641,20 +652,14 @@ random walks initiated from new vertices.\\
 
   \end{algorithmic}
 \end{algorithm}
-
-However, the authors show by way of example that the Naïve update algorithm has
+However, Sajjad et al. show by way of example that the Naïve update algorithm has
 biased empirical transition probabilities and that the resulting corpus of
 random walks is not statistically indistinguishable from generating a new random
 walk corpus at time $t+1$. To solve this problem a more sophisticated algorithm
 must be introduced.
-
-*** If looking for something to put in, I can put in the example given in the
-paper which would take up approx 1 page, left it out in case my essay is already
-too long ***
-
 \subsubsection{Unbiased Update}
 
-\begin{algorithm}
+\begin{algorithm}[!h]
   \caption{Unbiased Update}
   \begin{algorithmic}[1]
 
@@ -677,67 +682,56 @@ too long ***
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-
 *** In the procedures I need to be clear about what initWalks and randomwalk are
-doing ***
-
+doing ***\\
 The motivation behind the unbiased update algorithm is the following: Consider a
 random walk that has arrived at a vertex $v$ at any point along the walk, if
 this vertex is not in the set $\V^{t+1}_{\text{affected}}$ then there is no
 change to it's neighbours and thus the choice for the next vertex in the random
 walk remains the same. However if $v \in \V^{t+1}_{\text{affected}}$ then the
 neighbours of the vertex have changed which makes the random walk biased from
-this vertex onwards since it evolves with incorrect transition probabilities. Therefore only the affected walks need to be updates to retain a statistically
+this vertex onwards since it evolves with incorrect transition probabilities. Therefore only the affected walks need to be updated to retain a statistically
 satisfactory set of random walks at time $t+1$.\\
 
 The Unbiased Update algorithm updates only those walks that contain vertices in
 $\V^{t+1}_{\text{affected}}$ and does so by re-sampling the affected walks from
-the first affected vertex in the walk. Searching for the affected vertices in
-each of the affected walks is computationally expensive so another algorithm,
+the first affected vertex in the walk. Searching for these affected vertices is computationally expensive so another algorithm,
 Fast Update, is also suggested that generates the affected walks from the
 begginning instead of trimming them. Whilst computationally more efficient, this
 generates a biased random walk corpus. This is because by applying the Fast Update routine, we have
 effectively generated random walks on the graph $\G^{t+1}$ and then regenerated
-all walks that hit an affected vertex, which is clearly biased towards walks
+all walks that hit an affected vertex, results in a corpus that is biased towards walks
 that do not visit the affected vertices.\\
-
 In practice, when implementing the Unbiased Update algorithm the random seed
-that is used to generate each of the random walks can be stored and then used to
+that is used to generate each of the walks can be stored and then used to
 regenerate the random walks up to their first affected vertex by reusing the
 seed. Therefore the Unbiased Update algorithm can be implemented with the same
 complexity as the Fast Update algorithm.\\
-
-
 *** Can I give a proof that the Unbiased Update algorithm does indeed generate
 an unbiased corpus? They have given an explanation but it is not very
 mathematical. ***\\
-
-
 *** Can include the complexity analysis if need be but it is not particularly
 informative ***
 
 \subsection{Updating the Vertex Representations Efficiently}
-
 Once the updated random walk corpus $W^{t+1}$ has been calculated, the vertex
 representations must be updated. In the DeepWalk algorithm, SkipGram is used to
-optimize the objective function [Point to SGNS Objective function] using SGNS.
+optimize the objective function $\mathcal{L}$ using SGNS.
 The algorithm starts by initialising the vertex representations randomly and
 uses stochastic gradient descent to optimize the objective function over the
 input-context pairs in $\D_{t+1}$.\\
-
 However, initialising the representations randomly in the dynamic case is
-inefficient since between each time epoch the vertex representations are
+inefficient since between each epoch the optimal vertex representations are
 similar. It is therefore much more efficient to initialise the vertex
-representations at time $t+1$ as the corresponding representations at time $t$,
-randomly initialising any new vertices, before performing stochastic gradient
+representations at time $t+1$ as the corresponding representations at time $t$
+with any new vertices being randomly initiated, before performing stochastic gradient
 descent to minimize the SGNS objective function over the new random walks corpus
-$\D_t$. The idea behind this is similar to using pretrained weights in a transfer
+$W^{t+1}$. The idea behind this is similar to using pretrained weights in a transfer
 learning problem instead of initialising weights randomly and results in
-stochastic gradient descent converging at a much faster rate.
-
-*** A downside of this is if the function is not convex and SGD gets stuck in a
-local minima then it is more likely to stay there ***
-
+stochastic gradient descent converging at a much faster rate.\\
+A potential downside of this is that if the objective function is not convex and
+stochastic gradient descent gets stuck in a local minima whilst training then it
+is more likely to stay there.\\
 \section{Discussion of an application}
 
 The aim of this section is to bring the theory discussed on Dynamic DeepWalking
