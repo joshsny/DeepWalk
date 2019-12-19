@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  19 DEC 2019 15:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  19 DEC 2019 16:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1921,8 +1921,18 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 796.
  (./essay.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 796.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 796.
-Package rerunfilecheck Info: File `essay.out' has not changed.
-(rerunfilecheck)             Checksum: 85D43D87764C22EE074FA6E0CB226EFE;3323.
+
+
+Package rerunfilecheck Warning: File `essay.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `essay.out':
+(rerunfilecheck)             Before: 85D43D87764C22EE074FA6E0CB226EFE;3323
+(rerunfilecheck)             After:  9C33295FD9FFE565E914BE44CEDCCE5F;3323.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
  48123 strings out of 492616
@@ -1951,7 +1961,7 @@ e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
 exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2019/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2019/tex
 mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on essay.pdf (23 pages, 395861 bytes).
+Output written on essay.pdf (23 pages, 396280 bytes).
 PDF statistics:
  367 PDF objects out of 1000 (max. 8388607)
  316 compressed objects within 4 object streams

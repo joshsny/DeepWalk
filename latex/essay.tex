@@ -286,7 +286,7 @@ Negative Sampling is also applied.\\
 Post 2 on SkipGram ***\\
 *** Has NS been shown, or just found empirically, to be more efficient then
 Hierarchical Softmax? Check node2vec paper for information on this. ***\\
-\subsection{SkipGram as matrix factorisation}
+\subsection{SkipGram as Matrix Factorisation}
 In this section we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matricies $W$
 and $C$ where the rows in $W$ correspond to the learned embedding of each vertex
@@ -328,7 +328,7 @@ global objective becomes
 \begin{equation}
   \mathcal{L} = \sum_{v \in V} \sum_{c \in V} \phi(v, c)
 \end{equation}
-\subsubsection{Finding the similarity function learned by SkipGram}
+\subsubsection{Finding the Similarity Function Learned by SkipGram}
 If we let $W$ be the matrix with rows $v_i$ (The matrix $W$ is used to highlight
 that it is the weight matrix in the neural network presented in [Figure XX]) and $C$ the matrix with columns
 $c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{v_i} \cdot
@@ -404,7 +404,7 @@ of the verticies in a social graph.
 The proof of this follows very similarly to the previous theorem and will not be
 shown here since we will only be concerned with SGNS.
 
-\subsection{DeepWalk as matrix factorisation}
+\subsection{DeepWalk as Matrix Factorisation}
 We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
 al.\cite{qiu2018} published in 2018 building upon work by Yang et al.\cite{yang2015}
 from 2015. The aim of the former paper was to lay the foundationds for, and

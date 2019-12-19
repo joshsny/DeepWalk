@@ -3,10 +3,10 @@
 \contentsline {subsection}{\numberline {1.2}Preliminary Notation}{3}{subsection.1.2}% 
 \contentsline {section}{\numberline {2}DeepWalk}{5}{section.2}% 
 \contentsline {subsection}{\numberline {2.1}Introduction to DeepWalk}{5}{subsection.2.1}% 
-\contentsline {subsection}{\numberline {2.2}SkipGram as matrix factorisation}{7}{subsection.2.2}% 
+\contentsline {subsection}{\numberline {2.2}SkipGram as Matrix Factorisation}{7}{subsection.2.2}% 
 \contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{8}{subsubsection.2.2.1}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Finding the similarity function learned by SkipGram}{8}{subsubsection.2.2.2}% 
-\contentsline {subsection}{\numberline {2.3}DeepWalk as matrix factorisation}{10}{subsection.2.3}% 
+\contentsline {subsubsection}{\numberline {2.2.2}Finding the Similarity Function Learned by SkipGram}{8}{subsubsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.3}DeepWalk as Matrix Factorisation}{10}{subsection.2.3}% 
 \contentsline {section}{\numberline {3}Deep Drawbacks}{14}{section.3}% 
 \contentsline {subsection}{\numberline {3.1}Exploring Local and Global Properties of Graphs}{14}{subsection.3.1}% 
 \contentsline {subsection}{\numberline {3.2}Capturing Structural Similarity}{14}{subsection.3.2}% 
