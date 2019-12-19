@@ -559,44 +559,60 @@ large does $l$ need to be for this to be meaningful? ***
 Whilst the original DeepWalk paper made a huge impact on the future development
 of social representation learning on graphs, the algorithm itself has a number
 of drawbacks that have been pointed out in subsequent papers. In this short
-section, I will detail some of the issues and criticism of the implementation of DeepWalk.\\
-
-Firstly, as has briefly been mentioned, in the original paper Hierarchical
-Softmax was used to estimate the probabilities in the softmax layer of SkipGram.
-This is important, since to calculate the partition function (denominator of the
-softmax probability) would normally have complexity $O(|V|)$. Using Hierarchical
-softmax however, the nodes are asssigned to the leaves of a binary tree. This
-reduces the computational complexity to $O(\log{|V|})$.\\
-
-Negative Sampling on the other hand is developed ...
-
-*** Talk about Node2Vec and improvements to DeepWalk etc. Talk about various
-shortcomings, just look at papers that came afterwards that shred DeepWalk.
-Point to the algorithms that improved it.
-
+section, I will detail some of the issues and criticism of the implementation of
+DeepWalk and some algorithms that were subsequently proposed to tackle these issues.\\
+***
 Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
 ***
 
-*** node2vec ***
-
+\subsection{Exploring Local and Global Properties of Graphs}
+There are two extreme strategies to search a graph starting from a vertex. The
+first is Breadth-First Search (BFS) which samples the immediate neighbours of
+the node and helps to understand local structure within the nodes close
+proximity. The other is Depth-First Search (DFS) which samples nodes by going as
+far away as possible from the starting vertex. BFS focusses on understanding
+local structure and DFS on global structure. By using unbiased random walks to
+try and get a fair coverage of the graph, DeepWalk does not allow for
+orientating the focus to a depth-first or breadth-first approach which is useful
+for many applications. A different algorithm, node2vec, was proposed by Grover
+and Leskovec\cite{grover_leskovec2016} aims to combine the
+properties of BFS and DFS through introducing biased random walks. New
+parameters $p,q$ are introduced which control the transition probabilities of
+the random walk on the graph. The unnormalised transition probability from $y$
+to $z$ given that the walk transitioned to $y$ from node $x$ is:
+\begin{equation}
+  p_x(y,z)= 
+  \begin{cases}
+    \frac{1}{p}& \text{if } z = x\\
+    1          & \text{if } d(x,z) = 1\\
+    \frac{1}{q}& \text{if } d(x,z) = 2\\
+  \end{cases}
+\end{equation}
+Varying $p$ and $q$ affects the random walks likelihood to travel far away
+versus exploring locally. Therefore by controlling these parameters a balance
+between BFS and DFS can be achieved. By biasing the random walks in a creative
+way and learning good parameters for $p,q$ appropriately for each graph (e.g
+using a grid search) node2vec shows superior performance for learning vertex
+representations used in a number of upstream classification tasks, including on
+the BlogCatalog and Wikipedia datasets used in the original DeepWalk paper.
 \subsection{Capturing Structural Similarity}
-Another drawback of both DeepWalk and node2vec is that both of these algorithms
-do well at capturing neighbourhouds in the graph, but they do not perform well
-at capturing structural similarities amongst nodes. Applying DeepWalk to two nodes
-that have a similar structural role in the graph but are in far away locations
-will result in embeddings that are distant from eachother. An alternative
-approach that performs significantly better at this task was suggested by
-Ribeiro et al. in their paper on struc2vec\cite{}. Unlike DeepWalk, struc2vec does not
-take distance between nodes into account and instead builds a context graph
-whhere nodes are close together if they are structurally similar and then
-SkipGram is applied in a simmilar mannner to DeepWalk, but this time on the
+Another drawback of DeepWalk is that it does well at capturing neighbourhoods in the graph, but does not perform well
+at capturing structural similarities amongst nodes. That is to say that DeepWalk
+performs well at identifying node similarity via homiphily but not by structural equivalence. Applying DeepWalk to two nodes
+that have a similar structural role in the graph but are in faraway locations
+will result in embeddings that are distant from each other. An alternative
+approach that performs significantly better then both DeepWalk and node2vec at this task was suggested by
+Ribeiro et al. in their paper on struc2vec\cite{ribeiro2017}. Unlike DeepWalk, struc2vec does not
+take the distance between nodes into account and instead builds a context graph
+where nodes are close together if they are structurally similar and then
+SkipGram is applied similarly to DeepWalk, but this time on the
 context graph instead of the original graph.\\
 The approach of struc2vec is clearly to recognise a different kind of network
 structure to the one DeepWalk was created to recognise. struc2vec is more
 applicable to classification tasks where the labels depend heavily on the
 structural role of the nodes. As an example, struc2vec would be more suitable
 for the task of finding social group leaders within a large network
-graph. In such a task it is not the communities that are important to identify,
+graph. In such a task it is not the communities that are important to recognise,
 but the roles people play within their communities. For this reason, it is
 important to identify the suitability of a relational classification problem to
 the application of DeepWalk.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  18 DEC 2019 16:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.11.14)  19 DEC 2019 15:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1475,7 +1475,7 @@ l.33 \section{Introduction}
                             [1
 
 ]
-<src/DeepWalkOnKarateGraph.png, id=108, 1189.44376pt x 387.4475pt>
+<src/DeepWalkOnKarateGraph.png, id=113, 1189.44376pt x 387.4475pt>
 File: src/DeepWalkOnKarateGraph.png Graphic file (type png)
 <use src/DeepWalkOnKarateGraph.png>
 Package pdftex.def Info: src/DeepWalkOnKarateGraph.png  used on input line 46.
@@ -1574,307 +1574,298 @@ line 488.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 511.
- [12] [13]
-Underfull \hbox (badness 10000) in paragraph at lines 559--563
+ [12] [13] [14
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 564--570
-
- []
-
-[14
-
-]
+] [15]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 638.
+(mdframed)              on input line 654.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 645.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 656.
+(mdframed)              on input line 661.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 672.
 
- (/usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 656.
- [15
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 672.
+ [16
 
 ]
-./essay.tex:677: Missing $ inserted.
+./essay.tex:693: Missing $ inserted.
 <inserted text> 
                 $
-l.677     \State $W$ \leftarrow
+l.693     \State $W$ \leftarrow
                                 initWalks($\V^1_{\text{affected}}, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:677: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:693: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.677     \State $W$ \leftarrow initWalks($\V
+l.693     \State $W$ \leftarrow initWalks($\V
                                              ^1_{\text{affected}}, r$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:677: Missing $ inserted.
+./essay.tex:693: Missing $ inserted.
 <inserted text> 
                 $
-l.677     \State $W$ \leftarrow initWalks($\V^
+l.693     \State $W$ \leftarrow initWalks($\V^
                                               1_{\text{affected}}, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:679: Missing $ inserted.
+./essay.tex:695: Missing $ inserted.
 <inserted text> 
                 $
-l.679     \State $W^{t+1}$ \leftarrow
+l.695     \State $W^{t+1}$ \leftarrow
                                       randomwalk($W, l \G^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:679: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:695: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.679 ... $W^{t+1}$ \leftarrow randomwalk($W, l \G
+l.695 ... $W^{t+1}$ \leftarrow randomwalk($W, l \G
                                                   ^{t+1}$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:679: Missing $ inserted.
+./essay.tex:695: Missing $ inserted.
 <inserted text> 
                 $
-l.679 ...$W^{t+1}$ \leftarrow randomwalk($W, l \G^
+l.695 ...$W^{t+1}$ \leftarrow randomwalk($W, l \G^
                                                   {t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:681: Missing $ inserted.
+./essay.tex:697: Missing $ inserted.
 <inserted text> 
                 $
-l.681     \State $W^{t+1}$ \leftarrow
+l.697     \State $W^{t+1}$ \leftarrow
                                       update($W^t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:681: Missing $ inserted.
+./essay.tex:697: Missing $ inserted.
 <inserted text> 
                 $
-l.681     \State $W^{t+1}$ \leftarrow update($W^
+l.697     \State $W^{t+1}$ \leftarrow update($W^
                                                 t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:700: Missing $ inserted.
+./essay.tex:716: Missing $ inserted.
 <inserted text> 
                 $
-l.700     \State $\V_n$ \leftarrow
+l.716     \State $\V_n$ \leftarrow
                                    newVertices($\V_{\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:700: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:716: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.700     \State $\V_n$ \leftarrow newVertices($\V
+l.716     \State $\V_n$ \leftarrow newVertices($\V
                                                   _{\text{affected}}^1$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:700: Missing $ inserted.
+./essay.tex:716: Missing $ inserted.
 <inserted text> 
                 $
-l.700 ...\State $\V_n$ \leftarrow newVertices($\V_
+l.716 ...\State $\V_n$ \leftarrow newVertices($\V_
                                                   {\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:701: Missing $ inserted.
+./essay.tex:717: Missing $ inserted.
 <inserted text> 
                 $
-l.701     \State $V_e$ \leftarrow
+l.717     \State $V_e$ \leftarrow
                                   existingVertices($\V_{\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:701: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:717: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.701 ...ate $V_e$ \leftarrow existingVertices($\V
+l.717 ...ate $V_e$ \leftarrow existingVertices($\V
                                                   _{\text{affected}}^1$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:701: Missing $ inserted.
+./essay.tex:717: Missing $ inserted.
 <inserted text> 
                 $
-l.701 ...te $V_e$ \leftarrow existingVertices($\V_
+l.717 ...te $V_e$ \leftarrow existingVertices($\V_
                                                   {\text{affected}}^1$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:704: Missing $ inserted.
+./essay.tex:720: Missing $ inserted.
 <inserted text> 
                 $
-l.704     \State $W_{\text{affected}}$ \leftarrow
+l.720     \State $W_{\text{affected}}$ \leftarrow
                                                   filter($W^t, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:704: Missing $ inserted.
+./essay.tex:720: Missing $ inserted.
 <inserted text> 
                 $
-l.704 ..._{\text{affected}}$ \leftarrow filter($W^
+l.720 ..._{\text{affected}}$ \leftarrow filter($W^
                                                   t, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:706: Missing $ inserted.
+./essay.tex:722: Missing $ inserted.
 <inserted text> 
                 $
-l.706     \State $W_e$ \leftarrow
+l.722     \State $W_e$ \leftarrow
                                   trim($W_{\text{affected}}, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:706: Missing $ inserted.
+./essay.tex:722: Missing $ inserted.
 <inserted text> 
                 $
-l.706     \State $W_e$ \leftarrow trim($W_
+l.722     \State $W_e$ \leftarrow trim($W_
                                           {\text{affected}}, \V_e$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:707: Missing $ inserted.
+./essay.tex:723: Missing $ inserted.
 <inserted text> 
                 $
-l.707     \LineComment \leftarrow
+l.723     \LineComment \leftarrow
                                   Initialise r walks from each of the new ve...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:707: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:723: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.707 ...alks from each of the new vertices in $\V
+l.723 ...alks from each of the new vertices in $\V
                                                   _n$
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:707: Missing $ inserted.
+./essay.tex:723: Missing $ inserted.
 <inserted text> 
                 $
-l.707 ...lks from each of the new vertices in $\V_
+l.723 ...lks from each of the new vertices in $\V_
                                                   n$
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:708: Missing $ inserted.
+./essay.tex:724: Missing $ inserted.
 <inserted text> 
                 $
-l.708     \State $W_n$ \leftarrow
+l.724     \State $W_n$ \leftarrow
                                   initWalks($\V_n, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:708: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:724: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.708     \State $W_n$ \leftarrow initWalks($\V
+l.724     \State $W_n$ \leftarrow initWalks($\V
                                                _n, r$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:708: Missing $ inserted.
+./essay.tex:724: Missing $ inserted.
 <inserted text> 
                 $
-l.708     \State $W_n$ \leftarrow initWalks($\V_
+l.724     \State $W_n$ \leftarrow initWalks($\V_
                                                 n, r$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:710: Missing $ inserted.
+./essay.tex:726: Missing $ inserted.
 <inserted text> 
                 $
-l.710     \State $W$ \leftarrow
+l.726     \State $W$ \leftarrow
                                 $W_e \cup W_n$
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:710: Missing $ inserted.
+./essay.tex:726: Missing $ inserted.
 <inserted text> 
                 $
-l.710     \State $W$ \leftarrow $W_
+l.726     \State $W$ \leftarrow $W_
                                    e \cup W_n$
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:711: Missing $ inserted.
+./essay.tex:727: Missing $ inserted.
 <inserted text> 
                 $
-l.711     \State $W^{t+1}$ \leftarrow
+l.727     \State $W^{t+1}$ \leftarrow
                                       randomwalk($W, l, \G^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-./essay.tex:711: LaTeX Error: \mathcal allowed only in math mode.
+./essay.tex:727: LaTeX Error: \mathcal allowed only in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.711 ...$W^{t+1}$ \leftarrow randomwalk($W, l, \G
+l.727 ...$W^{t+1}$ \leftarrow randomwalk($W, l, \G
                                                   ^{t+1}$)
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./essay.tex:711: Missing $ inserted.
+./essay.tex:727: Missing $ inserted.
 <inserted text> 
                 $
-l.711 ...W^{t+1}$ \leftarrow randomwalk($W, l, \G^
+l.727 ...W^{t+1}$ \leftarrow randomwalk($W, l, \G^
                                                   {t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:712: Missing $ inserted.
+./essay.tex:728: Missing $ inserted.
 <inserted text> 
                 $
-l.712     \State $W^{t+1}$ \leftarrow
+l.728     \State $W^{t+1}$ \leftarrow
                                       update($W^t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./essay.tex:712: Missing $ inserted.
+./essay.tex:728: Missing $ inserted.
 <inserted text> 
                 $
-l.712     \State $W^{t+1}$ \leftarrow update($W^
+l.728     \State $W^{t+1}$ \leftarrow update($W^
                                                 t, W^{t+1}$)
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
@@ -1883,18 +1874,18 @@ you left one out. Proceed, with fingers crossed.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 717--727
+Underfull \hbox (badness 10000) in paragraph at lines 733--743
 
  []
 
-[16]
-Underfull \hbox (badness 10000) in paragraph at lines 749--767
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 765--783
 
  []
 
-[17] [18] [19
+[18] [19] [20
 
-] (./essay.bbl [20
+] (./essay.bbl [21
 
 ]
 Underfull \hbox (badness 1137) in paragraph at lines 17--20
@@ -1908,25 +1899,36 @@ Underfull \hbox (badness 2680) in paragraph at lines 17--20
 OT1/cmr/m/it/10 CoRR\OT1/cmr/m/n/10 ,
  []
 
-) [21
+
+Underfull \hbox (badness 5274) in paragraph at lines 61--64
+[]\OT1/cmr/m/n/10 D. R. Figueiredo, L. F. R. Ribeiro, and P. H. P. Saverese,
+ []
+
+
+Underfull \hbox (badness 1082) in paragraph at lines 61--64
+\OT1/cmr/m/n/10 ``struc2vec: Learn-ing node rep-re-sen-ta-tions from struc-tura
+l iden-tity,''
+ []
+
+) [22
 
 ]
 runsystem(makeindex essay.idx)...executed safely (allowed).
 
  (./essay.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 780.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 780.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 796.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 796.
  (./essay.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 780.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 780.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 796.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 796.
 Package rerunfilecheck Info: File `essay.out' has not changed.
-(rerunfilecheck)             Checksum: 2B0CF8F6AD5286369B4B72773064FA03;3012.
+(rerunfilecheck)             Checksum: 85D43D87764C22EE074FA6E0CB226EFE;3323.
  ) 
 Here is how much of TeX's memory you used:
- 48115 strings out of 492616
- 1064585 string characters out of 6129480
- 1210660 words of memory out of 5000000
- 51295 multiletter control sequences out of 15000+600000
+ 48123 strings out of 492616
+ 1064708 string characters out of 6129480
+ 1210736 words of memory out of 5000000
+ 51298 multiletter control sequences out of 15000+600000
  543175 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,23n,119p,824b,1045s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1949,10 +1951,10 @@ e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
 exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2019/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2019/tex
 mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on essay.pdf (22 pages, 392571 bytes).
+Output written on essay.pdf (23 pages, 395878 bytes).
 PDF statistics:
- 352 PDF objects out of 1000 (max. 8388607)
- 302 compressed objects within 4 object streams
- 82 named destinations out of 1000 (max. 500000)
- 154 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 367 PDF objects out of 1000 (max. 8388607)
+ 316 compressed objects within 4 object streams
+ 87 named destinations out of 1000 (max. 500000)
+ 162 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -53,4 +53,13 @@ C.~Yang, Z.~Liu, D.~Zhao, M.~Sun, and E.~Y. Chang, ``Network representation
 \bibitem{markov_chains}
 D.~Chua, ``Part ib markov chains.''
 
+\bibitem{grover_leskovec2016}
+A.~Grover and J.~Leskovec, ``node2vec: Scalable feature learning for
+  networks,'' {\em CoRR}, vol.~abs/1607.00653, 2016.
+
+\bibitem{ribeiro2017}
+D.~R. Figueiredo, L.~F.~R. Ribeiro, and P.~H.~P. Saverese, ``struc2vec:
+  Learning node representations from structural identity,'' {\em CoRR},
+  vol.~abs/1704.03165, 2017.
+
 \end{thebibliography}

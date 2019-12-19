@@ -13,6 +13,8 @@
     "sajjad2019"
     "markov_chains"
     "zachary1977"
-    "maaten2008"))
+    "maaten2008"
+    "grover_leskovec2016"
+    "ribeiro2017"))
  :bibtex)
 

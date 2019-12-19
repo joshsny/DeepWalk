@@ -8,10 +8,11 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Finding the similarity function learned by SkipGram}{8}{subsubsection.2.2.2}% 
 \contentsline {subsection}{\numberline {2.3}DeepWalk as matrix factorisation}{10}{subsection.2.3}% 
 \contentsline {section}{\numberline {3}Deep Drawbacks}{14}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Capturing Structural Similarity}{14}{subsection.3.1}% 
-\contentsline {section}{\numberline {4}Dynamic DeepWalking}{15}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{16}{subsection.4.1}% 
-\contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{16}{subsubsection.4.1.1}% 
-\contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{17}{subsection.4.2}% 
-\contentsline {section}{\numberline {5}Discussion of an application}{19}{section.5}% 
-\contentsline {section}{\numberline {6}Conclusion}{20}{section.6}% 
+\contentsline {subsection}{\numberline {3.1}Exploring Local and Global Properties of Graphs}{14}{subsection.3.1}% 
+\contentsline {subsection}{\numberline {3.2}Capturing Structural Similarity}{14}{subsection.3.2}% 
+\contentsline {section}{\numberline {4}Dynamic DeepWalking}{16}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{17}{subsection.4.1}% 
+\contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{17}{subsubsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{18}{subsection.4.2}% 
+\contentsline {section}{\numberline {5}Discussion of an application}{20}{section.5}% 
+\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}% 
