@@ -1,3 +1,5 @@
+% !TEX program = xelatex
+
 \documentclass[a4paper]{article}
 
 \def\npart{III Essay}
@@ -39,31 +41,36 @@ network with a point in space, where the distance according to some metric
 (often simply Euclidean) between any two points corresponds to the similarity of
 the members in the network. These points in space are called vertex
 representations. The difficulty with this approach is defining a suitable
-similarity function $f(p1,p2)$ that gives a good understanding of the network
+similarity function $f(p_1,p_2)$ that gives a good understanding of the network
 structure. This ambiguity of similarity has led to a diverse range of algorithms for calculating network embeddings.
 \begin{figure}[h!]
   \centering
   \includegraphics[width = 1\textwidth]{src/DeepWalkOnKarateGraph.png}
 
   \caption{Two dimensional network embeddings calculated using
-    DeepWalk on Zachary's Karate network\cite{zachary1977}. There is a strong
+    DeepWalk\cite{deepwalk} on Zachary's Karate network\cite{zachary1977}. There is a strong
     correspondence between community structure in the original graph and
     in the embedding space. Vertex colours are representing a modularity-based
     clustering of the input graph. In practive, network embeddings have dimensions
-    in the tens to low-hundreds and t-SNE is often used to visualise these embeddings in 2D
-    space.\cite{maaten2008}}
+    in the tens to low-hundreds and t-SNE\cite{maaten2008} is often used to visualise these embeddings in 2D
+    space.}
 \end{figure}\\
 The problem of analysing social structures is made more difficult still by the
 fact that such networks often change over time. As new connections are formed
-and others die away, the network moves and over a long time period, it can
+and others die away, the network evolves and over a long time period, it can
 change significantly. Calculating the vertex representations for a large social
 graph, where the size of the network is often in the millions or billions, takes
 a lot of time. It is therefore computationally infeasible to recalculate these
 representations at every time step and so a more intelligent approach to this
 problem is required.\\
-This essay looks at DeepWalk and how it can be modified for dealing with dynamic
+This essay looks at DeepWalk\cite{deepwalk} and how it can be modified for dealing with dynamic
 graphs. DeepWalk is an algorithm that calculates vertex representations for
-large social graphs by using techniques adapted from natural language processing. When proposed in 2014, the algorithm was a first of its kind and has since sparked a large amount of future research, with new algorithms improving upon it using similar methods. The core idea behind DeepWalk is to model random walks on a graph similar to sentences in a large corpus of text, this idea is explored further throughout the essay.
+large social graphs by using techniques adapted from natural language processing. When proposed in 2014,
+ the algorithm was a first of its kind and has since sparked a large amount of future research, with new
+algorithms improving upon it using similar methods. The core idea behind DeepWalk is to model random walks
+on a graph similar to sentences in a large corpus of text. This is helpful, since random walks store information
+about the similarity of nodes in a graph, but in a linear data type which makes it much easier to handle directly then the
+complex graph structures that are usually observed. This idea is explored further throughout the essay.
 
 
 \subsection{Summary}
@@ -81,13 +88,9 @@ important in the context of social graphs, which usually contain temporal inform
 about user interactions. Learning social
 representations for dynamic graphs can allow for a better understanding of how
 communities move and change over time.\\
-Finally, to exhibit Dynamic DeepWalking in practice, the final section of this
-essay applies the Unbiased Update algorithm introduced by Sajjad et
-al.\cite{sajjad2019} to data from users on the social network Gab to look at how
-user interaction on the network varies with time. 
 
 \subsection{Preliminary Notation}
-I have endeavoured to use similar notation to the original DeepWalk paper\cite{deepwalk} to ease
+I have endeavoured to use similar notation to the original DeepWalk paper to ease
 cross-referencing. However given that a number of other papers are touched upon
 throughout the essay, there are some pieces of notation that have been changed.
 If reading through the essay systematically, the reader should not find
@@ -104,7 +107,7 @@ difficulty following the notation.
     \times|\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
 Some of the nodes are labelled with $y \in \mathcal{Y}$ and the end task is to
-predict the labels of the other nodes. This is called a \termit{relational
+predict the labels of the other nodes. This is called a \textit{relational
   classification problem}. The aim of the DeepWalk algorithm is to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
 of latent dimensions ($d \ll |V|$) such that each of the rows in $W$
 corresponds to a $d$ dimensional embedding of a node in $V$.\\
@@ -555,14 +558,16 @@ these questions will not explored in this essay.
 
 *** Here can talk about how long it takes to tend towards this. Important point, how
 large does $l$ need to be for this to be meaningful? ***
+
 \section{Deep Drawbacks}
 Whilst the original DeepWalk paper made a huge impact on the future development
 of social representation learning on graphs, the algorithm itself has a number
-of drawbacks that have been pointed out in subsequent papers. In this short
-section, I will detail some of the issues and criticism of the implementation of
+of drawbacks that have been pointed out in subsequent papers. In this section, I will detail some of the issues and criticism of the implementation of
 DeepWalk and some algorithms that were subsequently proposed to tackle these issues.\\
 ***
 Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
+
+GraphSAGE paper points out invariance of deepwalk to an orthogonal transformation, discuss this.
 ***
 
 \subsection{Exploring Local and Global Properties of Graphs}
@@ -725,7 +730,7 @@ must be introduced.
     \LineComment Take the union of the new walks to create the updated corpus
     \State $W$ \leftarrow $W_e \cup W_n$
     \State $W^{t+1}$ \leftarrow randomwalk($W, l, \G^{t+1}$)
-    \State $W^{t+1}$ \leftarrow update($W^t, W^{t+1}$)
+    \State $W^{t+1}$ \leftarrow update($W^t$, $W^{t+1}$)
     \State \textbf{return} $W^{t+1}$
     \EndProcedure
   \end{algorithmic}
@@ -770,7 +775,7 @@ uses stochastic gradient descent to optimize the objective function over the
 input-context pairs in $\D_{t+1}$.\\
 However, initialising the representations randomly in the dynamic case is
 inefficient since between each epoch the optimal vertex representations are
-similar. It is therefore much more efficient to initialise the vertex
+similar, provided only a small portion of the graph has changed. It is therefore much more efficient to initialise the vertex
 representations at time $t+1$ as the corresponding representations at time $t$
 with any new vertices being randomly initiated, before performing stochastic gradient
 descent to minimize the SGNS objective function over the new random walks corpus
@@ -779,10 +784,8 @@ learning problem instead of initialising weights randomly and results in
 stochastic gradient descent converging at a much faster rate.\\
 A potential downside of this is that if the objective function is not convex and
 stochastic gradient descent gets stuck in a local minima whilst training then it
-is more likely to stay there.\\
-\section{Discussion of an application}
-The aim of this section is to bring the theory discussed on Dynamic DeepWalking
-into practice.
+is more likely to stay there. To reduce the likelihood of getting stuck in a local
+minima, at each epoch a small random subset of embedding coordinates could be chosen to be randomly initialised.
 \section{Conclusion}
 See the esssay descriptors. It is required to have a conclusion and suggested to
 reccomend further areas of research!

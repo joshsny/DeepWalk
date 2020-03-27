@@ -4,7 +4,7 @@ The top-level auxiliary file: essay.aux
 The style file: ieeetr.bst
 Database file #1: references.bib
 Warning--entry type for "markov_chains" isn't style-file defined
---line 122 of file references.bib
+--line 59 of file references.bib
 You've used 14 entries,
             1876 wiz_defined-function locations,
             551 strings with 5588 characters,

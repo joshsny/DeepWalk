@@ -14,5 +14,4 @@
 \contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{17}{subsection.4.1}% 
 \contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{17}{subsubsection.4.1.1}% 
 \contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{18}{subsection.4.2}% 
-\contentsline {section}{\numberline {5}Discussion of an application}{20}{section.5}% 
-\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}% 
+\contentsline {section}{\numberline {5}Conclusion}{20}{section.5}% 
