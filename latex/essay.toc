@@ -1,17 +1,20 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}% 
 \contentsline {subsection}{\numberline {1.1}Summary}{3}{subsection.1.1}% 
 \contentsline {subsection}{\numberline {1.2}Preliminary Notation}{3}{subsection.1.2}% 
-\contentsline {section}{\numberline {2}DeepWalk}{5}{section.2}% 
-\contentsline {subsection}{\numberline {2.1}Introduction to DeepWalk}{5}{subsection.2.1}% 
-\contentsline {subsection}{\numberline {2.2}SkipGram as Matrix Factorisation}{7}{subsection.2.2}% 
-\contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{8}{subsubsection.2.2.1}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Finding the Similarity Function Learned by SkipGram}{8}{subsubsection.2.2.2}% 
-\contentsline {subsection}{\numberline {2.3}DeepWalk as Matrix Factorisation}{10}{subsection.2.3}% 
+\contentsline {section}{\numberline {2}DeepWalk}{4}{section.2}% 
+\contentsline {subsection}{\numberline {2.1}Introduction to DeepWalk}{4}{subsection.2.1}% 
+\contentsline {subsection}{\numberline {2.2}SkipGram as Matrix Factorisation}{6}{subsection.2.2}% 
+\contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{7}{subsubsection.2.2.1}% 
+\contentsline {subsubsection}{\numberline {2.2.2}Finding the Similarity Function Learned by SkipGram}{7}{subsubsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.3}DeepWalk as Matrix Factorisation}{9}{subsection.2.3}% 
 \contentsline {section}{\numberline {3}Deep Drawbacks}{14}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Exploring Local and Global Properties of Graphs}{14}{subsection.3.1}% 
-\contentsline {subsection}{\numberline {3.2}Capturing Structural Similarity}{14}{subsection.3.2}% 
-\contentsline {section}{\numberline {4}Dynamic DeepWalking}{16}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{17}{subsection.4.1}% 
-\contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{17}{subsubsection.4.1.1}% 
-\contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{18}{subsection.4.2}% 
-\contentsline {section}{\numberline {5}Conclusion}{20}{section.5}% 
+\contentsline {subsection}{\numberline {3.1}Orthogonal Invariance}{14}{subsection.3.1}% 
+\contentsline {subsubsection}{\numberline {3.1.1}Orthogonal Invariance in the Dynamic case to be put in Dynamic Drawbacks}{14}{subsubsection.3.1.1}% 
+\contentsline {subsection}{\numberline {3.2}Embedding Space Dimensionality}{15}{subsection.3.2}% 
+\contentsline {subsection}{\numberline {3.3}Exploring Local and Global Properties of Graphs}{15}{subsection.3.3}% 
+\contentsline {subsection}{\numberline {3.4}Capturing Structural Similarity}{16}{subsection.3.4}% 
+\contentsline {section}{\numberline {4}Dynamic DeepWalking}{18}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Updating the Random Walk Corpus}{19}{subsection.4.1}% 
+\contentsline {subsubsection}{\numberline {4.1.1}Unbiased Update}{19}{subsubsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.2}Updating the Vertex Representations Efficiently}{20}{subsection.4.2}% 
+\contentsline {section}{\numberline {5}Conclusion}{22}{section.5}% 

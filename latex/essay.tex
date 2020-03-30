@@ -70,7 +70,7 @@ large social graphs by using techniques adapted from natural language processing
 algorithms improving upon it using similar methods. The core idea behind DeepWalk is to model random walks
 on a graph similar to sentences in a large corpus of text. This is helpful, since random walks store information
 about the similarity of nodes in a graph, but in a linear data type which makes it much easier to handle directly then the
-complex graph structures that are usually observed. This idea is explored further throughout the essay.
+complex graph structures that are usually observed.
 
 
 \subsection{Summary}
@@ -78,11 +78,11 @@ The section on DeepWalk explores the fundamental connection between DeepWalk and
 matrix factorisation as presented in the paper by Qiu et al.\cite{qiu2018}. In
 this section, we demonstrate the conditions under which DeepWalk is factorising
 an appropriate matrix that stores some measure of similarity between
-nodes in the graph. In the section ``Why DeepWalk sucks'' we look at some of the
+nodes in the graph. In the section ``Deep Drawbacks'' we look at some of the
 criticism that followed the original DeepWalk paper and how these criticisms
-were addressed by future authors, the section is indicative of the shortcomings
+were addressed by future authors. This section is indicative of the shortcomings
 of DeepWalk but is by no means exhaustive.\\
-After this, the section ``Dynamic DeepWalking'' focusses on applying a variant of the DeepWalk algorithm, proposed
+After this, the section ``Dynamic DeepWalking'' focuses on applying a variant of the DeepWalk algorithm, proposed
 by Sajjad et al. \cite{sajjad2019}, for dynamic graphs. This is especially
 important in the context of social graphs, which usually contain temporal information
 about user interactions. Learning social
@@ -93,8 +93,6 @@ communities move and change over time.\\
 I have endeavoured to use similar notation to the original DeepWalk paper to ease
 cross-referencing. However given that a number of other papers are touched upon
 throughout the essay, there are some pieces of notation that have been changed.
-If reading through the essay systematically, the reader should not find
-difficulty following the notation.
 
 \begin{definition}[(Partially Labelled) Network Graph]
   Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
@@ -309,7 +307,7 @@ negative examples.\\
 It assumes that randomly selecting a context $c$ for a given
 node $v$ is likely to result in a ``negative sample'', an unobserved pair $(v,c)$. In the context of
 social networks, this assumption is reasonable since social networks are almost
-always sparse (The number of edges is usually $O(|V|)$). However in a different
+always sparse (The number of edges is usually $O(|V|)$ and not $O(|V|^2)$). However in a different
 context, if the network is dense, then this may be an unreasonable assumption.\\
 According to this assumption, the objective function of SGNS for a single
 observation $(v,c)$ is:
@@ -333,12 +331,12 @@ global objective becomes
 \end{equation}
 \subsubsection{Finding the Similarity Function Learned by SkipGram}
 If we let $W$ be the matrix with rows $v_i$ (The matrix $W$ is used to highlight
-that it is the weight matrix in the neural network presented in [Figure XX]) and $C$ the matrix with columns
+that it is the weight matrix in the neural network presented in Figure 2) and $C$ the matrix with columns
 $c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{v_i} \cdot
 \vec{c_j}$. Therefore SGNS is factorising a matrix in which each row corresponds
 to an input node $v_i \in |V|$ and each column to a context node $c_j \in |V|$ and the value of $M_{ij}$ expresses the
 strength of association between the input-context pair $(v_i, c_j)$ using some similarity
-function $s(v_i,c_j)$. What is the similarity function learned by SkipGram? 
+function $f(v_i,c_j)$. What is the similarity function learned by SkipGram? 
 \begin{theorem}[Levy, Goldberg (2014)]
   SkipGram with Negative Sampling (SGNS) is implicitly factorising a matrix $M =
   WC^T$ with
@@ -568,7 +566,51 @@ DeepWalk and some algorithms that were subsequently proposed to tackle these iss
 Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
 
 GraphSAGE paper points out invariance of deepwalk to an orthogonal transformation, discuss this.
-***
+**
+\subsection{Orthogonal Invariance}
+Perhaps the largest criticism that can be given to DeepWalk is inherited from it's constructing part: SkipGram. As we have
+seen in Theorem 2.1, SkipGram is implicitly factorising a matrix $M = WC^T$ and the embeddings $W$ are used. We saw that
+by construction DeepWalk performs a similar factorisation and so do many algorithms that share similarities to DeepWalk. The
+learned embeddings are then combined with the features attached to each vertex and are often fed into a neural network for an
+upstream classification task. However the factorisation of $M$ is not invariant under orthogonal transformation: Let $Q \in \R^{d \times d}$
+be an orthogonal matrix, then $M = WC^T = WQQ^TC = (WQ)(CQ)^T$. Therefore embeddings can undergo arbitrary orthogonal transformations
+without changing the resulting matrix $M$.\\
+This poses a problem, since \\
+As has been pointed out [Levy & Goldberg 2015], this also calls into question the results in the original DeepWalk paper showing that DeepWalk
+is superior to prior network embedding learning algorithms, since the class of solutions is widely expanded for DeepWalk vs other paradigms due
+to this orthogonal invariance.
+\subsubsection{Orthogonal Invariance in the Dynamic case to be put in Dynamic Drawbacks}
+Orthoginal invariance poses a particular problem in the case of dynamic network embeddings, since at each epoch embeddings are altered to reflect
+updates to the graph. However when the embeddings are updated, they can also undergo any orthogonal transformation from the previous set of embeddings
+and maintain the same loss. This is problematic as it makes embeddings very difficult to compare and to use for upstream classification tasks. This problem is especially
+prevalent when network embeddings are initialized randomly in the Unbiased Update algorithm. Whilst initializing embeddings at their previous values may help with this,
+over time or with the introduction of new vertices to the graph structure, orthogonal invariance remains a prevalent issue.\\
+A possible solution to this involves careful thought of the way generated embeddings are used in upstream tasks. If the loss function for the upstream task
+is dependent on the network embeddings in an orthogonally invariant way then clearly orthogonal invariance is not a problem. However this reduces the ability to
+make comparisons between time epochs, where the potential of orthogonal transformation must be carefully considered.\\
+To give a concrete example of this,  if $v^s, v^t \in \mathbb{R}^d$ [Think about notation here!] represent the embeddings of a vertex at times $s$ and $t$ respectively, then
+if the upstream loss is a function of $\norm{v^s}-\norm{v^t}$ then orthogonal invariance will not cause issues since $\norm{Qv} = \norm{v}$ for $Q \in \mathbb{R}^{d \times d}$ orthogonal.
+However a much more common loss might be a function of $\norm{v^s - v^t}$. Such a loss function would not be appropriate, since $\norm{Qv^s - v^t} \not\equal \norm{v^s - v^t}$ for an arbitrary
+orthogonal matrix $Q$.\\
+A solution to this is to add a regularisation term to the loss function for SkipGram which penalises future embeddings based on previous ones through a metric that changes with orthogonal
+transformation. As an example, if $W^t$ and $W^{t+1}$ represent embeddings generated at times $t$ and $t+1$ respectively, then the euclidean distance $\norm{W^{t+1} - W^t}$ could be penalised,
+where the norm is restricted to vertices in $\V_t \cap \V_{t+1}$. This penalisation would reduce incentive for orthogonal transformations that change the embeddings across time periods, however it's
+affectiveness would be diminished as the time gap between two embeddings is increased. As well as this, it's affect would increase the change of getting stuck in a local minima for SGD [elaborate].
+\subsection{Embedding Space Dimensionality}
+The use of embeddings has become popular for a wide range of tasks primarily due to the ease with which we can
+manipulate mathematical expressions in ways that are seemingly impossible for more complex data structures such as graphs.
+In recent years there has been a large body of research devoted to algorithms for generating embeddings, but the selection
+of dimensionality takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested\cite{bradford2008, }.\\
+The performance of network embeddings is sensitive to it's dimensionality in a number of ways. Having too large a dimension increases
+the likelihood of overfitting, thus increasing the variance of the embeddings with respect to small updates in the graph. This can significantly
+worsen the ability of network embeddings to give a faithful representation of the graph structure and reduces the performance of downstream classification
+tasks. As well as this, since an increase in the dimensionality of network embeddings effects the number of model parameters, it increases learning time. This means that,
+in practice embedding dimensionality is often reduced based on computational savings rather than hyperparameter selection, which can severely reduce the embeddings ability to
+distinguish between graphs effectively, especially in the dynamic case where graph updates are small and incremental.
+
+
+[Hammer into this point, but from a more DeepWalk specific viewpoint. The main point here is that specifically in this dynamic application,
+the small incrementing of graphs over time results in a high sensitivity to the embedding space dimensionality. 1803.00502v4, Yin is a great paper for looking more at this.]
 
 \subsection{Exploring Local and Global Properties of Graphs}
 There are two extreme strategies to search a graph starting from a vertex. The
@@ -580,7 +622,7 @@ local structure and DFS on global structure. By using unbiased random walks to
 try and get a fair coverage of the graph, DeepWalk does not allow for
 orientating the focus to a depth-first or breadth-first approach which is useful
 for many applications. A different algorithm, node2vec, was proposed by Grover
-and Leskovec\cite{grover_leskovec2016} aims to combine the
+and Leskovec\cite{grover_leskovec2016} and aims to combine the
 properties of BFS and DFS through introducing biased random walks. New
 parameters $p,q$ are introduced which control the transition probabilities of
 the random walk on the graph. The unnormalised transition probability from $y$
@@ -599,7 +641,11 @@ between BFS and DFS can be achieved. By biasing the random walks in a creative
 way and learning good parameters for $p,q$ appropriately for each graph (e.g
 using a grid search) node2vec shows superior performance for learning vertex
 representations used in a number of upstream classification tasks, including on
-the BlogCatalog and Wikipedia datasets used in the original DeepWalk paper.
+the BlogCatalog and Wikipedia datasets used in the original DeepWalk paper.\\
+Since DeepWalk uses unbiased random walks, it corresponds to using node2vec with $p=q=1$. Whilst node2vec brings
+more flexibility, it still suffers from the orthogonal invariance problem. As well as this, it is not always clear if the values of $p$ and $q$ give a
+meaningful interpretation of the importance of BFS and DFS in the exploration of a given network, or whether
+performance enhancements are simply gained from an increase in the dimension of the hyperparameter space.
 \subsection{Capturing Structural Similarity}
 Another drawback of DeepWalk is that it does well at capturing neighbourhoods in the graph, but does not perform well
 at capturing structural similarities amongst nodes. That is to say that DeepWalk
