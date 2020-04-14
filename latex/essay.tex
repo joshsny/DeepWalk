@@ -15,6 +15,7 @@
 \usepackage{thm-restate}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+\usepackage{bbm}
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
@@ -485,39 +486,60 @@ To proceed with the first lemma it is useful to partition the random-walk corpus
 As an extension of previous definitions, we let $\#(v, c)_{\rar}$ and $\#(v,
 c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
 in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
+
 \begin{lemma}
-  As $l \to \infty$, we have
-  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \  \text{and}
-    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\to} \pi_v(P^r)_{v,c} \]
+  Let $N$ be a random variable such that $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ and let $(Y_k)_{k \geq 1}$ be i.i.d random variables with $\E[Y_1] < \infty$. Then
+  \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
 \end{lemma}
+[Notes: Will probably push the proof of this to the appendix. Note that all Lemma/Theorem numbers need to be checked and changed with the introduction of this extra one.]
 \begin{proof}
-  ***
-  A proof of this can be found in Paper 2 but the proof is not nice, perhaps I can
-  come up with an original proof of this using convergence of the random walk to
-  it's invariant distribution.
-
-  Note that by reversibility the two statements should be provably equivalent and
-  I have used detailed balance here to prove that the two limits given in Paper 2
-  are the same.
-
-  I will leave this to come back to for a nicer proof.
-  ***
-
-
-  *** Note that Ref 3 gives info about as the length of the RWs becomes long, the
-  singleton distribution of vertices will tend to the invariant distribution,
-  referencing Modern Graph Theory, Bollobas ***
+Firstly we will show that it converges in expectation appropriately
+\begin{align*}
+\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^N Y_k | N = R\right]\P(N = R)\\
+&= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^R Y_k \right]\P(N = R)\\
+&= \E[Y_1]\sum_{R \geq 0} \frac{R}{n}\P(N = R) = 
+\end{align*}
 \end{proof}
+\begin{lemma}[Limiting Distribution of DeepWalk]
+  As $l \to \infty$, we have
+  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \  \text{and}
+    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \]
+\end{lemma}
+
+\begin{proof}
+To begin the proof, we first note that it is sufficient to prove the result for the case in which the number
+of random walks starting from each vertex, $\gamma$, is equal to one. For $\gamma > 1$ we get the independent average of
+a finite number of cases with $\gamma = 1$ and thus the result still holds. We proceed with a single markov chain $Z_n$ which represents steps $r$ apart
+in a random walk on the network and thus has transition matrix $P^r$. Since $\pi$ is invariant for $P$, it is also invariant for $P^r$ and the irreducibility of $Z$
+follows since $P$ is irreducible, and thus $\pi$ is the unique invariant distribution of $Z$ by Theorem 2.4. Let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
+By the ergodic theorem for markov chains [Cite or include in the essay!], we have that:
+
+\[\frac{N_v(l)}{l} \overset{a.s.}{\longrightarrow} \pi_v \implies \frac{N_v(l)}{l} \overset{p}{\longrightarrow} \pi_v\]
+
+Now let $i_1, i_2, \dots$ be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$. Since $(Y_k)_{k \geq 1}$ are i.i.d, we can apply [Lemma X], yielding the first limit:
+
+\[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l}\sum_{k = 1}^{N_v(l)} Y_k \overset{p}{\longrightarrow} \pi_v \E[Y_k] = \pi_v\P(Z_{i_k + 1} = c | Z_{i_k} = v) = \pi_v(P^r)_{v,c}\]
+
+The second limit can be obtained from the first by applying the detailed balance equations:
+\begin{align*}
+\frac{\#(v, c)_{\lar}}{|\D_{\lar}|} &= \frac{\#(c, v)_{\rar}}{|\D_{\lar}|}\\
+&=\frac{\#(c, v)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_c(P^r)_{c,v} = \pi_v (P^r)_{v,c}
+\end{align*}
+where the second equality follows since $|\D_{\lar}| = |\D_{\rar}|$.
+\end{proof}
+*** Note that Ref 3 gives info about as the length of the RWs becomes long, the
+singleton distribution of vertices will tend to the invariant distribution,
+referencing Modern Graph Theory, Bollobas ***
 From this we can show that
 \begin{lemma}
   As $l \to \infty$, we have
-  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{k} \sum_{r = 1}^k \pi_v
+  \[\frac{\#(v, c)}{|\D|} \overset{p}{\longrightarrow} \frac{1}{k} \sum_{r = 1}^k \pi_v
     (P^r)_{v,c}\]
 \end{lemma}
 \begin{proof}
   \begin{align*}
     \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^k (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^k (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2k} \sum_{r=1}^k \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
-                          &\overset{p}{\to} \frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}
+                          &\overset{p}{\longrightarrow} \frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}
   \end{align*}
   where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
   \frac{|\D|}{2k}$ and the convergence comes from applying [Theorem XX],
@@ -530,18 +552,18 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
   Firstly, by summing the result of [Theorem XX] we get
   \begin{align*}
     \frac{\#(v)}{|\D|} &= \sum_{c \in V}\#(v, c)\\
-                       &\overset{p}{\to} \sum_{c \in V} \frac{1}{k}\sum_{r=1}^k \pi_v(P^r)_{v, c}\\
+                       &\overset{p}{\longrightarrow} \sum_{c \in V} \frac{1}{k}\sum_{r=1}^k \pi_v(P^r)_{v, c}\\
                        &\frac{\pi_v}{k}\sum_{r = 1}^k \sum_{c \in V}(P^r)_{v,c} = \frac{\pi_v}{k}\sum_{r = 1}^k 1 = \pi_v
   \end{align*}
   since $P^r$ is stochastic for any $r$.\\
   Similarly, using the fact that $\pi$ is in detailed balance with $P$, and thus
   the result of [Theorem XX] can be rewritten as
-  \[\frac{\#(v, c)}{|\D|} \overset{p}{\to} \frac{1}{k} \sum_{r = 1}^k \pi_c
+  \[\frac{\#(v, c)}{|\D|} \overset{p}{\longrightarrow} \frac{1}{k} \sum_{r = 1}^k \pi_c
     (P^r)_{c,v}\]
-  it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\to} \pi_c$.\\
+  it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\longrightarrow} \pi_c$.\\
   Using this and by applying the continuous mapping theorem
   \begin{align*}
-    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} & \overset{p}{\to} \frac{\frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
+    \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot \#(c)} = \frac{\frac{\#(v,c)}{|\D|}}{\frac{\#(v)}{|\D|} \cdot \frac{\#(c)}{|\D|}} & \overset{p}{\longrightarrow} \frac{\frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}}{\frac{d_v}{2|E|} \cdot \frac{d_c}{2|E|}}\\
                                                                                                                              &=\frac{2|E|}{k}\sum_{r=1}^k (P^r)_{v,c} \frac{1}{d_c} = \frac{2|E|}{k}\left( \sum_{r=1}^k(P^rD^{-1})_{v,c} \right)
   \end{align*}
   where the last equality follows since $D$ is diagonal.\\
@@ -549,124 +571,12 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
   factorising
   \[\log \left( \frac{2|E|}{k}\left( \sum_{r=1}^k P^r \right)D^{-1}\right) - \log{b}\]
 \end{proof}
-This proof gives a better understanding of what the DeepWalk algorithm is doing.
-There are many other good questions to ask about DeepWalk, for example whether
-the algorithm is gaurunteed to converge under stochastic gradient descent, but
+This proof gives a better understanding of what the DeepWalk algorithm is doing as the lengths of the random walks becomes increasingly large.
+There are many other good questions to ask about DeepWalk, including matters of convergence with stochastic gradient descent, but
 these questions will not explored in this essay.
 
 *** Here can talk about how long it takes to tend towards this. Important point, how
 large does $l$ need to be for this to be meaningful? ***
-
-\section{Deep Drawbacks}
-Whilst the original DeepWalk paper made a huge impact on the future development
-of social representation learning on graphs, the algorithm itself has a number
-of drawbacks that have been pointed out in subsequent papers. In this section, I will detail some of the issues and criticism of the implementation of
-DeepWalk and some algorithms that were subsequently proposed to tackle these issues.\\
-***
-Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
-
-GraphSAGE paper points out invariance of deepwalk to an orthogonal transformation, discuss this.
-**
-\subsection{Orthogonal Invariance}
-Perhaps the largest criticism that can be given to DeepWalk is inherited from it's constructing part: SkipGram. As we have
-seen in Theorem 2.1, SkipGram is implicitly factorising a matrix $M = WC^T$ and the embeddings $W$ are used. We saw that
-by construction DeepWalk performs a similar factorisation and so do many algorithms that share similarities to DeepWalk. The
-learned embeddings are then combined with the features attached to each vertex and are often fed into a neural network for an
-upstream classification task. However the factorisation of $M$ is not invariant under orthogonal transformation: Let $Q \in \R^{d \times d}$
-be an orthogonal matrix, then $M = WC^T = WQQ^TC = (WQ)(CQ)^T$. Therefore embeddings can undergo arbitrary orthogonal transformations
-without changing the resulting matrix $M$.\\
-This poses a problem, since \\
-As has been pointed out [Levy & Goldberg 2015], this also calls into question the results in the original DeepWalk paper showing that DeepWalk
-is superior to prior network embedding learning algorithms, since the class of solutions is widely expanded for DeepWalk vs other paradigms due
-to this orthogonal invariance.
-\subsubsection{Orthogonal Invariance in the Dynamic case to be put in Dynamic Drawbacks}
-Orthoginal invariance poses a particular problem in the case of dynamic network embeddings, since at each epoch embeddings are altered to reflect
-updates to the graph. However when the embeddings are updated, they can also undergo any orthogonal transformation from the previous set of embeddings
-and maintain the same loss. This is problematic as it makes embeddings very difficult to compare and to use for upstream classification tasks. This problem is especially
-prevalent when network embeddings are initialized randomly in the Unbiased Update algorithm. Whilst initializing embeddings at their previous values may help with this,
-over time or with the introduction of new vertices to the graph structure, orthogonal invariance remains a prevalent issue.\\
-A possible solution to this involves careful thought of the way generated embeddings are used in upstream tasks. If the loss function for the upstream task
-is dependent on the network embeddings in an orthogonally invariant way then clearly orthogonal invariance is not a problem. However this reduces the ability to
-make comparisons between time epochs, where the potential of orthogonal transformation must be carefully considered.\\
-To give a concrete example of this,  if $v^s, v^t \in \mathbb{R}^d$ [Think about notation here!] represent the embeddings of a vertex at times $s$ and $t$ respectively, then
-if the upstream loss is a function of $\norm{v^s}-\norm{v^t}$ then orthogonal invariance will not cause issues since $\norm{Qv} = \norm{v}$ for $Q \in \mathbb{R}^{d \times d}$ orthogonal.
-However a much more common loss might be a function of $\norm{v^s - v^t}$. Such a loss function would not be appropriate, since $\norm{Qv^s - v^t} \not\equal \norm{v^s - v^t}$ for an arbitrary
-orthogonal matrix $Q$.\\
-A solution to this is to add a regularisation term to the loss function for SkipGram which penalises future embeddings based on previous ones through a metric that changes with orthogonal
-transformation. As an example, if $W^t$ and $W^{t+1}$ represent embeddings generated at times $t$ and $t+1$ respectively, then the euclidean distance $\norm{W^{t+1} - W^t}$ could be penalised,
-where the norm is restricted to vertices in $\V_t \cap \V_{t+1}$. This penalisation would reduce incentive for orthogonal transformations that change the embeddings across time periods, however it's
-affectiveness would be diminished as the time gap between two embeddings is increased. As well as this, it's affect would increase the change of getting stuck in a local minima for SGD [elaborate].
-\subsection{Embedding Space Dimensionality}
-The use of embeddings has become popular for a wide range of tasks primarily due to the ease with which we can
-manipulate mathematical expressions in ways that are seemingly impossible for more complex data structures such as graphs.
-In recent years there has been a large body of research devoted to algorithms for generating embeddings, but the selection
-of dimensionality takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested\cite{bradford2008, }.\\
-The performance of network embeddings is sensitive to it's dimensionality in a number of ways. Having too large a dimension increases
-the likelihood of overfitting, thus increasing the variance of the embeddings with respect to small updates in the graph. This can significantly
-worsen the ability of network embeddings to give a faithful representation of the graph structure and reduces the performance of downstream classification
-tasks. As well as this, since an increase in the dimensionality of network embeddings effects the number of model parameters, it increases learning time. This means that,
-in practice embedding dimensionality is often reduced based on computational savings rather than hyperparameter selection, which can severely reduce the embeddings ability to
-distinguish between graphs effectively, especially in the dynamic case where graph updates are small and incremental.
-
-
-[Hammer into this point, but from a more DeepWalk specific viewpoint. The main point here is that specifically in this dynamic application,
-the small incrementing of graphs over time results in a high sensitivity to the embedding space dimensionality. 1803.00502v4, Yin is a great paper for looking more at this.]
-
-\subsection{Exploring Local and Global Properties of Graphs}
-There are two extreme strategies to search a graph starting from a vertex. The
-first is Breadth-First Search (BFS) which samples the immediate neighbours of
-the node and helps to understand local structure within the nodes close
-proximity. The other is Depth-First Search (DFS) which samples nodes by going as
-far away as possible from the starting vertex. BFS focusses on understanding
-local structure and DFS on global structure. By using unbiased random walks to
-try and get a fair coverage of the graph, DeepWalk does not allow for
-orientating the focus to a depth-first or breadth-first approach which is useful
-for many applications. A different algorithm, node2vec, was proposed by Grover
-and Leskovec\cite{grover_leskovec2016} and aims to combine the
-properties of BFS and DFS through introducing biased random walks. New
-parameters $p,q$ are introduced which control the transition probabilities of
-the random walk on the graph. The unnormalised transition probability from $y$
-to $z$ given that the walk transitioned to $y$ from node $x$ is:
-\begin{equation}
-  p_x(y,z)= 
-  \begin{cases}
-    \frac{1}{p}& \text{if } z = x\\
-    1          & \text{if } d(x,z) = 1\\
-    \frac{1}{q}& \text{if } d(x,z) = 2\\
-  \end{cases}
-\end{equation}
-Varying $p$ and $q$ affects the random walks likelihood to travel far away
-versus exploring locally. Therefore by controlling these parameters a balance
-between BFS and DFS can be achieved. By biasing the random walks in a creative
-way and learning good parameters for $p,q$ appropriately for each graph (e.g
-using a grid search) node2vec shows superior performance for learning vertex
-representations used in a number of upstream classification tasks, including on
-the BlogCatalog and Wikipedia datasets used in the original DeepWalk paper.\\
-Since DeepWalk uses unbiased random walks, it corresponds to using node2vec with $p=q=1$. Whilst node2vec brings
-more flexibility, it still suffers from the orthogonal invariance problem. As well as this, it is not always clear if the values of $p$ and $q$ give a
-meaningful interpretation of the importance of BFS and DFS in the exploration of a given network, or whether
-performance enhancements are simply gained from an increase in the dimension of the hyperparameter space.
-\subsection{Capturing Structural Similarity}
-Another drawback of DeepWalk is that it does well at capturing neighbourhoods in the graph, but does not perform well
-at capturing structural similarities amongst nodes. That is to say that DeepWalk
-performs well at identifying node similarity via homiphily but not by structural equivalence. Applying DeepWalk to two nodes
-that have a similar structural role in the graph but are in faraway locations
-will result in embeddings that are distant from each other. An alternative
-approach that performs significantly better then both DeepWalk and node2vec at this task was suggested by
-Ribeiro et al. in their paper on struc2vec\cite{ribeiro2017}. Unlike DeepWalk, struc2vec does not
-take the distance between nodes into account and instead builds a context graph
-where nodes are close together if they are structurally similar and then
-SkipGram is applied similarly to DeepWalk, but this time on the
-context graph instead of the original graph.\\
-The approach of struc2vec is clearly to recognise a different kind of network
-structure to the one DeepWalk was created to recognise. struc2vec is more
-applicable to classification tasks where the labels depend heavily on the
-structural role of the nodes. As an example, struc2vec would be more suitable
-for the task of finding social group leaders within a large network
-graph. In such a task it is not the communities that are important to recognise,
-but the roles people play within their communities. For this reason, it is
-important to identify the suitability of a relational classification problem to
-the application of DeepWalk.
 \section{Dynamic DeepWalking}
 In this section we transition away from the static implementation of DeepWalk
 towards network embeddings for Dynamic datasets. In particular, the focus of the
@@ -832,9 +742,132 @@ A potential downside of this is that if the objective function is not convex and
 stochastic gradient descent gets stuck in a local minima whilst training then it
 is more likely to stay there. To reduce the likelihood of getting stuck in a local
 minima, at each epoch a small random subset of embedding coordinates could be chosen to be randomly initialised.
+
+\section{Deep Drawbacks}
+Whilst the original DeepWalk paper made a huge impact on the future development
+of social representation learning on graphs, the algorithm itself has a number
+of drawbacks that have been pointed out in subsequent papers. In this section, I will detail some of the issues and criticism of the implementation of
+DeepWalk in both static and dynamic applications and some algorithms that were subsequently proposed to tackle these issues.\\
+***
+Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
+
+GraphSAGE paper points out invariance of deepwalk to an orthogonal transformation, discuss this.
+**
+
+\subsection{Exploring Local and Global Properties of Graphs}
+There are two extreme strategies to search a graph starting from a vertex. The
+first is Breadth-First Search (BFS) which samples the immediate neighbours of
+the node and helps to understand local structure within the nodes close
+proximity. The other is Depth-First Search (DFS) which samples nodes by going as
+far away as possible from the starting vertex. BFS focusses on understanding
+local structure and DFS on global structure. By using unbiased random walks to
+try and get a fair coverage of the graph, DeepWalk does not allow for
+orientating the focus to a depth-first or breadth-first approach which is useful
+for many applications. A different algorithm, node2vec, was proposed by Grover
+and Leskovec\cite{grover_leskovec2016} and aims to combine the
+properties of BFS and DFS through introducing biased random walks. New
+parameters $p,q$ are introduced which control the transition probabilities of
+the random walk on the graph. The unnormalised transition probability from $y$
+to $z$ given that the walk transitioned to $y$ from node $x$ is:
+\begin{equation}
+  p_x(y,z)= 
+  \begin{cases}
+    \frac{1}{p}& \text{if } z = x\\
+    1          & \text{if } d(x,z) = 1\\
+    \frac{1}{q}& \text{if } d(x,z) = 2\\
+  \end{cases}
+\end{equation}
+Varying $p$ and $q$ affects the random walks likelihood to travel far away
+versus exploring locally. Therefore by controlling these parameters a balance
+between BFS and DFS can be achieved. By biasing the random walks in a creative
+way and learning good parameters for $p,q$ appropriately for each graph (e.g
+using a grid search) node2vec shows superior performance for learning vertex
+representations used in a number of upstream classification tasks, including on
+the BlogCatalog and Wikipedia datasets used in the original DeepWalk paper.\\
+Since DeepWalk uses unbiased random walks, it corresponds to using node2vec with $p=q=1$. Whilst node2vec brings
+more flexibility, it still suffers from the orthogonal invariance problem. As well as this, it is not always clear if the values of $p$ and $q$ give a
+meaningful interpretation of the importance of BFS and DFS in the exploration of a given network, or whether
+performance enhancements are simply gained from an increase in the dimension of the hyperparameter space.
+\subsection{Capturing Structural Similarity}
+Another drawback of DeepWalk is that it does well at capturing neighbourhoods in the graph, but does not perform well
+at capturing structural similarities amongst nodes. That is to say that DeepWalk
+performs well at identifying node similarity via homiphily but not by structural equivalence. Applying DeepWalk to two nodes
+that have a similar structural role in the graph but are in faraway locations
+will result in embeddings that are distant from each other. An alternative
+approach that performs significantly better then both DeepWalk and node2vec at this task was suggested by
+Ribeiro et al. in their paper on struc2vec\cite{ribeiro2017}. Unlike DeepWalk, struc2vec does not
+take the distance between nodes into account and instead builds a context graph
+where nodes are close together if they are structurally similar and then
+SkipGram is applied similarly to DeepWalk, but this time on the
+context graph instead of the original graph.\\
+The approach of struc2vec is clearly to recognise a different kind of network
+structure to the one DeepWalk was created to recognise. struc2vec is more
+applicable to classification tasks where the labels depend heavily on the
+structural role of the nodes. As an example, struc2vec would be more suitable
+for the task of finding social group leaders within a large network
+graph. In such a task it is not the communities that are important to recognise,
+but the roles people play within their communities. For this reason, it is
+important to identify the suitability of a relational classification problem to
+the application of DeepWalk.
+\subsection{Orthogonal Invariance}
+Perhaps the largest criticism that can be given to DeepWalk is inherited from it's constructing part: SkipGram. As we have
+seen in Theorem 2.1, SkipGram is implicitly factorising a matrix $M = WC^T$ and the embeddings $W$ are used. We saw that
+by construction DeepWalk performs a similar factorisation and so do many algorithms that share similarities to DeepWalk. The
+learned embeddings are then combined with the features attached to each vertex and are often fed into a neural network for an
+upstream classification task. However the factorisation of $M$ is not invariant under orthogonal transformation: Let $Q \in \R^{d \times d}$
+be an orthogonal matrix, then $M = WC^T = WQQ^TC = (WQ)(CQ)^T$. Therefore embeddings can undergo arbitrary orthogonal transformations
+without changing the resulting matrix $M$.\\
+Explain why this is an issue in the static case. As has been pointed out [Levy and Goldberg 2015] ** This needs to be reworded **, this also calls into question the results in the original DeepWalk paper showing that DeepWalk is superior to prior network embedding learning algorithms, since the class of solutions is widely expanded for DeepWalk vs other paradigms due
+to this orthogonal invariance.\\
+Orthoginal invariance poses a particular problem in the case of dynamic network embeddings, since at each epoch embeddings are altered to reflect
+updates to the graph. However when the embeddings are updated, they can also undergo any orthogonal transformation from the previous set of embeddings
+and maintain the same loss. This is problematic as it makes embeddings very difficult to compare and to use for upstream classification tasks. This problem is especially
+prevalent when network embeddings are initialized randomly in the Unbiased Update algorithm. Whilst initializing embeddings at their previous values may help with this,
+over time or with the introduction of new vertices to the graph structure, orthogonal invariance remains a prevalent issue.\\
+A possible solution to this involves careful thought of the way generated embeddings are used in upstream tasks. If the loss function for the upstream task
+is dependent on the network embeddings in an orthogonally invariant way then clearly orthogonal invariance is not a problem. However this reduces the ability to
+make comparisons between time epochs, where the potential of orthogonal transformation must be carefully considered.\\
+To give a concrete example of this,  if $v^s, v^t \in \mathbb{R}^d$ [Think about notation here!] represent the embeddings of a vertex at times $s$ and $t$ respectively, then
+if the upstream loss is a function of $\norm{v^s}-\norm{v^t}$ then orthogonal invariance will not cause issues since $\norm{Qv} = \norm{v}$ for $Q \in \mathbb{R}^{d \times d}$ orthogonal.
+However a much more common loss might be a function of $\norm{v^s - v^t}$. Such a loss function would not be appropriate, since $\norm{Qv^s - v^t} \not\equal \norm{v^s - v^t}$ for an arbitrary
+orthogonal matrix $Q$.\\
+A solution to this is to add a regularisation term to the loss function for SkipGram which penalises future embeddings based on previous ones through a metric that changes with respect to orthogonal
+transformation. As an example, if $W^t$ and $W^{t+1}$ represent embeddings generated at times $t$ and $t+1$ respectively, then the euclidean distance $\norm{W^{t+1} - W^t}$ could be penalised,
+where the norm is restricted to vertices in $\V_t \cap \V_{t+1}$. This penalisation would reduce incentive for orthogonal transformations that change the embeddings across time periods, however it's
+affectiveness would be diminished as the time gap between two embeddings is increased.
+\subsection{Embedding Space Dimensionality}
+In recent years there has been a large body of research devoted to algorithms, such as DeepWalk, for generating meaningful embeddings, however the selection of an appropriate dimensionality for embeddings
+takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested\cite{bradford2008}. However basing dimensionality on a broad guess is not appropriate, since the embeddings generated by DeepWalk are sensitive to dimensionality, especially in the dynamic implementation.\\
+Since increasing the dimensionality of network embeddings increases the number of model parameters, it also increases the learning time. This means that,
+in practice embedding dimensionality is sometimes reduced based on computational savings rather than hyperparameter selection, which can severely reduce the embeddings ability to
+distinguish between graphs effectively, especially in the dynamic case where graph updates are small and incremental.
+Conversely, having too large a dimension increases the likelihood of overfitting, thus increasing the variance of the embeddings with respect to small updates in the graph. This can significantly
+worsen the ability of network embeddings to give a faithful representation of the graph structure and reduces the performance of downstream classification
+tasks.\\
+For applying DeepWalk to large dynamic social network graphs this presents a significant stumbling block, since the dimensionality of the embeddings must be large enough to capture incremental differences
+to the graph resulting from changes to a tiny percentage of the graphs nodes and edges, yet the embedding dimensionality must also not be too large so as to keep it's variance low enough for embeddings to
+give a meaningful representation. Therefore, a very careful consideration of embedding dimensionality is suggested when applying DeepWalk to large social network graphs.
+
+
+[1803.00502v4, Yin is a great paper for looking more at this.]
 \section{Conclusion}
-See the esssay descriptors. It is required to have a conclusion and suggested to
-reccomend further areas of research!
+We end by commenting briefly on our journey of understanding more about DeepWalk and suggesting future areas of research.\\
+Throughout this essay we have explored in detail the links between DeepWalk and implicit matrix factorisation to make sense of what is happening under the hood of the embedding generation. Not only does this
+shed light on what it is that DeepWalk is doing, but also by showing that in the limit for which the random walks tend to infinity and thus the generated pair corpus in balanced, the embeddings generated by DeepWalk
+have a very natural intepretation [Can I explain more this interpretation, it is in some papers somewhere.]. In the section on DeepWalk a number of theoretical results have been given which show that DeepWalk amounts to an implicit matrix factorisation as the length of the random walks sampled tends to infinity.
+Whilst these results shed light on the core ideas used by DeepWalk to generate embeddings, no thought is given here to the applicability of these results for smaller random walk lengths, which have been shown to
+be effective in practice [** Find reference for this! **]. Therefore, by consideration of the mixing times of random walks on large sparse graphs, an analysis of how long random-walks need to be before these
+results are meaningful would be a helpful area for further research. As well as this, a theoretical analysis of the trade off between random walk length and the number of random walks would be helpful.
+
+In the section ``Deep Drawbacks'' we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going un-noticed
+between time epochs for dynamic applications. This also makes DeepWalk difficult to apply to upstream classification tasks in static applications since it is difficult to compare graph similarity since there is no clear metric of distance between graph embeddings that deals appropriately with the orthogonal invariance, this is explored further by [X in X paper, PIP metric].
+Other algorithms, such as node2vec, worked to improve on DeepWalk by introducing more flexibility, however it is not clear whether improved results lend themselves to a better interpretation of the graph or simply to an expanded set of hyperparamets. By increasing the hyperparameter space of DeepWalk, node2vec allows for a larger search space of network embeddings and so it will naturally yield better results.
+It would be useful to look at how meaningful these performance gains are. Also of interest would be a study of applying node2vec in the dynamic setting and how an appropriate tuning of $p$ and $q$ over time could lead to an appropriate balance between breadth and depth first search.
+
+Finally it was noted that DeepWalk, as well as other proposed algorithms, are suitable for generating network embeddings only for suitable upstream tasks. A way in which a number of these methods could be combined in an ensemble of algorithms would be a useful area of research for when the upstream classification task is not yet known or may be of different kinds. For example, if a social network
+does not want to store relational information of groups due to privacy concerns or regulation, it may want to store network embeddings instead from which it can apply upstream classification tasks in the future. For such applications it would be helpful to have an algorithm that tries to store as much information as possible for a more general class of relational classification problems.
+
+
 
 \bibliography{references}
 \bibliographystyle{ieeetr}
