@@ -16,6 +16,7 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{bbm}
+\usepackage{hyperref}
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
@@ -486,20 +487,6 @@ To proceed with the first lemma it is useful to partition the random-walk corpus
 As an extension of previous definitions, we let $\#(v, c)_{\rar}$ and $\#(v,
 c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
 in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
-
-\begin{lemma}
-  Let $N$ be a random variable such that $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ and let $(Y_k)_{k \geq 1}$ be i.i.d random variables with $\E[Y_1] < \infty$. Then
-  \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
-\end{lemma}
-[Notes: Will probably push the proof of this to the appendix. Note that all Lemma/Theorem numbers need to be checked and changed with the introduction of this extra one.]
-\begin{proof}
-Firstly we will show that it converges in expectation appropriately
-\begin{align*}
-\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^N Y_k | N = R\right]\P(N = R)\\
-&= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^R Y_k \right]\P(N = R)\\
-&= \E[Y_1]\sum_{R \geq 0} \frac{R}{n}\P(N = R) = 
-\end{align*}
-\end{proof}
 \begin{lemma}[Limiting Distribution of DeepWalk]
   As $l \to \infty$, we have
   \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \  \text{and}
@@ -511,13 +498,23 @@ To begin the proof, we first note that it is sufficient to prove the result for 
 of random walks starting from each vertex, $\gamma$, is equal to one. For $\gamma > 1$ we get the independent average of
 a finite number of cases with $\gamma = 1$ and thus the result still holds. We proceed with a single markov chain $Z_n$ which represents steps $r$ apart
 in a random walk on the network and thus has transition matrix $P^r$. Since $\pi$ is invariant for $P$, it is also invariant for $P^r$ and the irreducibility of $Z$
-follows since $P$ is irreducible, and thus $\pi$ is the unique invariant distribution of $Z$ by Theorem 2.4. Let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
+follows since $P$ is irreducible, and thus $\pi$ is the unique invariant distribution of $Z$ by Theorem 2.4. To prove this lemma we first require a useful proposition.
+\begin{restatable}{proposition}{Prop}
+  Let $N$ be a random variable such that $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ with $\frac{N}{n}$ absolutely integrable. Let $(Y_k)_{k \geq 1}$ be i.i.d random variables bounded in variance and expectation. Then
+  \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
+\end{restatable}
+\begin{proof}
+  \textit{See \hyperref[sec:appendix]{Appendix 1.1} for a proof.}
+\end{proof}
+
+Now let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
 By the ergodic theorem for markov chains [Cite or include in the essay!], we have that:
 
 \[\frac{N_v(l)}{l} \overset{a.s.}{\longrightarrow} \pi_v \implies \frac{N_v(l)}{l} \overset{p}{\longrightarrow} \pi_v\]
 
-Now let $i_1, i_2, \dots$ be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$. Since $(Y_k)_{k \geq 1}$ are i.i.d, we can apply [Lemma X], yielding the first limit:
+and if we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d, so we can apply the proposition.
 
+This gives the first limit
 \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l}\sum_{k = 1}^{N_v(l)} Y_k \overset{p}{\longrightarrow} \pi_v \E[Y_k] = \pi_v\P(Z_{i_k + 1} = c | Z_{i_k} = v) = \pi_v(P^r)_{v,c}\]
 
 The second limit can be obtained from the first by applying the detailed balance equations:
@@ -527,6 +524,7 @@ The second limit can be obtained from the first by applying the detailed balance
 \end{align*}
 where the second equality follows since $|\D_{\lar}| = |\D_{\rar}|$.
 \end{proof}
+[Note that all Lemma/Theorem numbers need to be checked and changed with the introduction of this extra one.]
 *** Note that Ref 3 gives info about as the length of the RWs becomes long, the
 singleton distribution of vertices will tend to the invariant distribution,
 referencing Modern Graph Theory, Bollobas ***
@@ -866,8 +864,36 @@ It would be useful to look at how meaningful these performance gains are. Also o
 
 Finally it was noted that DeepWalk, as well as other proposed algorithms, are suitable for generating network embeddings only for suitable upstream tasks. A way in which a number of these methods could be combined in an ensemble of algorithms would be a useful area of research for when the upstream classification task is not yet known or may be of different kinds. For example, if a social network
 does not want to store relational information of groups due to privacy concerns or regulation, it may want to store network embeddings instead from which it can apply upstream classification tasks in the future. For such applications it would be helpful to have an algorithm that tries to store as much information as possible for a more general class of relational classification problems.
-
-
+\section{Appendix}
+\label{sec:appendix}
+\subsection{Appendix 1}
+The only appendix is a full proof of Proposition 2.5, which is used in the proof for the main theorem in the DeepWalk section.
+\Prop*
+\begin{proof}
+Firstly we will show that the sum converges in expectation appropriately
+\begin{align*}
+\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^N Y_k | N = R\right]\P(N = R)\\
+&= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^R Y_k \right]\P(N = R)\\
+&= \E[Y_1]\sum_{R \geq 0} \frac{R}{n}\P(N = R) = \E[Y_1]\E\left[\frac{N}{n}\right] \overset{n \to \infty}{\longrightarrow} \mu\E[Y_1]
+\end{align*}
+where the last inequality follows since $\frac{N}{n}$ is absolutely integrable. Now we show that the variance of the sum tends to zero. For $N = R$ we have
+\begin{align*}
+\E\left[\left(\frac{1}{n}\sum_{k=1}^R Y_k\right)^2\right] &= Var\left[\frac{1}{n}\sum_{k=1}^R Y_k\right] + \left(\E\left[\frac{1}{n}\sum_{k=1}^R Y_k\right]\right)^2\\
+&=\frac{R}{n^2}Var(Y_1) + \frac{R^2}{n^2}\E[Y_1]^2
+\end{align*}
+Hence, using this together with the result for expectation, we get
+\begin{align*}
+  Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0}\E\left[\left(\frac{1}{n}\sum_{k=1}^R Y_k\right)^2 \right]\P(N = R) - \left(\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right]\right)^2\\
+  &=\frac{Var(Y_1)}{n^2}\E[N] + \frac{\E[Y_1]^2}{n^2}\E[N^2] - \frac{1}{n^2}\E[Y_1]^2\E[N]^2\\
+  &= \frac{Var(Y_1)}{n}\E\left[\frac{N}{n}\right] + \E[Y_1]^2Var\left(\frac{N}{n}\right) \overset{n \to \infty}{\longrightarrow} 0
+\end{align*}
+where the variance tends to zero since $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ and $\frac{N}{n}$ is absolutely integrable. Finally we apply Chebyshev's inequality to get that, for any $\epsilon > 0$
+\begin{align*}
+&\P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \mu\E[Y_1]\right| > \epsilon\right)\\
+&\leq \P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \E[Y_1]\E\left[\frac{N}{n}\right]\right| > \frac{\epsilon}{2}\right) + \P\left(\left|\E[Y_1]\E\left[\frac{N}{n}\right] - \mu\E[Y_1]\right| > \frac{\epsilon}{2}\right)\\
+&\leq \frac{4}{\epsilon^2}Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] + \P\left(|\E[Y_1]|\left|\E\left[\frac{N}{n}\right] - \mu\right| > \frac{\epsilon}{2}\right) \overset{n \to \infty}{\longrightarrow} 0
+\end{align*}
+\end{proof}
 
 \bibliography{references}
 \bibliographystyle{ieeetr}
