@@ -390,7 +390,7 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
   \[M_{ij} = \vec{v} \cdot \vec{c} = log{\left( \frac{\#(v, c) \cdot |\D|}{\#(v) \cdot
           \#(c)} \right)} - \log{b}\]
 \end{proof}
-Most interestingly, the resulting expression for the similarity function $s$ is
+\noindent Most interestingly, the resulting expression for the similarity function $s$ is
 the pointwise mutual information (PMI) shifted by a factor of $\log b$. PMI was
 first introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
@@ -409,8 +409,7 @@ shown here since we will only be concerned with SGNS.
 
 \subsection{DeepWalk as Matrix Factorisation}
 We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
-al.\cite{qiu2018} published in 2018 building upon work by Yang et al.\cite{yang2015}
-from 2015. The aim of the former paper was to lay the foundationds for, and
+al. (2018, \cite{qiu2018}) building upon work by Yang et al. (2015, \cite{yang2015}). The aim of the former paper was to lay the foundations for, and
 unify, the SkipGram based network embedding methods. First we give some preliminary definitions.
 \begin{definition}[Adjacency Matrix (A)]
   The adjacency matrix $A \in \R^{|V| \times |V|}$ for a graph $G$ is the matrix with $A_{ij} = 1$ if $(v_i, v_j) \in E(G)$ and $A_{ij} = 0$ otherwise.
@@ -435,7 +434,7 @@ algorithm by proving the following theorem:
       \right)} - \log{b}\]
   where $b$ is the negative sampling rate.
 \end{restatable}
-The theorem assumes that the graph is undirected and that it is connected so
+\noindent The theorem assumes that the graph is undirected and that it is connected so
 that $P$ is irreducible. It is also assumed that the graph is
 non-bipartite to ensure that the random walk converges to it's invariant distribution. In the application to
 social network graphs, this
@@ -446,8 +445,6 @@ graph is not connected, in this case a dummy node can be introduced which
 contains edges to all nodes which will not affect the community structure,
 provided the graph sub-communities are sufficiently dense.
 What follows in the remainder of this section is a careful outline of the proof.\\
-*** If want to include details on bipartite asssumption, see the folder for
-DeepWalk for more information. ***\\
 Firstly, $\pi_i = \frac{d_i}{2|E|}$ satisfies the detailed balance equations:
 \[\pi_i P_{ij} = d_i\cdot \frac{1}{d_i} = d_j \cdot \frac{1}{d_j} = \pi_j P_{ji}\]
 and $\sum_{v_i \in V} \pi_i = 1$.Thus $\pi$ defines a distribution which is
@@ -468,22 +465,18 @@ unique by the following theorem
   \end{itemize}
 \end{theorem}
 This is a standard proof in any course on Markov Chains and so the proof is
-omitted here. See Page 31 of \cite{markov_chains} for details of a proof. As
-well as this, since $P$ is irreducible and thus positive recurrent since the
+omitted here\footnote{See Page 31 of \cite{markov_chains} for details of a proof.}. As
+well as this, since $P$ is irreducible and thus positive recurrentasince the
 graph is finite, under the further assumption that a simple random walk on the
 graph is aperiodic the distribution of the chain tends towards $\pi$ as
 $l \to \infty$.\\
 To proceed with the first lemma it is useful to partition the random-walk corpus as follows:
-
 \begin{definition}
   For $r = 1, \dots, k$, we define the following
   \[\D_{\rar} = \{ (v, c) : (v, c) \in \D, v = v_j, c = v_{j+r}\}\]
   \[\D_{\lar} = \{ (v, c) : (v, c) \in \D, v = v_{j+r}, c = v_{j}\}\]
-  *** Need to give a proper definition to clarify what I mean here ***
-  Thus $\D_{\rar}$/$\D_{\lar}$ are sub-multisets of $\D$ such that the context
-  $c$ is $r$ steps after or before the vertex $v$ in random walks respectively.
+  where the subscripts denote the positioning of a vertex in a random walk.
 \end{definition}
-
 As an extension of previous definitions, we let $\#(v, c)_{\rar}$ and $\#(v,
 c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
 in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
@@ -494,8 +487,8 @@ in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
 \end{lemma}
 
 \begin{proof}
-To begin the proof, we first note that it is sufficient to prove the result for the case in which the number
-of random walks starting from each vertex, $\gamma$, is equal to one. For $\gamma > 1$ we get the independent average of
+To begin the proof, we first note that it is sufficient to consider the case in which the number
+of random walks starting from each vertex is equal to one; for $\gamma > 1$ we get the independent average of
 a finite number of cases with $\gamma = 1$ and thus the result still holds.\\
 We proceed with a single markov chain $Z_n$ which represents steps $r$ apart
 in a random walk on the network and thus has transition matrix $P^r$. Since $\pi$ is invariant for $P$, it is also invariant for $P^r$ and the irreducibility of $Z_n$
@@ -504,16 +497,13 @@ follows since $P$ is irreducible. To prove this lemma we first require a useful 
   Let $N$ be a random variable such that $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ with $\frac{N}{n}$ absolutely integrable. Let $(Y_k)_{k \geq 1}$ be i.i.d random variables bounded in variance and expectation. Then
   \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
 \end{restatable}
-\begin{proof}
+\begin{proof}\renewcommand{\qedsymbol}{}
   \textit{See \hyperref[sec:appendix]{Appendix 1.1} for a proof.}
 \end{proof}
-
-Now let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
-By the ergodic theorem for markov chains [Cite or include in the essay!], we have that:
-
+\noindent Now let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
+By the ergodic theorem for markov chains\footnote{This is also a standard theorem that will be proved in most courses on Markov Chains, a proof can be found on page 37 of \cite{markov_chains_alt}}, we have that:
 \[\frac{N_v(l)}{l} \overset{a.s.}{\longrightarrow} \pi_v \implies \frac{N_v(l)}{l} \overset{p}{\longrightarrow} \pi_v\]
-
-and if we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d, so we can apply the proposition.
+If we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d, so we can apply the proposition.
 This gives the first limit
 \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l}\sum_{k = 1}^{N_v(l)} Y_k \overset{p}{\longrightarrow} \pi_v \E[Y_k] = \pi_v\P(Z_{i_k + 1} = c | Z_{i_k} = v) = \pi_v(P^r)_{v,c}\]
 The second limit can be obtained from the first by applying the detailed balance equations:
@@ -523,11 +513,7 @@ The second limit can be obtained from the first by applying the detailed balance
 \end{align*}
 where the second equality follows since $|\D_{\lar}| = |\D_{\rar}|$.
 \end{proof}
-[Need to adapt this to deal with recurrence/transience like the proof of the Ergodic Theorem in (Norris's?) notes for IB MCs]
-[Note that all Lemma/Theorem numbers need to be checked and changed with the introduction of this extra one.]
-*** Note that Ref 3 gives info about as the length of the RWs becomes long, the
-singleton distribution of vertices will tend to the invariant distribution,
-referencing Modern Graph Theory, Bollobas ***\\
+[Note that all Lemma/Theorem numbers need to be checked and changed with the introduction of this extra one.]\\
 From this lemma, we can go on to show that
 \begin{lemma}
   As $l \to \infty$, we have
@@ -572,6 +558,7 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
 \noindent This proof gives a better understanding of what the DeepWalk algorithm is doing as the lengths of the random walks becomes increasingly large.
 There are many other good questions to ask about DeepWalk, including matters of convergence with stochastic gradient descent, but
 these questions will not explored in this essay.
+[Can I give an interpretation of this matrix that DeepWalk is factorising, like the SkipGram paper gives an interpretation of the PMI matrix, would be helpful for understanding and make a lot of sense.]
 \section{Dynamic DeepWalking}
 In this section we transition away from the static implementation of DeepWalk
 towards network embeddings for Dynamic datasets. In particular, the focus of the
@@ -753,7 +740,7 @@ There are two extreme strategies to search a graph starting from a vertex. The
 first is Breadth-First Search (BFS) which samples the immediate neighbours of
 the node and helps to understand local structure within the nodes close
 proximity. The other is Depth-First Search (DFS) which samples nodes by going as
-far away as possible from the starting vertex. BFS focusses on understanding
+far away as possible from the starting vertex. BFS focuses on understanding
 local structure and DFS on global structure. By using unbiased random walks to
 try and get a fair coverage of the graph, DeepWalk does not allow for
 orientating the focus to a depth-first or breadth-first approach which is useful
@@ -779,9 +766,8 @@ using a grid search) node2vec shows superior performance for learning vertex
 representations used in a number of upstream classification tasks, including on
 the BlogCatalog and Wikipedia datasets used in the original DeepWalk paper.\\
 Since DeepWalk uses unbiased random walks, it corresponds to using node2vec with $p=q=1$. Whilst node2vec brings
-more flexibility, it still suffers from the orthogonal invariance problem. As well as this, it is not always clear if the values of $p$ and $q$ give a
-meaningful interpretation of the importance of BFS and DFS in the exploration of a given network, or whether
-performance enhancements are simply gained from an increase in the dimension of the hyperparameter space.
+more flexibility, it still suffers from the orthogonal invariance problem discussed in Section 4.3. As well as this, it is not always clear if the values of $p$ and $q$ give a
+meaningful interpretation of the importance of BFS and DFS in the exploration of a given network or just increase the dimension of the hyperparameter space.
 \subsection{Capturing Structural Similarity}
 Another drawback of DeepWalk is that it does well at capturing neighbourhoods in the graph, but does not perform well
 at capturing structural similarities amongst nodes. That is to say that DeepWalk
@@ -819,7 +805,7 @@ and maintain the same loss. This is problematic as it makes embeddings very diff
 prevalent when network embeddings are initialized randomly in the Unbiased Update algorithm. Whilst initializing embeddings at their previous values may help with this,
 over time or with the introduction of new vertices to the graph structure, orthogonal invariance remains a prevalent issue.\\
 A possible solution to this involves careful thought of the way generated embeddings are used in upstream tasks. If the loss function for the upstream task
-is dependent on the network embeddings in an orthogonally invariant way then clearly orthogonal invariance is not a problem. However this reduces the ability to
+is dependent on the network embeddings in an orthogonally invariant way then this invariance is not an issue. However this reduces the ability to
 make comparisons between time epochs, where the potential of orthogonal transformation must be carefully considered.\\
 To give a concrete example of this,  if $v^s, v^t \in \mathbb{R}^d$ [Think about notation here!] represent the embeddings of a vertex at times $s$ and $t$ respectively, then
 if the upstream loss is a function of $\norm{v^s}-\norm{v^t}$ then orthogonal invariance will not cause issues since $\norm{Qv} = \norm{v}$ for $Q \in \mathbb{R}^{d \times d}$ orthogonal.
@@ -831,33 +817,30 @@ where the norm is restricted to vertices in $\V_t \cap \V_{t+1}$. This penalisat
 affectiveness would be diminished as the time gap between two embeddings is increased.
 \subsection{Embedding Space Dimensionality}
 In recent years there has been a large body of research devoted to algorithms, such as DeepWalk, for generating meaningful embeddings, however the selection of an appropriate dimensionality for embeddings
-takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested\cite{bradford2008}. However basing dimensionality on a broad guess is not appropriate, since the embeddings generated by DeepWalk are sensitive to dimensionality, especially in the dynamic implementation.\\
+takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested\cite{bradford2008}. However basing dimensionality on a broad guess is not appropriate, since the embeddings generated by DeepWalk are sensitive to dimensionality.\\
 Since increasing the dimensionality of network embeddings increases the number of model parameters, it also increases the learning time. This means that,
 in practice embedding dimensionality is sometimes reduced based on computational savings rather than hyperparameter selection, which can severely reduce the embeddings ability to
 distinguish between graphs effectively, especially in the dynamic case where graph updates are small and incremental.
 Conversely, having too large a dimension increases the likelihood of overfitting, thus increasing the variance of the embeddings with respect to small updates in the graph. This can significantly
-worsen the ability of network embeddings to give a faithful representation of the graph structure and reduces the performance of downstream classification
+worsen the ability of network embeddings to give a faithful representation of the graph structure and reduces the performance of upstream classification
 tasks.\\
 For applying DeepWalk to large dynamic social network graphs this presents a significant stumbling block, since the dimensionality of the embeddings must be large enough to capture incremental differences
 to the graph resulting from changes to a tiny percentage of the graphs nodes and edges, yet the embedding dimensionality must also not be too large so as to keep it's variance low enough for embeddings to
 give a meaningful representation. Therefore, a very careful consideration of embedding dimensionality is suggested when applying DeepWalk to large social network graphs.
-
-
-[1803.00502v4, Yin is a great paper for looking more at this.]
 \section{Conclusion}
 We end by commenting briefly on our journey of understanding more about DeepWalk and suggesting future areas of research.\\
 In the section on DeepWalk a number of theoretical results have been given which show that DeepWalk amounts to an implicit matrix factorisation as the length of the random walks sampled tends to infinity.
-As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), an original proof of [* Lemma 2.5 *] was provided which is much more accessible than the one proposed by Qui et al.
+As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), an original proof of [* Lemma 2.5 *] was provided which is much more accessible than the one proposed in \cite{qiu2018}.
 Whilst these results shed light on the core ideas used by DeepWalk to generate embeddings, no thought is given here to the applicability of these results for smaller random walk lengths, which were used in the original DeepWalk paper ($l = 40$) as well as being widely adopted in future literature. Therefore, by consideration of the mixing times of random walks on large sparse graphs, an analysis of how long random-walks need to be before these
 results are meaningful would be a helpful area for further research, especially if it was coupled with a trade off between random walk lengths and the number of random walks (i.e the performance trade off of $l$ vs $\gamma$).\\
 In the section ``Deep Drawbacks'' we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going un-noticed
 between time epochs for dynamic applications. This also makes embeddings generated by DeepWalk difficult to use in static applications since there is no clear metric of distance between graph embeddings that deals appropriately with the orthogonal invariance, which would be helpful to understand graph similarity. This is explored further by Yin et al. (2018, \cite{yin2018}) who introduce the Pairwise Inner Product (PIP) loss.\\
 We also looked at alternatives to DeepWalk, such as node2vec, which improve on DeepWalk by introducing more flexibility. However it is not clear whether improved results lend themselves to a better interpretation of the graph or simply to an expanded set of hyperparameters. By increasing the hyperparameter space of DeepWalk, node2vec allows for a larger search space of network embeddings and so it will naturally yield better results.
 It would be useful to look at how meaningful these performance gains are. Also of interest would be a study of applying node2vec in the dynamic setting and how an appropriate tuning of $p$ and $q$ over time could lead to a balance between breadth and depth first search over time.\\
-Finally it was noted that DeepWalk, as well as other proposed algorithms, are suitable for generating network embeddings only for suitable upstream tasks. A way in which a number of these methods could be combined in an ensemble of algorithms would be useful for when the upstream classification task is not yet known. For example, if a social network
+Finally it was noted that DeepWalk, as well as other proposed algorithms, are suitable for generating network embeddings only for suitable upstream tasks. Understanding how a variety of these algorithms could be combined in an ensemble would be useful for applications when the upstream classification task is not yet known. For example, if a social network
 does not want to store relational information of groups due to privacy concerns or regulation, it may want to store network embeddings instead from which it can apply upstream classification tasks in the future. For such applications it would be helpful to have an algorithm that tries to store as much information as possible for a more general class of relational classification problems.\\
 
-[Noes: See Remark 1, Paper 2', I have actually proved this so the assumpion that it starts in the steady state distribution is not required!]
+[Notes: See Remark 1, Paper 2', I have actually proved this so the assumpion that it starts in the steady state distribution is not required!]
 \section{Appendix}
 \label{sec:appendix}
 \subsection{Appendix 1}
