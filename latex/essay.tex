@@ -36,7 +36,7 @@
 
 \section{Introduction}
 The motivation of this essay and the methods it presents comes from the desire to understand networks of people and the relationships between them.
-From a mathematical perspective, the natural way to go about studying social networks is to let nodes of a graph G represent the people and edges their relationships. From this, we can induce some understanding of the neighbourhoods that a network consists of. This task of understanding the communities that exist in a social network is a complex one; even with a relatively small number of people it is not a task for which humans perform very well and the task rapidly becomes difficult as the size of the network increases.\\
+From a mathematical perspective, the natural way to go about studying social networks is to let nodes of a graph $G$ represent the people and edges their relationships. From this, we can induce some understanding of the neighbourhoods that a network consists of. This task of understanding the communities that exist in a social network is a complex one; even with a relatively small number of people it is not a task for which humans perform well and the task rapidly becomes difficult as the size of the network increases.\\
 Network embeddings are a useful way to characterise the complex structures that
 can exist in these graphs. The idea behind them is to represent each member of a
 network with a point in space, where the distance according to some metric
@@ -80,16 +80,18 @@ The section on DeepWalk explores the fundamental connection between DeepWalk and
 matrix factorisation as presented in the paper by Qiu et al.\cite{qiu2018}. In
 this section, we demonstrate the conditions under which DeepWalk is factorising
 an appropriate matrix that stores some measure of similarity between
-nodes in the graph. In the section ``Deep Drawbacks'' we look at some of the
-criticism that followed the original DeepWalk paper and how these criticisms
-were addressed by future authors. This section is indicative of the shortcomings
-of DeepWalk but is by no means exhaustive.\\
+nodes in the graph.\\
 After this, the section ``Dynamic DeepWalking'' focuses on applying a variant of the DeepWalk algorithm, proposed
 by Sajjad et al. \cite{sajjad2019}, for dynamic graphs. This is especially
 important in the context of social graphs, which usually contain temporal information
 about user interactions. Learning social
 representations for dynamic graphs can allow for a better understanding of how
 communities move and change over time.\\
+In the section ``Deep Drawbacks'' we look at some of the
+criticism that followed the original DeepWalk paper and how these criticisms
+were addressed by future authors. This section is indicative of the shortcomings
+of DeepWalk but is by no means exhaustive.\\
+Finally in the conclusion of the essay we suggest ideas that could be explored for further research.
 
 \subsection{Preliminary Notation}
 I have endeavoured to use similar notation to the original DeepWalk paper to ease
@@ -155,20 +157,19 @@ To understand DeepWalk mathematically, we first need to understand what the Skip
 model is doing, since this is the model underpinning DeepWalk. SkipGram was
 prposed by Mikolev et al.\cite{mikolov2013efficient} as an efficient way to
 learn word embeddings. The idea behind SkipGram is to learn embeddings which are good at
-predicting nearby words in sentences. For a sentence $w_1, ... , w_N$, the
+predicting nearby words in sentences. For a sentence $w_1, ... , w_l$ the
 nearby words from $w_i$, known as context words, are defined as the set of words
-within distance $k$, $\{w_{i-k}, w_{i-k+1}, \dots , w_{i+k}\} \setminus w_i$, where $k$ is the size of the window. SkipGram
+within distance $k$, $C(w_i) = \{w_{i-k}, w_{i-k+1}, \dots , w_{i+k}\} \setminus w_i$, where $k$ is the size of the window. SkipGram
 minimises the following objective function
-\[\mathcal{L} = - \sum_{c \in C(w)} \log{\P(c | w)}\]
-where $\P(c | w)$ is modelled by a softmax function
-\[\P(u|v) = \frac{\exp{(\vec{w} \cdot \vec{c}})}{\sum_{c \in \mathcal{F}}\exp{(\vec{w} \cdot
+\[\mathcal{L} = - \sum_{r = 1}^{l} \sum_{c \in C(w)} \log{\P(c | w)}\]
+with $\P(c | w)$ modelled by a softmax function
+\[\P(c|w) = \frac{\exp{(\vec{w} \cdot \vec{c}})}{\sum_{c \in \mathcal{F}}\exp{(\vec{w} \cdot
     \vec{c}})}\]
 where $\mathcal{F}$ is the vocabulary and $\vec{w}$ represents the
 embedding of the word $w$ and $\vec{c}$ the distributed representation of $c$ when it serves as a
 context word.\\
-*** Can I be clearer about what this distributed representation is? ***\\
 Perrozi et al. took this model from NLP and applied it to graphs by observing
-that nodes in the graph can be thought of as words in an antificial language.
+that nodes in the graph can be thought of as words in an artificial language.
 Firstly, to find the context for each node, DeepWalk generates random walks
 which are analagous to sentences in a language. The context nodes are the set of
 nodes within a window of size $k$, from which input-context pairs $(v, c)$ are
@@ -184,7 +185,7 @@ nodes are shuffled so that they are traversed in a random order.\footnote{This
 $v \in V$ a random walk $\mathcal{W}_v$ of length $l$ is generated and used to
 update the network embeddings using the SkipGram algorithm applied to the random
 walk.\\
-From the perspective of machine learning, SkipGram trains a neural network to do
+From a different perspective, SkipGram trains a neural network to do
 a ``fake'' task. It trains on this task, and then the corresponding weights
 learned are used as embeddings. The task is as follows:\\
 Given an input vertex $v$ somewhere in a random walk $\mathcal{W}$. Pick a
@@ -281,14 +282,12 @@ In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used
 Hierarchical Softmax. Negative Sampling updates only a sample of the output
 vectors per iteration. In the remainder of this essay, when referring to DeepWalk, it will be
 implicitly assumed that Negative Sampling is used as appose to Hierarchical
-Softmax. This is because SGNS has been found to be more efficient
-and therefore has been adopted by much of the further literature. This convention will also
+Softmax. This is because SGNS has been found empirically to be more efficient
+and therefore has been adopted by much of the further literature\cite{mikolov2013distributed}. This convention will also
 serve us well when we look at applying DeepWalk to dynamic graphs since here
 Negative Sampling is also applied.\\
 *** Can give a summary of NS here, if so just summarise what is said in Blog
 Post 2 on SkipGram ***\\
-*** Has NS been shown, or just found empirically, to be more efficient then
-Hierarchical Softmax? Check node2vec paper for information on this. ***\\
 \subsection{SkipGram as Matrix Factorisation}
 In this section we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matricies $W$
@@ -296,8 +295,8 @@ and $C$ where the rows in $W$ correspond to the learned embedding of each vertex
 in the graph. This result was first proved by Levy and
 Goldberg\cite{levy&goldberg} in the context of word embeddings.\\
 \subsubsection{Objective of SGNS}
-Given an arbitrary input-context pair $(v,c)$ the objective is to determine if
-the pair comes from the random-walk corpus $\mathcal{D}$.\\
+Given an arbitrary input-context pair $(v,c)$ the objective of SGNS is to determine if
+the pair comes from the random-walk corpus $\mathcal{D}$, which is a multiset containing vertex-context pairs generated from the random walks.\\
 Let $P(\D = 1 | v, c)$ denote the probability that $(v,c)$ comes from a random
 walk on the graph and $P(\D = 0| v, c)$
 the probability it does not. Then the distribution is modelled by a sigmoid
@@ -308,32 +307,29 @@ whilst simultaneously maximising $P(\D = 0 | v, c)$ for randomly sampled
 negative examples.\\
 It assumes that randomly selecting a context $c$ for a given
 node $v$ is likely to result in a ``negative sample'', an unobserved pair $(v,c)$. In the context of
-social networks, this assumption is reasonable since social networks are almost
+social networks this assumption is reasonable since social networks are almost
 always sparse (The number of edges is usually $O(|V|)$ and not $O(|V|^2)$). However in a different
 context, if the network is dense, then this may be an unreasonable assumption.\\
 According to this assumption, the objective function of SGNS for a single
 observation $(v,c)$ is:
-\[\phi(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_{N} \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c})}\]
+\[\phi(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_* \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c_*})}\]
 where the minus sign comes from the fact that $1 - \sigma(x) = \sigma(-x)$, $b$
-is the number of negative samples and $c_N$ is the sampled context node, drawn
-according to $P_D (c) = \frac{\#(c)}{| \D |}$ which is known as the unigram
+is the number of negative samples and $c_*$ is the sampled context node, drawn
+according to $P_{\D} (c_*) = \frac{\#(c_*)}{| \D |}$ which is known as the unigram
 distribution.\\
-
-*** The objective function and this bit generally needs more explanation, read
-Mikolev et al. to get a better grasp. It is not clear here. ***
 \begin{notation} $\#(v,c)$, $\#(v)$ and $\#(c)$ denote the number of times vertex-context pair
   $(v,c)$, vertex $v$ and context $c$ appear in the generated random-walk corpus
   $\mathcal{D}$ respectively.
 \end{notation}
-This objective function is trained using stochastic gradient descent with
+\noindent This objective function is trained using stochastic gradient descent with
 updates after each  observed pair in the random-walk corpus $\D$. The resulting
 global objective becomes
-\begin{equation}
+\begin{equation*}
   \mathcal{L} = \sum_{v \in V} \sum_{c \in V} \phi(v, c)
-\end{equation}
+\end{equation*}
 \subsubsection{Finding the Similarity Function Learned by SkipGram}
 If we let $W$ be the matrix with rows $v_i$ (The matrix $W$ is used to highlight
-that it is the weight matrix in the neural network presented in Figure 2) and $C$ the matrix with columns
+that it is the weight matrix in the neural network presented in Figure 2) and $C$ the matrix with rows
 $c_i$ then SGNS can be interpreted as factorising a matrix $M = WC^T$. An entry in the matrix $M_{ij}$ corresponds to the dot product $\vec{v_i} \cdot
 \vec{c_j}$. Therefore SGNS is factorising a matrix in which each row corresponds
 to an input node $v_i \in |V|$ and each column to a context node $c_j \in |V|$ and the value of $M_{ij}$ expresses the
@@ -348,22 +344,17 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
 
 \begin{proof}
   Firstly, for sufficiently large dimensionality $d$ (so as to allow for a perfect
-  reconstruction of $M$), each of the products $v_i \cdot c_j$ can be assumed to
-  take their values independently of the others.
-  *** WHY. EXPLAIN THIS. Why not sufficiently large value of $|\D|$, why does $d$
-  matter here? ***
-
+  reconstruction of $M$\footnote{If $d$ is not sufficiently large then the product of $W$ and $C^T$ might not have enough free parameters to encode the similarity function at each vertex-context pair.}), each of the products $v_i \cdot c_j$ can be assumed to
+  take their values independently of the others.\\
   Due to this independence, the objective function $\mathcal{L}$ can be maximised with
-  respect to each pair $v \cdot c$ individually.
-
-  The expectation term can be written explicitly as
+  respect to each pair $v \cdot c$ individually. The expectation term can be written explicitly as
   \begin{align*}
-    \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] &= \sum_{\tilde{c} \in V}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}\\
-                                                                             &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{\tilde{c} \in V \setminus \{c\}}{\frac{\#(\tilde{c})}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}}
+    \E_{c_* \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{c_*})}] &= \sum_{c_* \in V}{\frac{\#(c_*)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c_*})}}\\
+                                                                             &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{c_*\in V \setminus \{c\}}{\frac{\#(c_*)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c_*})}}
   \end{align*}
   and the objective function $\mathcal{L}$ can be expressed as
   \begin{equation*}
-    \mathcal{L} =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{\tilde{c} \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{\tilde{c}})}] \right)
+    \mathcal{L} =  \sum_{v \in V}\sum_{c \in V}\#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + \sum_{v \in V}\#(v)\left(b \cdot \E_{c _* \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{c_*})}] \right)
   \end{equation*}
   where the second term comes from the fact that $\#(v) = \sum_{c \in V}\#(v,c)$
   by definition. Combining these equations gives that the local objective for an input-context
@@ -410,7 +401,7 @@ shown here since we will only be concerned with SGNS.
 \subsection{DeepWalk as Matrix Factorisation}
 We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
 al. (2018, \cite{qiu2018}) building upon work by Yang et al. (2015, \cite{yang2015}). The aim of the former paper was to lay the foundations for, and
-unify, the SkipGram based network embedding methods. First we give some preliminary definitions.
+unify, the SkipGram based network embedding methods which had arisen in the years since DeepWalk in 2014. First we give some preliminary definitions.
 \begin{definition}[Adjacency Matrix (A)]
   The adjacency matrix $A \in \R^{|V| \times |V|}$ for a graph $G$ is the matrix with $A_{ij} = 1$ if $(v_i, v_j) \in E(G)$ and $A_{ij} = 0$ otherwise.
 \end{definition}
@@ -445,7 +436,7 @@ graph is not connected, in this case a dummy node can be introduced which
 contains edges to all nodes which will not affect the community structure,
 provided the graph sub-communities are sufficiently dense.
 What follows in the remainder of this section is a careful outline of the proof.\\
-Firstly, $\pi_i = \frac{d_i}{2|E|}$ satisfies the detailed balance equations:
+Firstly we note that $\pi_i = \frac{d_i}{2|E|}$ satisfies the detailed balance equations:
 \[\pi_i P_{ij} = d_i\cdot \frac{1}{d_i} = d_j \cdot \frac{1}{d_j} = \pi_j P_{ji}\]
 and $\sum_{v_i \in V} \pi_i = 1$.Thus $\pi$ defines a distribution which is
 invariant for a simple random walk on the graph. Since the state space is
@@ -466,7 +457,7 @@ unique by the following theorem
 \end{theorem}
 This is a standard proof in any course on Markov Chains and so the proof is
 omitted here\footnote{See Page 31 of \cite{markov_chains} for details of a proof.}. As
-well as this, since $P$ is irreducible and thus positive recurrentasince the
+well as this, since $P$ is irreducible and thus positive recurrent since the
 graph is finite, under the further assumption that a simple random walk on the
 graph is aperiodic the distribution of the chain tends towards $\pi$ as
 $l \to \infty$.\\
@@ -503,7 +494,7 @@ follows since $P$ is irreducible. To prove this lemma we first require a useful 
 \noindent Now let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
 By the ergodic theorem for markov chains\footnote{This is also a standard theorem that will be proved in most courses on Markov Chains, a proof can be found on page 37 of \cite{markov_chains_alt}}, we have that:
 \[\frac{N_v(l)}{l} \overset{a.s.}{\longrightarrow} \pi_v \implies \frac{N_v(l)}{l} \overset{p}{\longrightarrow} \pi_v\]
-If we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d, so we can apply the proposition.
+If we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d if $Z_0 = v$. Since $Z$ is aperiodic and positive recurrent it will reach $v$ in finite time with any initial distribution so we can apply the proposition regardless of the initial distribution of the chain.
 This gives the first limit
 \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l}\sum_{k = 1}^{N_v(l)} Y_k \overset{p}{\longrightarrow} \pi_v \E[Y_k] = \pi_v\P(Z_{i_k + 1} = c | Z_{i_k} = v) = \pi_v(P^r)_{v,c}\]
 The second limit can be obtained from the first by applying the detailed balance equations:
@@ -522,11 +513,11 @@ From this lemma, we can go on to show that
 \end{lemma}
 \begin{proof}
   \begin{align*}
-    \frac{\#(v, c)}{|\D|} &=  \frac{\sum_{r=1}^k (\#(v, c)_{\rar} + \#(v, c)_{\lar})}{\sum_{r=1}^k (|\D_{\rar}| + |\D_{\lar}|)} = \frac{1}{2k} \sum_{r=1}^k \left( \frac{\#(v, c)}{|\D_{\rar}|} + \frac{\#(v, c)}{|\D_{\lar}|} \right)\\
+    \frac{\#(v, c)}{|\D|} &=  \frac{1}{|\D|}\sum_{r=1}^k (\#(v, c)_{\rar} + \#(v, c)_{\lar})= \frac{1}{2k} \sum_{r=1}^k \left( \frac{\#(v, c)_{\rar}}{|\D_{\rar}|} + \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \right)\\
                           &\overset{p}{\longrightarrow} \frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}
   \end{align*}
   where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
-  \frac{|\D|}{2k}$ and the convergence comes from applying [Theorem XX],
+  \frac{|\D|}{2k}$ and the convergence comes from applying Lemma 2.5,
   together with the continuous mapping theorem.
 \end{proof}
 This gives everything we need to prove the main theorem of this section, that
@@ -535,7 +526,7 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
 \begin{proof}
   Firstly, by summing the result of [Theorem XX] we get
   \begin{align*}
-    \frac{\#(v)}{|\D|} &= \sum_{c \in V}\#(v, c)\\
+    \frac{\#(v)}{|\D|} &= \sum_{c \in V}\frac{\#(v, c)}{|\D|}\\
                        &\overset{p}{\longrightarrow} \sum_{c \in V} \frac{1}{k}\sum_{r=1}^k \pi_v(P^r)_{v, c}\\
                        &\frac{\pi_v}{k}\sum_{r = 1}^k \sum_{c \in V}(P^r)_{v,c} = \frac{\pi_v}{k}\sum_{r = 1}^k 1 = \pi_v
   \end{align*}
@@ -626,7 +617,7 @@ walk corpus an algorithm called Naïve Update Algorithm 2 is introduced. This
 algorithm generates random walks of length $l$ for each of the affected vertices. Once this is complete, it updates the random walks $W^t$ by
 replacing the old walks with the corresponding re-generated walks and adds the
 random walks initiated from new vertices.\\
-\begin{algorithm}[!h]
+\begin{algorithm}[!ht]
   \caption{Naïve Update}
   \begin{algorithmic}[1]
 
@@ -649,7 +640,7 @@ walk corpus at time $t+1$. To solve this problem a more sophisticated algorithm
 must be introduced.
 \subsubsection{Unbiased Update}
 
-\begin{algorithm}[!h]
+\begin{algorithm}[!ht]
   \caption{Unbiased Update}
   \begin{algorithmic}[1]
 
@@ -830,7 +821,7 @@ give a meaningful representation. Therefore, a very careful consideration of emb
 \section{Conclusion}
 We end by commenting briefly on our journey of understanding more about DeepWalk and suggesting future areas of research.\\
 In the section on DeepWalk a number of theoretical results have been given which show that DeepWalk amounts to an implicit matrix factorisation as the length of the random walks sampled tends to infinity.
-As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), an original proof of [* Lemma 2.5 *] was provided which is much more accessible than the one proposed in \cite{qiu2018}.
+As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), an original proof of Lemma 2.5 was provided which is much more accessible than the one proposed in \cite{qiu2018}.
 Whilst these results shed light on the core ideas used by DeepWalk to generate embeddings, no thought is given here to the applicability of these results for smaller random walk lengths, which were used in the original DeepWalk paper ($l = 40$) as well as being widely adopted in future literature. Therefore, by consideration of the mixing times of random walks on large sparse graphs, an analysis of how long random-walks need to be before these
 results are meaningful would be a helpful area for further research, especially if it was coupled with a trade off between random walk lengths and the number of random walks (i.e the performance trade off of $l$ vs $\gamma$).\\
 In the section ``Deep Drawbacks'' we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going un-noticed
@@ -872,8 +863,8 @@ where the variance tends to zero since $\frac{N}{n} \overset{p}{\longrightarrow}
 \end{align*}
 \end{proof}
 
+\bibliographystyle{IEEEtran}
 \bibliography{references}
-\bibliographystyle{ieeetr}
 
 
 
