@@ -17,6 +17,7 @@
 \usepackage{algorithm}
 \usepackage{bbm}
 \usepackage{hyperref}
+\usepackage{url}
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
@@ -479,9 +480,9 @@ notation for the next Lemma.
   The first term clearly tends to 0 so we focus on the second. Suppose that $|i-j| > N(\delta)$ implies that $Cov(Y_i, Y_j) < \delta$. For $n > N = N(\delta)$ we have
   \begin{align*}
     \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)&=\frac{1}{n^2}\sum_{1 \leq |i-j| \leq N}^n Cov(Y_i, Y_j) + \frac{1}{n^2}\sum_{|i-j| > N}^n Cov(Y_i, Y_j)\\
-    &\leq \frac{1}{n^2}\left(n(N-1)K + n^2\delta\right) = \frac{(N-1)K}{n} + \delta
+    &\leq \frac{1}{n^2}\left(nNK + n^2\delta\right) = \frac{NK}{n} + \delta
   \end{align*}
-  where the second inequality comes from applying the Cauchy-Schwarz inequality together with the bounded variance for the first term and using $n > N$ for the second. For any $\epsilon > 0$, we can pick $\delta$ sufficiently small and $N_1$ such that for all $n > N_1 \gg N(\delta)$ we have $Var\left(\frac{S_n}{n}\right) < \epsilon$ and so $Var\left(\frac{S_n}{n}\right) \to 0$.\\
+  where the inequality comes from applying Cauchy-Schwarz together with the bounded variance assumption for the first term and using $n > N$ for the second. For any $\epsilon > 0$, we can pick $\delta$ sufficiently small and $N_1$ such that for all $n > N_1 \gg N(\delta)$ we have $Var\left(\frac{S_n}{n}\right) < \epsilon$ and so $Var\left(\frac{S_n}{n}\right) \to 0$.\\
   Finally, applying Chebyshev's inequality with the triangle inequality yields
   \begin{align*}
   \P\left(\left| \frac{S_n}{n} - \mu\right| > \epsilon \right) &\leq \P\left(\left| \frac{S_n}{n} - \E\left[\frac{S_n}{n}\right]\right| > \frac{\epsilon}{2} \right) + \P\left(\left| \E\left[\frac{S_n}{n}\right] - \mu\right| > \frac{\epsilon}{2} \right)\\
@@ -499,11 +500,11 @@ We can use Proposition 2.5 to understand the limiting distribution of vertex-con
   We proceed with a single markov chain $X_n$ which represents a single random walk with initial distribution $\lambda$. We define $$Y_j = \mathbbm{1}(X_j = v, X_{j+r} = c) \text{ and } Q = P^r$$.\\
   Then we have that
   \[\E[Y_j] = \P(X_j = v, X_{j+r} = c) = (P^j \lambda)_vQ_{vc} \to \pi_vQ_{vc} \text{ as } j \to \infty\]
-  and for $i + r < j$:
+  by convergence of the markov chain to it's invariant distribution\footnote{This follows since the chain is irreducible, positive recurrent and aperiodic by assumption. Convergence of a markov chain to it's invariant distribution is standard, but a proof may be found on Page 34 of \cite{markov_chains}.}. For $i + r < j$:
   \[\E[Y_iY_j] = \P(X_i = v, X_{i+r} = c, X_j = v, X_{j+r} = c) = (P^i \lambda)_vQ_{vc}(P^{j-i-r})_{cv}Q_{vc}\]
   which gives that
   \[Cov(Y_i, Y_j) = (P^i\lambda)_vQ_{vc}^2\left[\underbrace{(P^{j-i-r})_{cv}}_{\to \pi_v} - \underbrace{(P^j\lambda)_{v}}_{\to \pi_v}\right] \to 0 \text{ as } j-i \to \infty\]
-  Since the $Y_j$ are indicator functions their variance is bounded above by 1. Applying Proposition 2.5 gives
+  Since the $Y_j$ are indicator functions their variances are bounded above by 1. Applying Proposition 2.5 gives
   \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l-r}\sum_{j = 0}^{l-r-1} Y_j \overset{p}{\longrightarrow} \pi_vQ_{vc} \]
   The second limit can be obtained from the first by applying the detailed balance equations:
   \begin{align*}

@@ -22,9 +22,11 @@
 \BIBdecl
 
 \bibitem{deepwalk}
-B.~Perozzi, R.~Al-Rfou, and S.~Skiena, ``Deepwalk: Online learning of social
-  representations,'' \emph{Proceedings of the ACM SIGKDD International
-  Conference on Knowledge Discovery and Data Mining}, 03 2014.
+\BIBentryALTinterwordspacing
+B.~Perozzi, R.~Al{-}Rfou, and S.~Skiena, ``Deepwalk: Online learning of social
+  representations,'' \emph{CoRR}, vol. abs/1403.6652, 2014. [Online].
+  Available: \url{http://arxiv.org/abs/1403.6652}
+\BIBentrySTDinterwordspacing
 
 \bibitem{zachary1977}
 \BIBentryALTinterwordspacing
@@ -35,7 +37,9 @@ W.~W. Zachary, ``An information flow model for conflict and fission in small
 \BIBentrySTDinterwordspacing
 
 \bibitem{maaten2008}
-L.~van~der Maaten and G.~Hinton, ``Visualizing data using t-sne,'' 2008.
+G.~Hinton and L.~van~der Maaten, ``Visualizing data using t-sne,''
+  \emph{Journal of machine learning research}, vol.~9, no. 2579--2605, p.~85,
+  2008.
 
 \bibitem{qiu2018}
 \BIBentryALTinterwordspacing
@@ -54,17 +58,27 @@ H.~P. Sajjad, A.~Docherty, and Y.~Tyshetskiy, ``Efficient representation
 \BIBentrySTDinterwordspacing
 
 \bibitem{mikolov2013efficient}
+\BIBentryALTinterwordspacing
 T.~Mikolov, K.~Chen, G.~Corrado, and J.~Dean, ``Efficient estimation of word
-  representations in vector space,'' 2013.
+  representations in vector space,'' in \emph{1st International Conference on
+  Learning Representations, {ICLR} 2013, Scottsdale, Arizona, USA, May 2-4,
+  2013, Workshop Track Proceedings}, Y.~Bengio and Y.~LeCun, Eds., 2013.
+  [Online]. Available: \url{http://arxiv.org/abs/1301.3781}
+\BIBentrySTDinterwordspacing
 
 \bibitem{mikolov2013distributed}
+\BIBentryALTinterwordspacing
 T.~Mikolov, I.~Sutskever, K.~Chen, G.~Corrado, and J.~Dean, ``Distributed
   representations of words and phrases and their compositionality,'' 2013.
+  [Online]. Available: \url{http://arxiv.org/abs/1310.4546}
+\BIBentrySTDinterwordspacing
 
 \bibitem{levy&goldberg}
 O.~Levy and Y.~Goldberg, ``Neural word embedding as implicit matrix
-  factorization,'' \emph{Advances in Neural Information Processing Systems},
-  vol.~3, pp. 2177--2185, 01 2014.
+  factorization,'' in \emph{Proceedings of the 27th International Conference on
+  Neural Information Processing Systems - Volume 2}, ser. NIPS’14.\hskip 1em
+  plus 0.5em minus 0.4em\relax Cambridge, MA, USA: MIT Press, 2014, p.
+  2177–2185.
 
 \bibitem{church1990}
 \BIBentryALTinterwordspacing
@@ -91,7 +105,10 @@ C.~Yang, Z.~Liu, D.~Zhao, M.~Sun, and E.~Y. Chang, ``Network representation
 \BIBentrySTDinterwordspacing
 
 \bibitem{markov_chains}
-D.~Chua, ``Part ib markov chains.''
+\BIBentryALTinterwordspacing
+D.~Chua, ``{Part IB Markov Chains}.'' [Online]. Available:
+  \url{https://dec41.user.srcf.net/notes/IB_M/markov_chains.pdf}
+\BIBentrySTDinterwordspacing
 
 \bibitem{grover_leskovec2016}
 \BIBentryALTinterwordspacing
@@ -119,6 +136,10 @@ R.~B. Bradford, ``An empirical study of required dimensionality for large-scale
 \BIBentrySTDinterwordspacing
 
 \bibitem{yin2018}
-Z.~Yin and Y.~Shen, ``On the dimensionality of word embedding,'' 2018.
+\BIBentryALTinterwordspacing
+Z.~Yin and Y.~Shen, ``On the dimensionality of word embedding,'' \emph{CoRR},
+  vol. abs/1812.04224, 2018. [Online]. Available:
+  \url{http://arxiv.org/abs/1812.04224}
+\BIBentrySTDinterwordspacing
 
 \end{thebibliography}
