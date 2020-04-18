@@ -1,0 +1,62 @@
+\section{Appendix}
+\label{sec:appendix}
+\subsection{Appendix 1}
+The only appendix is a full proof of Proposition 2.5, which is used in the proof for the main theorem in the DeepWalk section.
+\begin{lemma}[Limiting Distribution of DeepWalk]
+  As $l \to \infty$, we have
+  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \  \text{and}
+    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \]
+\end{lemma}
+\begin{proof}
+To begin the proof, we first note that it is sufficient to consider the case in which the number
+of random walks starting from each vertex is equal to one; for $\gamma > 1$ we get the independent average of
+a finite number of cases with $\gamma = 1$ and thus the result still holds.\\
+We proceed with a single markov chain $Z_n$ which represents steps $r$ apart
+in a random walk on the network and thus has transition matrix $P^r$. Since $\pi$ is invariant for $P$, it is also invariant for $P^r$ and the irreducibility of $Z_n$
+follows since $P$ is irreducible. To prove this lemma we first require a useful proposition.
+\begin{restatable}{proposition}{Prop}
+  Let $N$ be a random variable such that $\frac{N_n}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ with $\frac{N_n}{n}$ absolutely integrable. Let $(Y_k)_{k \geq 1}$ be i.i.d random variables bounded in variance and expectation. Then
+  \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
+\end{restatable}
+\begin{proof}\renewcommand{\qedsymbol}{}
+  \textit{See \hyperref[sec:appendix]{Appendix 1.1} for a proof.}
+\end{proof}
+\noindent Now let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
+By the ergodic theorem for markov chains\footnote{This is also a standard theorem that will be proved in most courses on Markov Chains, a proof can be found on page 37 of \cite{markov_chains_alt}}, we have that:
+\[\frac{N_v(l)}{l} \overset{a.s.}{\longrightarrow} \pi_v \implies \frac{N_v(l)}{l} \overset{p}{\longrightarrow} \pi_v\]
+If we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d if $Z_0 = v$. Since $Z$ is aperiodic and positive recurrent it will reach $v$ in finite time with any initial distribution so we can apply the proposition regardless of the initial distribution of the chain.
+This gives the first limit
+\[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l}\sum_{k = 1}^{N_v(l)} Y_k \overset{p}{\longrightarrow} \pi_v \E[Y_k] = \pi_v\P(Z_{i_k + 1} = c | Z_{i_k} = v) = \pi_v(P^r)_{v,c}\]
+The second limit can be obtained from the first by applying the detailed balance equations:
+\begin{align*}
+\frac{\#(v, c)_{\lar}}{|\D_{\lar}|} &= \frac{\#(c, v)_{\rar}}{|\D_{\lar}|}\\
+&=\frac{\#(c, v)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_c(P^r)_{c,v} = \pi_v (P^r)_{v,c}
+\end{align*}
+where the second equality follows since $|\D_{\lar}| = |\D_{\rar}|$.
+\end{proof}
+\Prop*
+\begin{proof}
+Firstly we will show that the sum converges in expectation appropriately
+\begin{align*}
+\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^N Y_k | N = R\right]\P(N = R)\\
+&= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^R Y_k \right]\P(N = R)\\
+&= \E[Y_1]\sum_{R \geq 0} \frac{R}{n}\P(N = R) = \E[Y_1]\E\left[\frac{N}{n}\right] \overset{n \to \infty}{\longrightarrow} \mu\E[Y_1]
+\end{align*}
+where the last inequality follows since $\frac{N}{n}$ is absolutely integrable. Now we show that the variance of the sum tends to zero. For $N = R$ we have
+\begin{align*}
+\E\left[\left(\frac{1}{n}\sum_{k=1}^R Y_k\right)^2\right] &= Var\left[\frac{1}{n}\sum_{k=1}^R Y_k\right] + \left(\E\left[\frac{1}{n}\sum_{k=1}^R Y_k\right]\right)^2\\
+&=\frac{R}{n^2}Var(Y_1) + \frac{R^2}{n^2}\E[Y_1]^2
+\end{align*}
+Hence, using this together with the result for expectation, we get
+\begin{align*}
+  Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0}\E\left[\left(\frac{1}{n}\sum_{k=1}^R Y_k\right)^2 \right]\P(N = R) - \left(\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right]\right)^2\\
+  &=\frac{Var(Y_1)}{n^2}\E[N] + \frac{\E[Y_1]^2}{n^2}\E[N^2] - \frac{1}{n^2}\E[Y_1]^2\E[N]^2\\
+  &= \frac{Var(Y_1)}{n}\E\left[\frac{N}{n}\right] + \E[Y_1]^2Var\left(\frac{N}{n}\right) \overset{n \to \infty}{\longrightarrow} 0
+\end{align*}
+where the variance tends to zero since $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ and $\frac{N}{n}$ is absolutely integrable. Finally we apply Chebyshev's inequality to get that, for any $\epsilon > 0$
+\begin{align*}
+&\P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \mu\E[Y_1]\right| > \epsilon\right)\\
+&\leq \P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \E[Y_1]\E\left[\frac{N}{n}\right]\right| > \frac{\epsilon}{2}\right) + \P\left(\left|\E[Y_1]\E\left[\frac{N}{n}\right] - \mu\E[Y_1]\right| > \frac{\epsilon}{2}\right)\\
+&\leq \frac{4}{\epsilon^2}Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] + \P\left(|\E[Y_1]|\left|\E\left[\frac{N}{n}\right] - \mu\right| > \frac{\epsilon}{2}\right) \overset{n \to \infty}{\longrightarrow} 0
+\end{align*}
+\end{proof}

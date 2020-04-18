@@ -7,15 +7,13 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{8}{subsubsection.2.2.1}% 
 \contentsline {subsubsection}{\numberline {2.2.2}Finding the Similarity Function Learned by SkipGram}{8}{subsubsection.2.2.2}% 
 \contentsline {subsection}{\numberline {2.3}DeepWalk as Matrix Factorisation}{10}{subsection.2.3}% 
-\contentsline {section}{\numberline {3}Dynamic DeepWalking}{15}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Updating the Random Walk Corpus}{16}{subsection.3.1}% 
-\contentsline {subsubsection}{\numberline {3.1.1}Unbiased Update}{16}{subsubsection.3.1.1}% 
-\contentsline {subsection}{\numberline {3.2}Updating the Vertex Representations Efficiently}{17}{subsection.3.2}% 
-\contentsline {section}{\numberline {4}Deep Drawbacks}{19}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Exploring Local and Global Properties of Graphs}{19}{subsection.4.1}% 
-\contentsline {subsection}{\numberline {4.2}Capturing Structural Similarity}{19}{subsection.4.2}% 
-\contentsline {subsection}{\numberline {4.3}Orthogonal Invariance}{20}{subsection.4.3}% 
-\contentsline {subsection}{\numberline {4.4}Embedding Space Dimensionality}{21}{subsection.4.4}% 
-\contentsline {section}{\numberline {5}Conclusion}{23}{section.5}% 
-\contentsline {section}{\numberline {6}Appendix}{25}{section.6}% 
-\contentsline {subsection}{\numberline {6.1}Appendix 1}{25}{subsection.6.1}% 
+\contentsline {section}{\numberline {3}Dynamic DeepWalking}{16}{section.3}% 
+\contentsline {subsection}{\numberline {3.1}Updating the Random Walk Corpus}{17}{subsection.3.1}% 
+\contentsline {subsubsection}{\numberline {3.1.1}Unbiased Update}{17}{subsubsection.3.1.1}% 
+\contentsline {subsection}{\numberline {3.2}Updating the Vertex Representations Efficiently}{18}{subsection.3.2}% 
+\contentsline {section}{\numberline {4}Deep Drawbacks}{20}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Exploring Local and Global Properties of Graphs}{20}{subsection.4.1}% 
+\contentsline {subsection}{\numberline {4.2}Capturing Structural Similarity}{20}{subsection.4.2}% 
+\contentsline {subsection}{\numberline {4.3}Orthogonal Invariance}{21}{subsection.4.3}% 
+\contentsline {subsection}{\numberline {4.4}Embedding Space Dimensionality}{22}{subsection.4.4}% 
+\contentsline {section}{\numberline {5}Conclusion}{24}{section.5}% 

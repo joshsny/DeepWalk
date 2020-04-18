@@ -199,16 +199,14 @@ co-occur on a random walk with input $v$ and thus will be assigned higher
 probabilities. This allows us to train a network with weights that represent the
 connectedness between nodes on the graph. The neural network is trained by
 feeding it pairs of nodes $(v, c)$ where $v$ represents the input node and $c$
-is a context node, which lies within distance $k$ of the vertex $v$.\\ 
-
+is a context node, which lies within distance $k$ of the vertex $v$.\\
 To formalise this, each of the nodes $v \in V$ are represented by a one-hot
 encoding vector $e_v \in \mathbb{R}^{|V|}$ allowing us to feed $e_v$ into the
 neural network. When $e_v$ is fed into the network, a single linear hidden layer with
 $d$ neurons is used, where $d$ is the desired dimension of the latent
 representations, which is then passed to a softmax classifier for output. The
 output of the network is a vector $o \in \mathbb{R}^{|V|}$ containing the estimated
-probabilities that a randomly selected nearby word is that vocabulary word.
-
+probabilities that a randomly selected nearby word is that vocabulary word.\\
 The idea behind having a linear hidden layer, which does not use an activation
 function, is to use the resulting weight matrix $W \in \mathbb{R}^{|V| \times
   d}$ as the embedding vectors for the nodes in the graph. This is intuitive as
@@ -471,41 +469,53 @@ To proceed with the first lemma it is useful to partition the random-walk corpus
 \end{definition}
 As an extension of previous definitions, we let $\#(v, c)_{\rar}$ and $\#(v,
 c)_{\lar}$ denote the number of times that an input-context pair $(v,c)$ appears
-in $\D_{\rar}$ and $\D_{\lar}$ respectively. Then the following lemma holds
-\begin{lemma}[Limiting Distribution of DeepWalk]
+in $\D_{\rar}$ and $\D_{\lar}$ respectively. We turn to the proof of a useful proposition before using this
+notation for the next Lemma.
+
+\begin{proposition}
+  Let $Y_1,Y_2, \dots$ be a sequence of random variables with finite expectation $\E[Y_j] \to \mu$ as $j \to \infty$ and bounded variance $Var(Y_j) < K$. Suppose also that the covariances $Cov(Y_i, Y_j) \to 0$ as $|i-j| \to \infty$. Then
+  \[\frac{1}{n}\sum_{i = 1}^n Y_i \overset{p}{\longrightarrow} \mu \text{ as } n \to \infty\]
+\end{proposition}
+\begin{proof}
+  Let $S_n = \sum_{i=1}^n Y_i$. We show that $Var\left(\frac{S_n}{n}\right) \to 0$ and apply Chebyshev's inequality as in the proof of the Weak Law of Large Numbers.\\
+  \[Var\left(\frac{S_n}{n}\right) = \frac{1}{n^2} \sum_{i=1}^n\sum_{j=1}^n Cov(Y_i, Y_j) \leq \frac{K}{n} + \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)\]
+  The first term clearly tends to 0 so we focus on the second. Suppose that $|i-j| > N(\delta)$ implies that $Cov(Y_i, Y_j) < \delta$. For $n > N = N(\delta)$ we have
+  \begin{align*}
+    \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)&=\frac{1}{n^2}\sum_{1 \leq |i-j| \leq N}^n Cov(Y_i, Y_j) + \frac{1}{n^2}\sum_{|i-j| > N}^n Cov(Y_i, Y_j)\\
+    &\leq \frac{1}{n^2}\left(n(N-1)K + n^2\delta\right) = \frac{(N-1)K}{n} + \delta
+  \end{align*}
+  where the second inequality comes from applying the Cauchy-Schwarz inequality together with the bounded variance for the first term and using $n > N$ for the second. For any $\epsilon > 0$, we can pick $\delta$ sufficiently small and $N_1$ such that for all $n > N_1 \gg N(\delta)$ we have $Var\left(\frac{S_n}{n}\right) < \epsilon$ and so $Var\left(\frac{S_n}{n}\right) \to 0$.\\
+  Finally, applying Chebyshev's inequality with the triangle inequality yields
+  \begin{align*}
+  \P\left(\left| \frac{S_n}{n} - \mu\right| > \epsilon \right) &\leq \P\left(\left| \frac{S_n}{n} - \E\left[\frac{S_n}{n}\right]\right| > \frac{\epsilon}{2} \right) + \P\left(\left| \E\left[\frac{S_n}{n}\right] - \mu\right| > \frac{\epsilon}{2} \right)\\
+  &\leq \frac{4}{\epsilon^2}Var\left(\frac{S_n}{n}\right) + \P\left(\left| \E\left[\frac{S_n}{n}\right] - \mu\right| > \frac{\epsilon}{2} \right) \to 0 \text{ as } n \to \infty
+\end{align*}
+  which gives the desired result.
+\end{proof}
+We can use Proposition 2.5 to understand the limiting distribution of vertex-context pairs in $\D$.
+\begin{lemma}[Limiting Distribution of vertex-context pairs in $\D$]
   As $l \to \infty$, we have
   \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \  \text{and}
     \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \]
 \end{lemma}
-
 \begin{proof}
-To begin the proof, we first note that it is sufficient to consider the case in which the number
-of random walks starting from each vertex is equal to one; for $\gamma > 1$ we get the independent average of
-a finite number of cases with $\gamma = 1$ and thus the result still holds.\\
-We proceed with a single markov chain $Z_n$ which represents steps $r$ apart
-in a random walk on the network and thus has transition matrix $P^r$. Since $\pi$ is invariant for $P$, it is also invariant for $P^r$ and the irreducibility of $Z_n$
-follows since $P$ is irreducible. To prove this lemma we first require a useful proposition.
-\begin{restatable}{proposition}{Prop}
-  Let $N$ be a random variable such that $\frac{N_n}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ with $\frac{N_n}{n}$ absolutely integrable. Let $(Y_k)_{k \geq 1}$ be i.i.d random variables bounded in variance and expectation. Then
-  \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
-\end{restatable}
-\begin{proof}\renewcommand{\qedsymbol}{}
-  \textit{See \hyperref[sec:appendix]{Appendix 1.1} for a proof.}
-\end{proof}
-\noindent Now let $N_v(l)$ denote the number of visits of $Z$ to $v$ by time $l$\footnote{Here $l$ has been rescaled by a factor of $\frac{1}{r}$ to match $Z$}.
-By the ergodic theorem for markov chains\footnote{This is also a standard theorem that will be proved in most courses on Markov Chains, a proof can be found on page 37 of \cite{markov_chains_alt}}, we have that:
-\[\frac{N_v(l)}{l} \overset{a.s.}{\longrightarrow} \pi_v \implies \frac{N_v(l)}{l} \overset{p}{\longrightarrow} \pi_v\]
-If we set $i_1, i_2, \dots$ to be the times of successive visits of $Z$ to $v$ and $Y_k = \mathbbm{1}(Z_{i_k+1} = c)$, then the $(Y_k)_{k \geq 1}$ are i.i.d if $Z_0 = v$. Since $Z$ is aperiodic and positive recurrent it will reach $v$ in finite time with any initial distribution so we can apply the proposition regardless of the initial distribution of the chain.
-This gives the first limit
-\[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l}\sum_{k = 1}^{N_v(l)} Y_k \overset{p}{\longrightarrow} \pi_v \E[Y_k] = \pi_v\P(Z_{i_k + 1} = c | Z_{i_k} = v) = \pi_v(P^r)_{v,c}\]
-The second limit can be obtained from the first by applying the detailed balance equations:
-\begin{align*}
-\frac{\#(v, c)_{\lar}}{|\D_{\lar}|} &= \frac{\#(c, v)_{\rar}}{|\D_{\lar}|}\\
-&=\frac{\#(c, v)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_c(P^r)_{c,v} = \pi_v (P^r)_{v,c}
-\end{align*}
-where the second equality follows since $|\D_{\lar}| = |\D_{\rar}|$.
-\end{proof}
-[Note that all Lemma/Theorem numbers need to be checked and changed with the introduction of this extra one.]\\
+  We proceed with a single markov chain $X_n$ which represents a single random walk with initial distribution $\lambda$. We define $$Y_j = \mathbbm{1}(X_j = v, X_{j+r} = c) \text{ and } Q = P^r$$.\\
+  Then we have that
+  \[\E[Y_j] = \P(X_j = v, X_{j+r} = c) = (P^j \lambda)_vQ_{vc} \to \pi_vQ_{vc} \text{ as } j \to \infty\]
+  and for $i + r < j$:
+  \[\E[Y_iY_j] = \P(X_i = v, X_{i+r} = c, X_j = v, X_{j+r} = c) = (P^i \lambda)_vQ_{vc}(P^{j-i-r})_{cv}Q_{vc}\]
+  which gives that
+  \[Cov(Y_i, Y_j) = (P^i\lambda)_vQ_{vc}^2\left[\underbrace{(P^{j-i-r})_{cv}}_{\to \pi_v} - \underbrace{(P^j\lambda)_{v}}_{\to \pi_v}\right] \to 0 \text{ as } j-i \to \infty\]
+  Since the $Y_j$ are indicator functions their variance is bounded above by 1. Applying Proposition 2.5 gives
+  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} = \frac{1}{l-r}\sum_{j = 0}^{l-r-1} Y_j \overset{p}{\longrightarrow} \pi_vQ_{vc} \]
+  The second limit can be obtained from the first by applying the detailed balance equations:
+  \begin{align*}
+  \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} &= \frac{\#(c, v)_{\rar}}{|\D_{\lar}|}\\
+  &=\frac{\#(c, v)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_c(P^r)_{c,v} = \pi_v (P^r)_{v,c}
+  \end{align*}
+  where the second equality follows since $|\D_{\lar}| = |\D_{\rar}|$.\\
+  Since this holds for a random walk initialised at any starting distribution, it holds for any number of random walks initialized from the vertices in any order since the corresponding value of $\frac{\#(v, c)_{\rar}}{|\D_{\rar}|}$ is just this result averaged over the number of random walks.
+  \end{proof}
 From this lemma, we can go on to show that
 \begin{lemma}
   As $l \to \infty$, we have
@@ -518,14 +528,14 @@ From this lemma, we can go on to show that
                           &\overset{p}{\longrightarrow} \frac{1}{k}\sum_{r=1}^{k} \frac{d_v}{2|E|}(P^r)_{v, c}
   \end{align*}
   where the second equality uses the fact that $|\D_{\rar}| = |\D_{\lar}| =
-  \frac{|\D|}{2k}$ and the convergence comes from applying Lemma 2.5,
+  \frac{|\D|}{2k}$ and the convergence comes from applying Lemma 2.6,
   together with the continuous mapping theorem.
 \end{proof}
 This gives everything we need to prove the main theorem of this section, that
 allows us to understand the matrix that DeepWalk is implicitely factorising.
 \MainDeepWalk*
 \begin{proof}
-  Firstly, by summing the result of [Theorem XX] we get
+  Firstly, by summing the result of Lemma 2.7 we get
   \begin{align*}
     \frac{\#(v)}{|\D|} &= \sum_{c \in V}\frac{\#(v, c)}{|\D|}\\
                        &\overset{p}{\longrightarrow} \sum_{c \in V} \frac{1}{k}\sum_{r=1}^k \pi_v(P^r)_{v, c}\\
@@ -533,7 +543,7 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
   \end{align*}
   since $P^r$ is stochastic for any $r$.\\
   Similarly, using the fact that $\pi$ is in detailed balance with $P$, and thus
-  the result of [Theorem XX] can be rewritten as
+  the result of Lemma 2.7 can be rewritten as
   \[\frac{\#(v, c)}{|\D|} \overset{p}{\longrightarrow} \frac{1}{k} \sum_{r = 1}^k \pi_c
     (P^r)_{c,v}\]
   it can be shown that $\frac{\#(c)}{|\D|} \overset{p}{\longrightarrow} \pi_c$.\\
@@ -543,7 +553,7 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
                                                                                                                              &=\frac{2|E|}{k}\sum_{r=1}^k (P^r)_{v,c} \frac{1}{d_c} = \frac{2|E|}{k}\left( \sum_{r=1}^k(P^rD^{-1})_{v,c} \right)
   \end{align*}
   where the last equality follows since $D$ is diagonal.\\
-  From this, applying [Theorem XX] gives that as $l \to \infty$ DeepWalk is equivalent to
+  From this, applying Theorem 2.1 gives that as $l \to \infty$ DeepWalk is equivalent to
   factorising
   \[\log \left( \frac{2|E|}{k}\left( \sum_{r=1}^k P^r \right)D^{-1}\right) - \log{b}\]
 \end{proof}
@@ -813,7 +823,7 @@ give a meaningful representation. Therefore, a very careful consideration of emb
 \section{Conclusion}
 We end by commenting briefly on our journey of understanding more about DeepWalk and suggesting future areas of research.\\
 In the section on DeepWalk a number of theoretical results have been given which show that DeepWalk amounts to an implicit matrix factorisation as the length of the random walks sampled tends to infinity.
-As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), an original proof of Lemma 2.5 was provided which is much more accessible than the one proposed in \cite{qiu2018}.
+As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), a full proof of Lemma 2.6 was given without assuming that the random walks are initiated in the invariant distribution which is not the case in the original DeepWalk paper.
 Whilst these results shed light on the core ideas used by DeepWalk to generate embeddings, no thought is given here to the applicability of these results for smaller random walk lengths, which were used in the original DeepWalk paper ($l = 40$) as well as being widely adopted in future literature. Therefore, by consideration of the mixing times of random walks on large sparse graphs, an analysis of how long random-walks need to be before these
 results are meaningful would be a helpful area for further research, especially if it was coupled with a trade off between random walk lengths and the number of random walks (i.e the performance trade off of $l$ vs $\gamma$). An understanding of how we can reduce $l$ and increase $\gamma$ to maintain performance would be esecially useful in applying DeepWalk with parallel computing since generating the random walk corpus is trivially parallel with respect to $\gamma$.\\
 In the section ``Deep Drawbacks'' we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going unnoticed
@@ -824,72 +834,7 @@ Finally it was noted that DeepWalk, as well as other proposed algorithms, are su
 does not want to store relational information of groups due to privacy concerns or regulation, it may want to store network embeddings instead from which it can apply upstream classification tasks in the future. For such applications it would be helpful to have an algorithm that tries to store as much information as possible for a more general class of relational classification problems.\\
 
 [Notes: See Remark 1, Paper 2', I have actually proved this so the assumpion that it starts in the steady state distribution is not required!]
-\section{Appendix}
-\label{sec:appendix}
-\subsection{Appendix 1}
-The only appendix is a full proof of Proposition 2.5, which is used in the proof for the main theorem in the DeepWalk section.
-\Prop*
-\begin{proof}
-Firstly we will show that the sum converges in expectation appropriately
-\begin{align*}
-\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^N Y_k | N = R\right]\P(N = R)\\
-&= \sum_{R \geq 0} \E\left[\frac{1}{n}\sum_{k=1}^R Y_k \right]\P(N = R)\\
-&= \E[Y_1]\sum_{R \geq 0} \frac{R}{n}\P(N = R) = \E[Y_1]\E\left[\frac{N}{n}\right] \overset{n \to \infty}{\longrightarrow} \mu\E[Y_1]
-\end{align*}
-where the last inequality follows since $\frac{N}{n}$ is absolutely integrable. Now we show that the variance of the sum tends to zero. For $N = R$ we have
-\begin{align*}
-\E\left[\left(\frac{1}{n}\sum_{k=1}^R Y_k\right)^2\right] &= Var\left[\frac{1}{n}\sum_{k=1}^R Y_k\right] + \left(\E\left[\frac{1}{n}\sum_{k=1}^R Y_k\right]\right)^2\\
-&=\frac{R}{n^2}Var(Y_1) + \frac{R^2}{n^2}\E[Y_1]^2
-\end{align*}
-Hence, using this together with the result for expectation, we get
-\begin{align*}
-  Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] &= \sum_{R \geq 0}\E\left[\left(\frac{1}{n}\sum_{k=1}^R Y_k\right)^2 \right]\P(N = R) - \left(\E\left[\frac{1}{n}\sum_{k=1}^N Y_k\right]\right)^2\\
-  &=\frac{Var(Y_1)}{n^2}\E[N] + \frac{\E[Y_1]^2}{n^2}\E[N^2] - \frac{1}{n^2}\E[Y_1]^2\E[N]^2\\
-  &= \frac{Var(Y_1)}{n}\E\left[\frac{N}{n}\right] + \E[Y_1]^2Var\left(\frac{N}{n}\right) \overset{n \to \infty}{\longrightarrow} 0
-\end{align*}
-where the variance tends to zero since $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ and $\frac{N}{n}$ is absolutely integrable. Finally we apply Chebyshev's inequality to get that, for any $\epsilon > 0$
-\begin{align*}
-&\P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \mu\E[Y_1]\right| > \epsilon\right)\\
-&\leq \P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \E[Y_1]\E\left[\frac{N}{n}\right]\right| > \frac{\epsilon}{2}\right) + \P\left(\left|\E[Y_1]\E\left[\frac{N}{n}\right] - \mu\E[Y_1]\right| > \frac{\epsilon}{2}\right)\\
-&\leq \frac{4}{\epsilon^2}Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] + \P\left(|\E[Y_1]|\left|\E\left[\frac{N}{n}\right] - \mu\right| > \frac{\epsilon}{2}\right) \overset{n \to \infty}{\longrightarrow} 0
-\end{align*}
-\end{proof}
 
-\begin{theorem}
-  Let $Y_1,Y_2, \dots$ be a sequence of random variables with finite expectation $\E[Y_j] = \mu$ and bounded variance $Var(Y_j) < K$ and covariances $Cov(Y_i, Y_j) \to 0$ as $|i-j| \to \infty$. Then
-  \[\frac{1}{n}\sum_{i = 1}^n Y_i \to \mu \text{ as } n \to \infty\]
-\end{theorem}
-\begin{proof}
-  Let $S_n = \sum_{i=1}^n Y_i$. We show that $Var\left(\frac{S_n}{n}\right) \to 0$ and apply Chebyshev's inequality as in the proof of the Weak Law of Large Numbers.\\
-  \[Var(\frac{S_n}{n}) = \frac{1}{n^2} \sum_{i=1}^n\sum_{j=1}^n Cov(Y_i, Y_j) \leq \frac{K}{n} + \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)\]
-  The first term clearly tends to 0 so we focus on the second. Suppose that $|i-j| > N(\delta)$ implies that $Cov(Y_i, Y_j) < \delta$. For $n > N$ we have
-  \begin{align*}
-    \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)&=\frac{1}{n^2}\sum_{1 \leq |i-j| \leq M}^n Cov(Y_i, Y_j) + \frac{1}{n^2}\sum_{|i-j| > M}^n Cov(Y_i, Y_j)\\
-    &\leq \frac{1}{n^2}\left(n(N-1)K + n^2\delta\right) = \frac{(N-1)K}{n} + \delta
-  \end{align*}
-  where the second inequality comes from applying the Cauchy-Schwarz inequality together with the bounded variance for the first term and using $n > N$ for the second. Picking $\delta$ sufficiently small and $n \gg N(\delta)$ gives that $Var\left(\frac{S_n}{n}\right) \to 0$ as $n \to \infty$.\\
-  Finally, applying Chebyshev's inequality yields
-  \[\P\left(\left| \frac{S_n}{n} - \mu\right| > \epsilon \right) \leq \frac{1}{\epsilon^2}Var\left(\frac{S_n}{n}\right)\]
-  which gives the desired result.
-\end{proof}
-
-\begin{lemma}[Limiting Distribution of DeepWalk]
-  As $l \to \infty$, we have
-  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \  \text{and}
-    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \]
-\end{lemma}
-\begin{proof}
-To begin the proof, we first note that it is sufficient to consider the case in which the number
-of random walks starting from each vertex is equal to one; for $\gamma > 1$ we get the independent average of
-a finite number of cases with $\gamma = 1$ and thus the result still holds. [Need more than this, need to talk about starting distn and with $\gamma = 1$ we still have $N$ vertices!]\\
-We proceed with a single markov chain $X_n$ which represents a single random walk initialized with the invariant distribution. We define $$Y_k = \mathbbm{1}(X_k = v, X_{k+r} = c) \text{ and } Q = P^r$$.\\
-Then we have that
-\[\E[Y_j] = \P(X_j = v, X_{j+r} = c) = \pi_vQ_{vc}\]
-and for $i + r < j$:
-\[\E[Y_iY_j] = \P(X_i = v, X_{i+r} = c, X_j = v, X_{j+r} = c) = \pi_vQ_{vc}(P^{j-i-r})_{cv}Q_{vc}\]
-which gives that
-\[Cov(Y_i, Y_j) = \pi_vQ_{vc}^2\left((P^{j-i-r})_{cv} - \pi_v\right) \to 0 \text{ as } j-i \to \infty\]
-\end{proof}
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
