@@ -23,6 +23,7 @@
 \newcommand{\D}{\mathcal D}
 \renewcommand{\G}{\mathcal G}
 \renewcommand{\V}{\mathcal V}
+\newcommand{\W}{\mathcal W}
 \newcommand{\rar}{\overrightarrow r}
 \newcommand{\lar}{\overleftarrow r}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -421,9 +422,9 @@ In their paper, Qiu et al. gave a theoretical understanding of the DeepWalk
 algorithm by proving the following theorem:
 \begin{restatable}[DeepWalk as implicit matrix factorisation]{theorem}{MainDeepWalk}
   As $l \to \infty$, DeepWalk is equivalent to factorising
-  \[\log{\left(\frac{2|E|}{k}\left( \sum_{r = 1}^k P^r  \right) D^{-1}
+  \[WC^T = \log{\left(\frac{2|E|}{k}\left( \sum_{r = 1}^k P^r  \right) D^{-1}
       \right)} - \log{b}\]
-  where $b$ is the negative sampling rate.
+  where $b$ is the negative sampling rate and $W, C \in \mathbb{R}^{|V| \times d}$.
 \end{restatable}
 \noindent The theorem assumes that the graph is undirected and that it is connected so
 that $P$ is irreducible. It is also assumed that the graph is
@@ -485,7 +486,7 @@ We proceed with a single markov chain $Z_n$ which represents steps $r$ apart
 in a random walk on the network and thus has transition matrix $P^r$. Since $\pi$ is invariant for $P$, it is also invariant for $P^r$ and the irreducibility of $Z_n$
 follows since $P$ is irreducible. To prove this lemma we first require a useful proposition.
 \begin{restatable}{proposition}{Prop}
-  Let $N$ be a random variable such that $\frac{N}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ with $\frac{N}{n}$ absolutely integrable. Let $(Y_k)_{k \geq 1}$ be i.i.d random variables bounded in variance and expectation. Then
+  Let $N$ be a random variable such that $\frac{N_n}{n} \overset{p}{\longrightarrow} \mu$ as $n \to \infty$ with $\frac{N_n}{n}$ absolutely integrable. Let $(Y_k)_{k \geq 1}$ be i.i.d random variables bounded in variance and expectation. Then
   \[\frac{1}{n}\sum_{k=1}^N Y_k \overset{p}{\longrightarrow} \mu\E[Y_1]\]
 \end{restatable}
 \begin{proof}\renewcommand{\qedsymbol}{}
@@ -572,8 +573,8 @@ node representations in the next snapshot of time. The problem of doing so can
 be split into two main tasks:
 
 \begin{enumerate}
-\item Generate a random walks corpus for a new snapshot of the graph based on
-  a corpus from an older snapshot. In particular,
+\item Generate a random walks corpus $\W^{t+1}$ for a new snapshot of the graph based on
+  a corpus from an older snapshot $\W^t$. In particular,
   we seek to find an efficent update algorithm that generates a set of random
   walks on the new snapshot from random walks on the old one, that is
   statistically indistinguishable from generating a set of random walks from
@@ -606,29 +607,28 @@ following terms:
     edge which have not been deleted.
     \[\V_{\text{affected}}^{t+1} = \V(A_{\mathcal{E}}^{t+1}) \cup
       \V(D_{\mathcal{E}}^{t+1}) \setminus D_{\V}^{t+1}\]
-    \item \textit{Affected walks}: All random walks i the corpus of random walks
-      $W^t$ that contain at least one affected vertex.
+    \item \textit{Affected walks}: All random walks in the corpus of random walks
+      $\W^t$ that contain at least one affected vertex.
     \end{itemize}
-Importantly all unaffected walks in the corpus $W^t$ remain valid random walks
+Importantly all unaffected walks in the corpus $\W^t$ remain valid random walks
 on the graph $\G_{t+1}$
 \subsection{Updating the Random Walk Corpus}
 As a preliminary solution to the problem of generating new random walks for the random
-walk corpus an algorithm called Naïve Update Algorithm 2 is introduced. This
-algorithm generates random walks of length $l$ for each of the affected vertices. Once this is complete, it updates the random walks $W^t$ by
+walk corpus an algorithm called Naïve Update (Algorithm 2) is introduced. This
+algorithm generates random walks of length $l$ for each of the affected vertices. Once this is complete, it updates the random walks $\W^t$ by
 replacing the old walks with the corresponding re-generated walks and adds the
 random walks initiated from new vertices.\\
 \begin{algorithm}[!ht]
   \caption{Naïve Update}
   \begin{algorithmic}[1]
 
-    \Procedure{NaïveUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}
+    \Procedure{NaïveUpdate}{$\G^{t+1}, \W^t, \V^1_{\text{affected}}, r, l$}
     \LineComment{Initialise r new walks from each of the affected vertices in $\V^1_{\text{affected}}$}
-    \State $W$ \leftarrow initWalks($\V^1_{\text{affected}}, r$)
-    \LineComment *** WHAT DOES THIS ACTUALLY DO? ***
-    \State $W^{t+1}$ \leftarrow randomwalk($W, l \G^{t+1}$)
+    \State $\W$ \leftarrow initWalks($\V^1_{\text{affected}}, r$)
+    \State $\W^{t+1}$ \leftarrow randomwalk($\W, l, \G^{t+1}$)
     \LineComment{Replace the old walks and add new ones}
-    \State $W^{t+1}$ \leftarrow update($W^t, W^{t+1}$)
-    \State \textbf{return} $W^{t+1}$
+    \State $\W^{t+1}$ \leftarrow update($\W^t, \W^{t+1}$)
+    \State \textbf{return} $\W^{t+1}$
     \EndProcedure
 
   \end{algorithmic}
@@ -644,27 +644,25 @@ must be introduced.
   \caption{Unbiased Update}
   \begin{algorithmic}[1]
 
-    \Procedure{UnbiasedUpdate}{$\G^{t+1}, W^t, \V^1_{\text{affected}}, r, l$}
+    \Procedure{UnbiasedUpdate}{$\G^{t+1}, \W^t, \V^1_{\text{affected}}, r, l$}
     \LineComment Partition the affected vertices into new and existing ones
     \State $\V_n$ \leftarrow newVertices($\V_{\text{affected}}^1$)
     \State $V_e$ \leftarrow existingVertices($\V_{\text{affected}}^1$)
     \LineComment Filter the existing random walk corpus to get only the walks
     that contain affected vertices (in $\V_e$)
-    \State $W_{\text{affected}}$ \leftarrow filter($W^t, \V_e$)
+    \State $\W_{\text{affected}}$ \leftarrow filter($\W^t, \V_e$)
     \LineComment Trim the affected walks to the first affected vertex
-    \State $W_e$ \leftarrow trim($W_{\text{affected}}, \V_e$)
+    \State $\W_e$ \leftarrow trim($\W_{\text{affected}}, \V_e$)
     \LineComment \leftarrow Initialise r walks from each of the new vertices in $\V_n$
-    \State $W_n$ \leftarrow initWalks($\V_n, r$)
+    \State $\W_n$ \leftarrow initWalks($\V_n, r$)
     \LineComment Take the union of the new walks to create the updated corpus
-    \State $W$ \leftarrow $W_e \cup W_n$
-    \State $W^{t+1}$ \leftarrow randomwalk($W, l, \G^{t+1}$)
-    \State $W^{t+1}$ \leftarrow update($W^t$, $W^{t+1}$)
-    \State \textbf{return} $W^{t+1}$
+    \State $\W$ \leftarrow $\W_e \cup \W_n$
+    \State $\W^{t+1}$ \leftarrow randomwalk($\W, l, \G^{t+1}$)
+    \State $\W^{t+1}$ \leftarrow update($\W^t$, $\W^{t+1}$)
+    \State \textbf{return} $\W^{t+1}$
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-*** In the procedures I need to be clear about what initWalks and randomwalk are
-doing ***\\
 The motivation behind the unbiased update algorithm is the following: Consider a
 random walk that has arrived at a vertex $v$ at any point along the walk, if
 this vertex is not in the set $\V^{t+1}_{\text{affected}}$ then there is no
@@ -681,7 +679,7 @@ Fast Update, is also suggested that generates the affected walks from the
 begginning instead of trimming them. Whilst computationally more efficient, this
 generates a biased random walk corpus. This is because by applying the Fast Update routine, we have
 effectively generated random walks on the graph $\G^{t+1}$ and then regenerated
-all walks that hit an affected vertex, results in a corpus that is biased towards walks
+all walks that hit an affected vertex, resulting in a corpus that is biased towards walks
 that do not visit the affected vertices.\\
 In practice, when implementing the Unbiased Update algorithm the random seed
 that is used to generate each of the walks can be stored and then used to
@@ -691,23 +689,20 @@ complexity as the Fast Update algorithm.\\
 *** Can I give a proof that the Unbiased Update algorithm does indeed generate
 an unbiased corpus? They have given an explanation but it is not very
 mathematical. ***\\
-*** Can include the complexity analysis if need be but it is not particularly
-informative ***
 
 \subsection{Updating the Vertex Representations Efficiently}
-Once the updated random walk corpus $W^{t+1}$ has been calculated, the vertex
+Once the updated random walk corpus $\W^{t+1}$ has been calculated, the vertex
 representations must be updated. In the DeepWalk algorithm, SkipGram is used to
 optimize the objective function $\mathcal{L}$ using SGNS.
 The algorithm starts by initialising the vertex representations randomly and
 uses stochastic gradient descent to optimize the objective function over the
 input-context pairs in $\D_{t+1}$.\\
 However, initialising the representations randomly in the dynamic case is
-inefficient since between each epoch the optimal vertex representations are
-similar, provided only a small portion of the graph has changed. It is therefore much more efficient to initialise the vertex
+inefficient since between each epoch the optimal vertex representations can be similar, provided only a small portion of the graph has changed. It is therefore much more efficient to initialise the vertex
 representations at time $t+1$ as the corresponding representations at time $t$
 with any new vertices being randomly initiated, before performing stochastic gradient
 descent to minimize the SGNS objective function over the new random walks corpus
-$W^{t+1}$. The idea behind this is similar to using pretrained weights in a transfer
+$\W^{t+1}$. The idea behind this is similar to using pretrained weights in a transfer
 learning problem instead of initialising weights randomly and results in
 stochastic gradient descent converging at a much faster rate.\\
 A potential downside of this is that if the objective function is not convex and
@@ -720,11 +715,6 @@ Whilst the original DeepWalk paper made a huge impact on the future development
 of social representation learning on graphs, the algorithm itself has a number
 of drawbacks that have been pointed out in subsequent papers. In this section, I will detail some of the issues and criticism of the implementation of
 DeepWalk in both static and dynamic applications and some algorithms that were subsequently proposed to tackle these issues.\\
-***
-Plan: Pick 2 or 3 algorithms, state what they improved, link to the papers.
-
-GraphSAGE paper points out invariance of deepwalk to an orthogonal transformation, discuss this.
-**
 
 \subsection{Exploring Local and Global Properties of Graphs}
 There are two extreme strategies to search a graph starting from a vertex. The
@@ -788,8 +778,10 @@ learned embeddings are then combined with the features attached to each vertex a
 upstream classification task. However the factorisation of $M$ is not invariant under orthogonal transformation: Let $Q \in \R^{d \times d}$
 be an orthogonal matrix, then $M = WC^T = WQQ^TC = (WQ)(CQ)^T$. Therefore embeddings can undergo arbitrary orthogonal transformations
 without changing the resulting matrix $M$.\\
-Explain why this is an issue in the static case. As has been pointed out [Levy and Goldberg 2015] ** This needs to be reworded **, this also calls into question the results in the original DeepWalk paper showing that DeepWalk is superior to prior network embedding learning algorithms, since the class of solutions is widely expanded for DeepWalk vs other paradigms due
-to this orthogonal invariance.\\
+In static applications this is an issue becuase the loss function is many-to-one with respect to the embeddings. The result of this is that when generating two sets of 
+embeddings using DeepWalk, one set often looks very different to the other, but in fact is similar and has undergone some composition of rotation and reflection. After generating 
+a number of embeddings $W_1, \dots, W_n$, the best embedding $W_i$ is selected based on it's performance on the training data in the upstream classification task. However $W_i$ is unlikely to have captured the graph structure
+better then any of the other embeddings, it is instead likely that this process overfits the embeddings to a particular orthogonal transformation that works well for the training set in the upstream classification task.\\
 Orthoginal invariance poses a particular problem in the case of dynamic network embeddings, since at each epoch embeddings are altered to reflect
 updates to the graph. However when the embeddings are updated, they can also undergo any orthogonal transformation from the previous set of embeddings
 and maintain the same loss. This is problematic as it makes embeddings very difficult to compare and to use for upstream classification tasks. This problem is especially
@@ -823,11 +815,11 @@ We end by commenting briefly on our journey of understanding more about DeepWalk
 In the section on DeepWalk a number of theoretical results have been given which show that DeepWalk amounts to an implicit matrix factorisation as the length of the random walks sampled tends to infinity.
 As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), an original proof of Lemma 2.5 was provided which is much more accessible than the one proposed in \cite{qiu2018}.
 Whilst these results shed light on the core ideas used by DeepWalk to generate embeddings, no thought is given here to the applicability of these results for smaller random walk lengths, which were used in the original DeepWalk paper ($l = 40$) as well as being widely adopted in future literature. Therefore, by consideration of the mixing times of random walks on large sparse graphs, an analysis of how long random-walks need to be before these
-results are meaningful would be a helpful area for further research, especially if it was coupled with a trade off between random walk lengths and the number of random walks (i.e the performance trade off of $l$ vs $\gamma$).\\
-In the section ``Deep Drawbacks'' we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going un-noticed
+results are meaningful would be a helpful area for further research, especially if it was coupled with a trade off between random walk lengths and the number of random walks (i.e the performance trade off of $l$ vs $\gamma$). An understanding of how we can reduce $l$ and increase $\gamma$ to maintain performance would be esecially useful in applying DeepWalk with parallel computing since generating the random walk corpus is trivially parallel with respect to $\gamma$.\\
+In the section ``Deep Drawbacks'' we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going unnoticed
 between time epochs for dynamic applications. This also makes embeddings generated by DeepWalk difficult to use in static applications since there is no clear metric of distance between graph embeddings that deals appropriately with the orthogonal invariance, which would be helpful to understand graph similarity. This is explored further by Yin et al. (2018, \cite{yin2018}) who introduce the Pairwise Inner Product (PIP) loss.\\
-We also looked at alternatives to DeepWalk, such as node2vec, which improve on DeepWalk by introducing more flexibility. However it is not clear whether improved results lend themselves to a better interpretation of the graph or simply to an expanded set of hyperparameters. By increasing the hyperparameter space of DeepWalk, node2vec allows for a larger search space of network embeddings and so it will naturally yield better results.
-It would be useful to look at how meaningful these performance gains are. Also of interest would be a study of applying node2vec in the dynamic setting and how an appropriate tuning of $p$ and $q$ over time could lead to a balance between breadth and depth first search over time.\\
+We also looked at alternatives to DeepWalk, such as node2vec, which improve on DeepWalk by introducing more flexibility. However it is not clear whether improved results lend themselves to a better interpretation of the graph since by increasing the hyperparameter space of DeepWalk, node2vec allows for a larger search space of network embeddings and so it will naturally yield better results.
+It would be useful to look at how meaningful these performance gains are. Also of interest would be a study of applying node2vec in the dynamic setting and how an appropriate tuning of $p_t$ and $q_t$ could lead to a balance between breadth and depth first search over time.\\
 Finally it was noted that DeepWalk, as well as other proposed algorithms, are suitable for generating network embeddings only for suitable upstream tasks. Understanding how a variety of these algorithms could be combined in an ensemble would be useful for applications when the upstream classification task is not yet known. For example, if a social network
 does not want to store relational information of groups due to privacy concerns or regulation, it may want to store network embeddings instead from which it can apply upstream classification tasks in the future. For such applications it would be helpful to have an algorithm that tries to store as much information as possible for a more general class of relational classification problems.\\
 
@@ -861,6 +853,42 @@ where the variance tends to zero since $\frac{N}{n} \overset{p}{\longrightarrow}
 &\leq \P\left(\left|\frac{1}{n}\sum_{k=1}^N Y_k - \E[Y_1]\E\left[\frac{N}{n}\right]\right| > \frac{\epsilon}{2}\right) + \P\left(\left|\E[Y_1]\E\left[\frac{N}{n}\right] - \mu\E[Y_1]\right| > \frac{\epsilon}{2}\right)\\
 &\leq \frac{4}{\epsilon^2}Var\left[\frac{1}{n}\sum_{k=1}^N Y_k\right] + \P\left(|\E[Y_1]|\left|\E\left[\frac{N}{n}\right] - \mu\right| > \frac{\epsilon}{2}\right) \overset{n \to \infty}{\longrightarrow} 0
 \end{align*}
+\end{proof}
+
+\begin{theorem}
+  Let $Y_1,Y_2, \dots$ be a sequence of random variables with finite expectation $\E[Y_j] = \mu$ and bounded variance $Var(Y_j) < K$ and covariances $Cov(Y_i, Y_j) \to 0$ as $|i-j| \to \infty$. Then
+  \[\frac{1}{n}\sum_{i = 1}^n Y_i \to \mu \text{ as } n \to \infty\]
+\end{theorem}
+\begin{proof}
+  Let $S_n = \sum_{i=1}^n Y_i$. We show that $Var\left(\frac{S_n}{n}\right) \to 0$ and apply Chebyshev's inequality as in the proof of the Weak Law of Large Numbers.\\
+  \[Var(\frac{S_n}{n}) = \frac{1}{n^2} \sum_{i=1}^n\sum_{j=1}^n Cov(Y_i, Y_j) \leq \frac{K}{n} + \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)\]
+  The first term clearly tends to 0 so we focus on the second. Suppose that $|i-j| > N(\delta)$ implies that $Cov(Y_i, Y_j) < \delta$. For $n > N$ we have
+  \begin{align*}
+    \frac{1}{n^2}\sum_{i \neq j}Cov(Y_i, Y_j)&=\frac{1}{n^2}\sum_{1 \leq |i-j| \leq M}^n Cov(Y_i, Y_j) + \frac{1}{n^2}\sum_{|i-j| > M}^n Cov(Y_i, Y_j)\\
+    &\leq \frac{1}{n^2}\left(n(N-1)K + n^2\delta\right) = \frac{(N-1)K}{n} + \delta
+  \end{align*}
+  where the second inequality comes from applying the Cauchy-Schwarz inequality together with the bounded variance for the first term and using $n > N$ for the second. Picking $\delta$ sufficiently small and $n \gg N(\delta)$ gives that $Var\left(\frac{S_n}{n}\right) \to 0$ as $n \to \infty$.\\
+  Finally, applying Chebyshev's inequality yields
+  \[\P\left(\left| \frac{S_n}{n} - \mu\right| > \epsilon \right) \leq \frac{1}{\epsilon^2}Var\left(\frac{S_n}{n}\right)\]
+  which gives the desired result.
+\end{proof}
+
+\begin{lemma}[Limiting Distribution of DeepWalk]
+  As $l \to \infty$, we have
+  \[\frac{\#(v, c)_{\rar}}{|\D_{\rar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \  \text{and}
+    \ \frac{\#(v, c)_{\lar}}{|\D_{\lar}|} \overset{p}{\longrightarrow} \pi_v(P^r)_{v,c} \]
+\end{lemma}
+\begin{proof}
+To begin the proof, we first note that it is sufficient to consider the case in which the number
+of random walks starting from each vertex is equal to one; for $\gamma > 1$ we get the independent average of
+a finite number of cases with $\gamma = 1$ and thus the result still holds. [Need more than this, need to talk about starting distn and with $\gamma = 1$ we still have $N$ vertices!]\\
+We proceed with a single markov chain $X_n$ which represents a single random walk initialized with the invariant distribution. We define $$Y_k = \mathbbm{1}(X_k = v, X_{k+r} = c) \text{ and } Q = P^r$$.\\
+Then we have that
+\[\E[Y_j] = \P(X_j = v, X_{j+r} = c) = \pi_vQ_{vc}\]
+and for $i + r < j$:
+\[\E[Y_iY_j] = \P(X_i = v, X_{i+r} = c, X_j = v, X_{j+r} = c) = \pi_vQ_{vc}(P^{j-i-r})_{cv}Q_{vc}\]
+which gives that
+\[Cov(Y_i, Y_j) = \pi_vQ_{vc}^2\left((P^{j-i-r})_{cv} - \pi_v\right) \to 0 \text{ as } j-i \to \infty\]
 \end{proof}
 
 \bibliographystyle{IEEEtran}
