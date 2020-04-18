@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2020.3.27)  18 APR 2020 18:58
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2020.3.27)  18 APR 2020 19:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1500,56 +1500,16 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ]
 File: src/DeepWalkOnKarateGraph.png Graphic file (type bmp)
 <src/DeepWalkOnKarateGraph.png>
-
-
-LaTeX Warning: Citation `deepwalk' on page 2 undefined on input line 59.
-
-
-LaTeX Warning: Citation `zachary1977' on page 2 undefined on input line 59.
-
-
-LaTeX Warning: Citation `maaten2008' on page 2 undefined on input line 59.
-
-
-LaTeX Warning: Citation `deepwalk' on page 2 undefined on input line 59.
-
-
-LaTeX Warning: Citation `zachary1977' on page 2 undefined on input line 59.
-
-
-LaTeX Warning: Citation `maaten2008' on page 2 undefined on input line 59.
-
-
-LaTeX Warning: Citation `deepwalk' on page 2 undefined on input line 69.
-
-[2
+ [2
 
 ]
-
-LaTeX Warning: Citation `qiu2018' on page 3 undefined on input line 81.
-
-
-LaTeX Warning: Citation `sajjad2019' on page 3 undefined on input line 86.
-
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 102.
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on input line 102.
-[3] [4]
-
-LaTeX Warning: Citation `deepwalk' on page 5 undefined on input line 124.
-
-
-LaTeX Warning: Citation `mikolov2013efficient' on page 5 undefined on input line 129.
-
-
-LaTeX Warning: Citation `mikolov2013distributed' on page 5 undefined on input line 129.
-
+ [3] [4]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 138.
-
-LaTeX Warning: Citation `mikolov2013efficient' on page 5 undefined on input line 159.
-
-[5
+ [5
 
 ]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
@@ -1561,17 +1521,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 5.99936pt on input line 185.
 
-
-LaTeX Warning: Citation `mikolov2013efficient' on page 6 undefined on input line 279.
-
-
-LaTeX Warning: Citation `mikolov2013distributed' on page 6 undefined on input line 279.
-
-
-LaTeX Warning: Citation `mikolov2013distributed' on page 6 undefined on input line 285.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 168--290
+Underfull \hbox (badness 10000) in paragraph at lines 168--288
 
  []
 
@@ -1579,186 +1529,131 @@ Underfull \hbox (badness 10000) in paragraph at lines 168--290
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [6]
-
-LaTeX Warning: Citation `levy&goldberg' on page 7 undefined on input line 295.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 291--296
+Underfull \hbox (badness 10000) in paragraph at lines 289--294
 
  []
 
 [7]
-Package hyperref Info: bookmark level for unknown notation defaults to 0 on input line 319.
+Package hyperref Info: bookmark level for unknown notation defaults to 0 on input line 317.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 337.
-Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 337.
-Package mdframed Info: Not enough space on this page on input line 342.
+(mdframed)              on input line 335.
+Package hyperref Info: bookmark level for unknown theorem defaults to 0 on input line 335.
+Package mdframed Info: Not enough space on this page on input line 340.
  [8]
-Package mdframed Info: Not enough space on this page on input line 342.
+Package mdframed Info: Not enough space on this page on input line 340.
  [9]
-
-LaTeX Warning: Citation `church1990' on page 10 undefined on input line 386.
-
-
-LaTeX Warning: Citation `yangalternative2015' on page 10 undefined on input line 389.
-
-
-LaTeX Warning: Citation `yang2015' on page 10 undefined on input line 390.
-
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 393.
-
-LaTeX Warning: Citation `qiu2018' on page 10 undefined on input line 402.
-
-
-LaTeX Warning: Citation `yang2015' on page 10 undefined on input line 402.
-
+(mdframed)              on input line 390.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 404.
+(mdframed)              on input line 401.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 408.
+(mdframed)              on input line 405.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 413.
-[10]
+(mdframed)              on input line 410.
+ [10]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 445.
+(mdframed)              on input line 442.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 461.
+Package mdframed Info: Not enough space on this page on input line 466.
+ [11]
+Package mdframed Info: Not enough space on this page on input line 466.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 472.
+Package hyperref Info: bookmark level for unknown proposition defaults to 0 on input line 473.
 
-
-LaTeX Warning: Citation `markov_chains' on page 11 undefined on input line 458.
-
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 464.
-Package mdframed Info: Not enough space on this page on input line 469.
-[11]
-Package mdframed Info: Not enough space on this page on input line 469.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 475.
-Package hyperref Info: bookmark level for unknown proposition defaults to 0 on input line 476.
-
-Underfull \hbox (badness 10000) in paragraph at lines 480--481
+Underfull \hbox (badness 10000) in paragraph at lines 477--478
 
  []
 
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 496.
-Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 496.
-Package mdframed Info: Not enough space on this page on input line 500.
+(mdframed)              on input line 493.
+Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input line 493.
+Package mdframed Info: Not enough space on this page on input line 497.
 [12]
-Package mdframed Info: Not enough space on this page on input line 500.
-LaTeX Font Info:    Try loading font information for U+bbm on input line 502.
+Package mdframed Info: Not enough space on this page on input line 497.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 499.
  (/usr/local/texlive/2019/texmf-dist/tex/latex/bbm-macros/ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 )
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 520.
+(mdframed)              on input line 517.
 
 
 Package mdframed Warning: You got a bad break
 (mdframed)                because the last box will be empty
 (mdframed)                you have to change it manually
 (mdframed)                by changing the text, the space
-(mdframed)                or something else on input line 524.
+(mdframed)                or something else on input line 521.
 
 Package mdframed Info: You first box width is to small
  mdframed fixed it
-(mdframed)              on input line 524.
+(mdframed)              on input line 521.
 [13]
 
 Package mdframed Warning: You got a bad break
 (mdframed)                because the last split box is empty
-(mdframed)                You have to change the settings on input line 524.
+(mdframed)                You have to change the settings on input line 521.
 
 [14] [15]
-
-LaTeX Warning: Citation `sajjad2019' on page 16 undefined on input line 568.
-
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 598.
+(mdframed)              on input line 594.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 605.
-[16
+(mdframed)              on input line 601.
+ [16
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 676--684
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 685--702
+Underfull \hbox (badness 10000) in paragraph at lines 672--694
 
  []
 
 [17] [18] [19]
-Underfull \hbox (badness 10000) in paragraph at lines 724--728
+Underfull \hbox (badness 10000) in paragraph at lines 716--720
 
  []
 
-
-LaTeX Warning: Citation `grover_leskovec2016' on page 20 undefined on input line 739.
-
-
-LaTeX Warning: Citation `ribeiro2017' on page 20 undefined on input line 769.
-
 [20
 
-] [21]
-
-LaTeX Warning: Citation `bradford2008' on page 22 undefined on input line 813.
-
-[22] [23]
-
-LaTeX Warning: Citation `levy&goldberg' on page 24 undefined on input line 826.
-
-
-LaTeX Warning: Citation `qiu2018' on page 24 undefined on input line 826.
-
-
-LaTeX Warning: Citation `yin2018' on page 24 undefined on input line 830.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 824--835
+] [21] [22] [23]
+Underfull \hbox (badness 10000) in paragraph at lines 816--827
 
  []
 
 [24
 
-]
-No file essay.bbl.
-[25]
+] (./essay.bbl [25] [26
+
+]) [27]
 runsystem(makeindex essay.idx)...executed safely (allowed).
 
  (./essay.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 845.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 845.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 834.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 834.
  (./essay.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 845.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 845.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 834.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 834.
 Package rerunfilecheck Info: File `essay.out' has not changed.
 (rerunfilecheck)             Checksum: C331B45D10F4E1B48E70978C5EBDE689.
-
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 53528 strings out of 492916
- 1197497 string characters out of 6133345
- 1490890 words of memory out of 5000000
- 56840 multiletter control sequences out of 15000+600000
- 538178 words of font info for 84 fonts, out of 8000000 for 9000
+ 53552 strings out of 492916
+ 1197846 string characters out of 6133345
+ 1491451 words of memory out of 5000000
+ 56864 multiletter control sequences out of 15000+600000
+ 538170 words of font info for 83 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  71i,12n,119p,852b,1069s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on essay.pdf (26 pages).
+Output written on essay.pdf (28 pages).

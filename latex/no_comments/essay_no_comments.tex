@@ -285,6 +285,8 @@ Softmax. This is because SGNS has been found empirically to be more efficient
 and therefore has been adopted by much of the further literature\cite{mikolov2013distributed}. This convention will also
 serve us well when we look at applying DeepWalk to dynamic graphs since here
 Negative Sampling is also applied.\\
+*** Can give a summary of NS here, if so just summarise what is said in Blog
+Post 2 on SkipGram ***\\
 \subsection{SkipGram as Matrix Factorisation}
 In this section we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matricies $W$
@@ -382,6 +384,7 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
 the pointwise mutual information (PMI) shifted by a factor of $\log b$. PMI was
 first introduced as a measure of association between words in 1990 by Church and Hanks
 \cite{church1990} and became widely adopted for NLP tasks.\\
+*** Would make sense to go into this more ***\\
 There is an equivalent theorem for SkipGram with Softmax that was proved by Yang
 et al.\cite{yangalternative2015} and was later used in their development of
 text-associated DeepWalk (TADW)\cite{yang2015} which encorporates text features
@@ -426,7 +429,7 @@ that $P$ is irreducible. It is also assumed that the graph is
 non-bipartite to ensure that the random walk converges to it's invariant distribution. In the application to
 social network graphs, this
 assumption will almost certainly hold as the existence of an odd cycle is
-expected (social networks usually contain a large amount of triangles,
+expected (Social networks usually contain a large amount of triangles,
 representing mutual friends or connections). It is possible however that the
 graph is not connected, in this case a dummy node can be introduced which
 contains edges to all nodes which will not affect the community structure,
@@ -557,6 +560,7 @@ allows us to understand the matrix that DeepWalk is implicitely factorising.
 \noindent This proof gives a better understanding of what the DeepWalk algorithm is doing as the lengths of the random walks becomes increasingly large.
 There are many other good questions to ask about DeepWalk, including matters of convergence with stochastic gradient descent, but
 these questions will not explored in this essay.
+[Can I give an interpretation of this matrix that DeepWalk is factorising, like the SkipGram paper gives an interpretation of the PMI matrix, would be helpful for understanding and make a lot of sense.]
 \section{Dynamic DeepWalking}
 In this section we transition away from the static implementation of DeepWalk
 towards network embeddings for Dynamic datasets. In particular, the focus of the
@@ -677,6 +681,7 @@ walk remains the same. However if $v \in \V^{t+1}_{\text{affected}}$ then the
 neighbours of the vertex have changed which makes the random walk biased from
 this vertex onwards since it evolves with incorrect transition probabilities. Therefore only the affected walks need to be updated to retain a statistically
 satisfactory set of random walks at time $t+1$.\\
+
 The Unbiased Update algorithm updates only those walks that contain vertices in
 $\V^{t+1}_{\text{affected}}$ and does so by re-sampling the affected walks from
 the first affected vertex in the walk. Searching for these affected vertices is computationally expensive so another algorithm,
@@ -691,6 +696,9 @@ that is used to generate each of the walks can be stored and then used to
 regenerate the random walks up to their first affected vertex by reusing the
 seed. Therefore the Unbiased Update algorithm can be implemented with the same
 complexity as the Fast Update algorithm.\\
+*** Can I give a proof that the Unbiased Update algorithm does indeed generate
+an unbiased corpus? They have given an explanation but it is not very
+mathematical. ***\\
 
 \subsection{Updating the Vertex Representations Efficiently}
 Once the updated random walk corpus $\W^{t+1}$ has been calculated, the vertex
@@ -733,14 +741,14 @@ properties of BFS and DFS through introducing biased random walks. New
 parameters $p,q$ are introduced which control the transition probabilities of
 the random walk on the graph. The unnormalised transition probability from $y$
 to $z$ given that the walk transitioned to $y$ from node $x$ is:
-\begin{equation*}
+\begin{equation}
   p_x(y,z)= 
   \begin{cases}
     \frac{1}{p}& \text{if } z = x\\
     1          & \text{if } d(x,z) = 1\\
     \frac{1}{q}& \text{if } d(x,z) = 2\\
   \end{cases}
-\end{equation*}
+\end{equation}
 Varying $p$ and $q$ affects the random walks likelihood to travel far away
 versus exploring locally. Therefore by controlling these parameters a balance
 between BFS and DFS can be achieved. By biasing the random walks in a creative
@@ -824,6 +832,9 @@ We also looked at alternatives to DeepWalk, such as node2vec, which improve on D
 It would be useful to look at how meaningful these performance gains are. Also of interest would be a study of applying node2vec in the dynamic setting and how an appropriate tuning of $p_t$ and $q_t$ could lead to a balance between breadth and depth first search over time.\\
 Finally it was noted that DeepWalk, as well as other proposed algorithms, are suitable for generating network embeddings only for suitable upstream tasks. Understanding how a variety of these algorithms could be combined in an ensemble would be useful for applications when the upstream classification task is not yet known. For example, if a social network
 does not want to store relational information of groups due to privacy concerns or regulation, it may want to store network embeddings instead from which it can apply upstream classification tasks in the future. For such applications it would be helpful to have an algorithm that tries to store as much information as possible for a more general class of relational classification problems.\\
+
+[Notes: See Remark 1, Paper 2', I have actually proved this so the assumpion that it starts in the steady state distribution is not required!]
+
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
