@@ -30,25 +30,28 @@
 \citation{maaten2008}
 \citation{deepwalk}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two dimensional network embeddings calculated using DeepWalk\cite  {deepwalk} on Zachary's Karate network\cite  {zachary1977}. There is a strong correspondence between community structure in the original graph and in the embedding space. Vertex colours are representing a modularity-based clustering of the input graph. In practive, network embeddings have dimensions in the tens to low-hundreds and t-SNE\cite  {maaten2008} is often used to visualise these embeddings in 2D space.}}{2}{figure.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two-dimensional network embeddings calculated using DeepWalk (2014, \cite  {deepwalk}) on Zachary's Karate network (1977, \cite  {zachary1977}). There is a strong correspondence between community structure in the original graph and in the embedding space. Vertex colours are representing a modularity-based clustering of the input graph. In practice, network embeddings have dimensions in the tens to low-hundreds and t-SNE (2008, \cite  {maaten2008}) is often used to visualise these embeddings in 2D space.}}{2}{figure.1}\protected@file@percent }
+\citation{bai2020}
+\citation{zhao2016}
+\citation{xu2019}
 \citation{qiu2018}
 \citation{sajjad2019}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Summary}{3}{subsection.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Preliminary Notation}{3}{subsection.1.2}\protected@file@percent }
-\@writefile{loe}{\contentsline {definition}{\numberline {\let \autodot \@empty }Definition\thmtformatoptarg {(Partially Labelled) Network Graph}}{3}{thmt@dummyctr.dummy.1}\protected@file@percent }
-\pgfsyspdfmark {pgfid1}{8209694}{13383887}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Essay Outline}{3}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Preliminaries}{4}{subsection.1.2}\protected@file@percent }
+\@writefile{loe}{\contentsline {definition}{\numberline {\let \autodot \@empty }Definition\thmtformatoptarg {(Partially Labelled) Network Graph}}{4}{thmt@dummyctr.dummy.1}\protected@file@percent }
+\pgfsyspdfmark {pgfid1}{8209694}{35566511}
 \FN@pp@footnotehinttrue 
 \citation{deepwalk}
 \citation{mikolov2013efficient}
 \citation{mikolov2013distributed}
 \citation{mikolov2013efficient}
-\@writefile{toc}{\contentsline {section}{\numberline {2}DeepWalk}{5}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Understanding DeepWalk}{5}{section.2}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces DeepWalk}}{5}{algorithm.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Introduction to DeepWalk}{5}{subsection.2.1}\protected@file@percent }
 \citation{mikolov2013efficient}
 \citation{mikolov2013distributed}
-\citation{mikolov2013distributed}
 \FN@pp@footnote@aux{1}{6}
+\citation{mikolov2013distributed}
 \citation{levy&goldberg}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The structure of the neural network that is trained to obtain the weight matrix $W$ used for the network embeddings in the SkipGram algorithm.}}{7}{figure.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}SkipGram as Matrix Factorisation}{7}{subsection.2.2}\protected@file@percent }
@@ -64,14 +67,14 @@
 \citation{qiu2018}
 \citation{yang2015}
 \@writefile{loe}{\contentsline {theorem}{\numberline {2.2}Theorem\thmtformatoptarg {Yang et al. (2015)}}{10}{theorem.2.2}\protected@file@percent }
-\pgfsyspdfmark {pgfid4}{8209694}{31123466}
+\pgfsyspdfmark {pgfid4}{8209694}{31123242}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}DeepWalk as Matrix Factorisation}{10}{subsection.2.3}\protected@file@percent }
 \@writefile{loe}{\contentsline {definition}{\numberline {\let \autodot \@empty }Definition\thmtformatoptarg {Adjacency Matrix (A)}}{10}{thmt@dummyctr.dummy.5}\protected@file@percent }
-\pgfsyspdfmark {pgfid5}{8209694}{18708670}
+\pgfsyspdfmark {pgfid5}{8209694}{18708968}
 \@writefile{loe}{\contentsline {definition}{\numberline {\let \autodot \@empty }Definition\thmtformatoptarg {Degree Matrix (D)}}{10}{thmt@dummyctr.dummy.6}\protected@file@percent }
-\pgfsyspdfmark {pgfid6}{8209694}{14730691}
+\pgfsyspdfmark {pgfid6}{8209694}{14730871}
 \@writefile{loe}{\contentsline {definition}{\numberline {\let \autodot \@empty }Definition\thmtformatoptarg {Transition Matrix (P)}}{10}{thmt@dummyctr.dummy.7}\protected@file@percent }
-\pgfsyspdfmark {pgfid7}{8209694}{10009779}
+\pgfsyspdfmark {pgfid7}{8209694}{10009839}
 \newlabel{thmt@@MainDeepWalk@data}{{\def \theequation {\@arabic {\c@equation }}\def \theHequation {(restate \theHthmt@dummyctr )2.\@arabic {\c@equation }}\setcounter {equation}{0}}{10}{DeepWalk as Matrix Factorisation}{thmt@dummyctr.dummy.7}{}}
 \newlabel{thmt@@MainDeepWalk@data@cref}{{[subsection][3][2]2.3}{[1][10][]10}}
 \citation{markov_chains}
@@ -107,7 +110,7 @@
 \FN@pp@footnotehinttrue 
 \citation{grover_leskovec2016}
 \citation{ribeiro2017}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Deep Drawbacks}{20}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Drawbacks and Opportunities of DeepWalk}{20}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Exploring Local and Global Properties of Graphs}{20}{subsection.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Capturing Structural Similarity}{20}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Orthogonal Invariance}{21}{subsection.4.3}\protected@file@percent }
@@ -120,21 +123,4 @@
 \@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{24}{section.5}\protected@file@percent }
 \bibstyle{IEEEtran}
 \bibdata{references}
-\FN@pp@footnotehinttrue 
-\bibcite{deepwalk}{1}
-\bibcite{zachary1977}{2}
-\bibcite{maaten2008}{3}
-\bibcite{qiu2018}{4}
-\bibcite{sajjad2019}{5}
-\bibcite{mikolov2013efficient}{6}
-\bibcite{mikolov2013distributed}{7}
-\bibcite{levy&goldberg}{8}
-\bibcite{church1990}{9}
-\bibcite{yangalternative2015}{10}
-\bibcite{yang2015}{11}
-\bibcite{markov_chains}{12}
-\bibcite{grover_leskovec2016}{13}
-\bibcite{ribeiro2017}{14}
-\bibcite{bradford2008}{15}
-\bibcite{yin2018}{16}
 \FN@pp@footnotehinttrue 
