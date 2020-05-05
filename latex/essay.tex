@@ -47,8 +47,7 @@ network with a point in space, where the distance according to some metric
 (often simply Euclidean) between any two points corresponds to the similarity of
 the members in the network. These points in space are called vertex
 representations. The difficulty with this approach is defining a suitable
-similarity function $f(p_1,p_2)$ that gives a good understanding of the network
-structure. This ambiguity of similarity has led to a diverse range of algorithms for calculating network embeddings.
+similarity function $f(v_1,v_2)$ that gives an appropriate representation of the similarity between vertices $v_1$ and $v_2$. This ambiguity of how similarity can be defined has led to a diverse range of algorithms for calculating network embeddings.
 
 \begin{figure}[h!]
   \centering
@@ -57,9 +56,9 @@ structure. This ambiguity of similarity has led to a diverse range of algorithms
   \caption{Two-dimensional network embeddings calculated using
     DeepWalk (2014, \cite{deepwalk}) on Zachary's Karate network (1977, \cite{zachary1977}). There is a strong
     correspondence between community structure in the original graph and
-    in the embedding space. Vertex colours are representing a modularity-based
+    in the embedding space. Vertex colours represent a modularity-based
     clustering of the input graph. In practice, network embeddings have dimensions
-    in the tens to low-hundreds and t-SNE (2008, \cite{maaten2008}) is often used to visualise these embeddings in 2D
+    in the tens to low-hundreds and t-SNE (2008, \cite{maaten2008}) is used here to visualise these embeddings in two-dimensional
     space.}
 \end{figure}
 
@@ -81,8 +80,7 @@ on a graph similar to sentences in a large corpus of text. This is helpful since
 about the similarity of nodes in a graph, but in a linear data type which makes it much easier to handle directly then the
 complex graph structures that are usually observed. There are many applications of DeepWalk to problems in which community structure is important for classification. Figure 1 presents the results of applying DeepWalk to a small network of people and t-SNE helps to visualise the groups that DeepWalk separates in the embedding space.
 
-In practice, DeepWalk can be applied to any network; in recommender systems, previous interactions between users and a website are used to form a graph of interactions from which similar content can be determined to make better
-suggestions to a user (2020, \cite{bai2020}). Another example is for recommending relevant scientific research to a given paper (2016, \cite{zhao2016}) or even suggesting possible collaborators for scientific research projects (2019, \cite{xu2019}).
+Understanding community structure is not only important for networks of people; in recommender systems, user interaction data is used to form a graph of website content from which groups of similar content can be identified to make better suggestions to future users (2020, \cite{bai2020}). Another example is for recommending relevant scientific research to a given paper (2016, \cite{zhao2016}) or even suggesting possible collaborators for scientific research projects (2019, \cite{xu2019}).
 
 
 \subsection{Essay Outline}
@@ -100,8 +98,8 @@ communities move and change over time. In this section, the task of efficiently 
 the dynamic graph is discussed.
 
 In Section 4 we look at some of the criticism that followed the original DeepWalk paper and how these criticisms
-were addressed in future research. Along with other issues, the major flaw of orthogonal invariance of network embeddings is highlighted along with the problems that this poses for using DeepWalk with large dynamic graphs and suggestions for how it can be resolved.
-As well as this, subsequent algorithms node2vec and struc2vec are briefly discussed to highlight some of the network structure that is not captured well by DeepWalk. Finally, we explore the lack of rigour in the selection of embedding dimensionality and consider the damage this brings to the effectiveness of generated embeddings in the dynamic setting.
+were addressed in future research. The major flaw of orthogonal invariance of network embeddings is highlighted along with the problems that this poses for using DeepWalk on large dynamic graphs and suggestions for how it can be resolved.
+As well as this, subsequent algorithms node2vec and struc2vec are discussed to highlight areas of the network structure that are not well captured by DeepWalk. Finally, we explore the lack of rigour in the selection of embedding dimensionality and consider the damage this brings to the effectiveness of generated embeddings in the dynamic setting.
 
 In the conclusion the essay is wrapped up by suggesting areas that could be explored for further research.
 
@@ -113,23 +111,22 @@ throughout the essay, there are some pieces of notation that have been changed.
 \begin{definition}[(Partially Labelled) Network Graph]
   Let $G = (V, E)$ be an undirected graph (representing a network). $V$ represents the
   members of the network, commonly referred to as the \textit{nodes} or \textit{vertices} and $E \subset V
-  \times V$ represents their connections, usually referred to as
+  \times V$ represents their connections, referred to as
   \textit{edges}.\\
   Some of the nodes and edges have labels and $G_L = (V, E, X, Y)$ represents the
   partially labelled network. The node features are represented by $X \in \R^{|V| \times S}$ where $S$ is the size of
-  the feature space for each attribute vector. The node labels are represented by $Y \in \R^{|V|
-    \times|\mathcal{Y}|}$, where $\mathcal{Y}$ is the set of labels.
+  the feature space for each attribute vector. The node labels are represented by $Y \in \mathcal{Y}^{|V|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
 Some of the nodes are labelled with $y \in \mathcal{Y}$ and the end task is to
 predict the labels of the other nodes. This is called a \textit{relational
-  classification problem}. The DeepWalk algorithm aims to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
+  classification problem} and it is referred to as the upstream task. The DeepWalk algorithm aims to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
 of latent dimensions ($d \ll |V|$) such that each of the rows in $W$
 corresponds to a $d$ dimensional embedding of a node in $V$.
 
 To avoid confusion, it is important to distinguish that the goal of DeepWalk is
 not to classify the nodes but to generate useful embeddings. These embeddings
 are then treated as additional features and are combined with the features $X$
-to be inputted into a classification algorithm.
+to be inputted into a classification algorithm for the upstream task.
 \section{Understanding DeepWalk}
 This section gives an outline of the social representation learning algorithm
 DeepWalk, first introduced in the seminal paper DeepWalk: Online Learning of
@@ -147,33 +144,13 @@ The original paper on DeepWalk is lacking in a mathematical foundation and so in
 this section we will model the algorithm mathematically. It is suggested that the reader
 is familiar with the concepts outlined in the paper by Perozzi et. al. prior to
 reading this (more) mathematical exposition.
-\begin{algorithm}
-  \caption{DeepWalk}
-  \begin{algorithmic}[1]
-    \Require{network $G(V, E)$}
-    \Statex window size $k$
-    \Statex embedding size $d$
-    \Statex walks per vertex $\gamma$
-    \Statex walk length $l$
-    \Ensure{matrix of vertex representations $W \in \R^{|V| \times d}$}
-    \State Initialization: Sample $W$ from $\mathcal{U}^{|V| \times d}$
-    \For{$i = 0$ to $\gamma$}
-    \State $\mathcal{O} = \text{Shuffle}(V)$
-    \For{\textbf{each} $v \in \mathcal{O}$}
-    \State $\mathcal{W}_v =$ RandomWalk$(G, v, l)$
-    \State Skipgram$(W, \mathcal{W}_v, k)$
-    \EndFor
-    \EndFor
-  \end{algorithmic}
-\end{algorithm}
-\subsection{Introduction to DeepWalk}
-To understand DeepWalk mathematically, we first need to understand what the SkipGram
-model is doing, since this is the model underpinning DeepWalk. SkipGram was
+\subsection{Introduction to SkipGram}
+To understand DeepWalk mathematically, we first need to understand SkipGram since this is the model underpinning DeepWalk. SkipGram was
 proposed by Mikolev et al. (2013, \cite{mikolov2013efficient}) as an efficient way to
 learn word embeddings. The idea behind SkipGram is to learn embeddings which are good at
 predicting nearby words in sentences. For a sentence $w_1, ... , w_l$ the
-nearby words from $w_i$, known as context words, are defined as the set of words
-within distance $k$, $C(w_i) = \{w_{i-k}, w_{i-k+1}, \dots , w_{i+k}\} \setminus w_i$, where $k$ is the size of the window. SkipGram
+nearby words from $w_i$ are defined as the set of words
+within distance $k$, $C(w_i) = \{w_{i-k}, w_{i-k+1}, \dots , w_{i+k}\} \setminus w_i$, where $k$ is the size of the context window. These nearby words are referred to as context words. If we let $\P(c|w)$ denote the probability of observing $c$ as a context word for $w$, then SkipGram
 minimises the following objective function
 \[\mathcal{L} = - \sum_{r = 1}^{l} \sum_{c \in C(w)} \log{\P(c | w)}\]
 with $\P(c | w)$ modelled by a softmax function
@@ -181,7 +158,8 @@ with $\P(c | w)$ modelled by a softmax function
     \vec{c}})}\]
 where $\mathcal{F}$ is the vocabulary and $\vec{w}$ represents the
 embedding of the word $w$ and $\vec{c}$ the distributed representation of $c$ when it serves as a
-context word.
+context word \cite{mikolov2013efficient, mikolov2013distributed}.
+\footnote{Usually the embeddings $\vec{w}$ are of interest for the upstream classification task and the distributed representations $\vec{c}$ are discarded. This is the case for both Word2Vec and DeepWalk.}
 
 Perrozi et al. took this model from NLP and applied it to graphs by observing
 that nodes in the graph can be thought of as words in an artificial language.
@@ -191,16 +169,6 @@ nodes within a window of size $k$, from which input-context pairs $(v, c)$ are
 constructed and added to a corpus $\D$, which is a multi-set. After these context nodes have been
 found the same optimization function as in SkipGram is used to learn embeddings which maximise
 the chance of predicting context nodes.
-
-Algorithm 1 shows how DeepWalk is applied. $\gamma$ represents the number of
-random walks that are started from each node and at the start of each pass the
-nodes are shuffled so that they are traversed in a random order.\footnote{This
-  helps to prevent the algorithm from staying in a local minimum when stochastic
-  gradient descent is applied since on each iteration, as the vertices
-  are shuffled, the shape of the loss surface changes.} For each node
-$v \in V$ a random walk $\mathcal{W}_v$ of length $l$ is generated and used to
-update the network embeddings using the SkipGram algorithm applied to the random
-walk.
 
 From a different perspective, SkipGram trains a neural network to do
 a ``fake'' task. It trains on this task, and then the corresponding weights
@@ -216,20 +184,6 @@ probabilities. This allows us to train a network with weights that represent the
 connectedness between nodes on the graph. The neural network is trained by
 feeding it pairs of nodes $(v, c)$ where $v$ represents the input node and $c$
 is a context node, which lies within distance $k$ of the vertex $v$.
-
-To formalise this, each of the nodes $v \in V$ are represented by a one-hot
-encoding vector $e_v \in \mathbb{R}^{|V|}$ allowing us to feed $e_v$ into the
-neural network. When $e_v$ is fed into the network, a single linear hidden layer with
-$d$ neurons is used, where $d$ is the desired dimension of the latent
-representations, which is then passed to a softmax classifier for output. The
-output of the network is a vector $o \in \mathbb{R}^{|V|}$ containing the estimated
-probabilities that a randomly selected nearby word is that vocabulary word.
-The idea behind having a linear hidden layer, which does not use an activation
-function, is to use the resulting weight matrix $W \in \mathbb{R}^{|V| \times
-  d}$ as the embedding vectors for the nodes in the graph. This is intuitive as
-the hidden layer acts as a bottleneck that tries to represent as much
-information as possible to distinguish the nodes, but is only allowed $d$
-neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
 % This creates the neural network diagram for the SkipGram neural network
 \begin{figure}[h!]
   \centering
@@ -249,8 +203,8 @@ neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
 
 \begin{tikzpicture}[x=1.5cm, y=1.5cm, >=stealth]
 
-\foreach \m/\l [count=\y] in {1}
-  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,0) {};
+\foreach \m/\l [count=\y] in {1,2,3,missing,4}
+  \node [every neuron/.try, neuron \m/.try] (input-\m) at (0,2.25-\y*0.75) {};
 
 \foreach \m [count=\y] in {1, missing,2}
   \node [every neuron/.try, neuron \m/.try ] (hidden-\m) at (2,2 - \y) {};
@@ -258,48 +212,93 @@ neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
 \foreach \m [count=\y] in {1,2,3,missing,4}
   \node [every neuron/.try, neuron \m/.try ] (output-\m) at (4,2.25-\y*0.75) {};
 
-\foreach \l [count=\i] in {1}
-  \draw [<-] (input-\i) -- ++(-1,0)
-    node [above, midway] {$e_v \in \R^{|V|}$};
+\foreach \l [count=\i] in {1,2,3,|V|}
+ \draw [<-] (input-\i) -- ++(-1,0)
+   node [above, midway] {$e_{\l}$};
 
 \foreach \l [count=\i] in {1,d}
-  \node [above] at (hidden-\i.north) {$H_\l$};
+  \node [below] at (hidden-\i.north) {$h_\l$};
 
 \foreach \l [count=\i] in {1,2,3,|V|}
   \draw [->] (output-\i) -- ++(1,0)
-    node [above, midway] {$o_{\l}$};
+    node [above, midway] {$p_{c_{\l}}$};
 
-\foreach \i in {1}
+\foreach \i in {1,2,3,4}
   \foreach \j in {1,...,2}
     \draw[orange] [->] (input-\i) -- (hidden-\j);
 
 \foreach \i in {1,...,2}
   \foreach \j in {1,2,3,...,4}
-    \draw[orange] [->] (hidden-\i) -- (output-\j);
+    \draw[gray] [->] (hidden-\i) -- (output-\j);
 
-\node [align=center, above] at (0,2) {Input Vector};
+\node [align=center, above] at (0,2) {Input Vector\\\textit{One-Hot Encoding}};
 \node [align=center, above] at (2,2) {Hidden Layer\\\textit{Linear}};
 \node [align=center, above] at (4,2) {Output Layer\\\textit{Softmax}};
 \end{tikzpicture}
 \caption{The structure of the neural network that is trained to obtain
-  the weight matrix $W$ used for the network embeddings in the SkipGram algorithm.}
+  the weight matrix $W$ used for the network embeddings in the SkipGram algorithm. The weight matrix $W \in \R^{|V| \times d}$ is represented by the orange lines
+  between the input layer and the hidden layer which has $d$ neurons.}
 \end{figure}\\
+
+To formalise this, each of the nodes $v \in V$ are represented by a one-hot
+encoding vector $e \in \mathbb{R}^{|V|}$ which is passed into the
+neural network. When $e$ is fed into the network, a single linear hidden layer with
+$d$ neurons is used, where $d$ is the desired dimension of the latent
+representations, which is then passed to a softmax classifier for output. The
+output of the network is a vector $p\in \mathbb{R}^{|V|}$ such that each component $p_c$ is the estimated
+probability that $c$ appears in a context window centred at $v$.
+The idea behind having a linear hidden layer, which does not use an activation
+function, is to use the resulting weight matrix $W \in \mathbb{R}^{|V| \times
+  d}$ as the embeddings for the nodes in the graph. Once the network is trained, the embedding for node $v$ is $h = W^Te$. This is intuitive as
+the hidden layer acts as a bottleneck that tries to represent as much
+information as possible to distinguish the nodes, but is only allowed $d$
+neurons to do so. Since $d \ll |V|$ there is a low risk of overfitting.
+
+Algorithm 1 shows how DeepWalk is applied. $\gamma$ represents the number of
+random walks that are started from each node and at the start of each pass the
+nodes are shuffled so that they are traversed in a random order.\footnote{This
+  helps to prevent the algorithm from staying in a local minimum when stochastic
+  gradient descent is applied since on each iteration, as the vertices
+  are shuffled, the shape of the loss surface changes.} For each node
+$v \in V$ a random walk $\mathcal{W}_v$ of length $l$ is generated and used to
+update the network embeddings by applying the SkipGram algorithm to it.
+
+\begin{algorithm}[h!]
+  \caption{DeepWalk}
+  \begin{algorithmic}[1]
+    \Require{network $G(V, E)$}
+    \Statex window size $k$
+    \Statex embedding size $d$
+    \Statex walks per vertex $\gamma$
+    \Statex walk length $l$
+    \Ensure{matrix of vertex representations $W \in \R^{|V| \times d}$}
+    \State Initialization: Sample $W$ from $\mathcal{U}^{|V| \times d}$
+    \For{$i = 0$ to $\gamma$}
+    \State $\mathcal{O} = \text{Shuffle}(V)$
+    \For{\textbf{each} $v \in \mathcal{O}$}
+    \State $\mathcal{W}_v =$ RandomWalk$(G, v, l)$
+    \State Skipgram$(W, \mathcal{W}_v, k)$
+    \EndFor
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
 The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
 discussed. Calculating the normalization factor in the Softmax layer requires a
 computational complexity of $O(|V|)$, which is intractable since this is often
 in the millions or billions. In the original DeepWalk paper this is
-reduced by using Hierarchical Softmax to approximate the softmax probabilities,
-requiring a complexity of only $O(log|V|)$. In particular, Huffman coding is
+reduced by using Hierarchical Softmax to approximate the softmax probabilities. Hierarchical Softmax was first introduced in this context by Morin \& Bengio (2005, \cite{morin2005}) and 
+requires a complexity of only $O(log|V|)$. In particular, Huffman coding (1952, \cite{huffman1952}) is
 used to reduce the access time of frequent elements in the tree, as suggested by
 Mikolov et al. in the original Word2Vec
 papers (2013, \cite{mikolov2013efficient,mikolov2013distributed}).
 
 In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used instead of
-Hierarchical Softmax. Negative Sampling updates only a sample of the output
-vectors per iteration. In the remainder of this essay, when referring to DeepWalk, it will be
+Hierarchical Softmax. Negative Sampling was introduced by Mikolov et al. and updates only a sample of the output
+vectors per iteration \cite{mikolov2013distributed}. In the remainder of this essay, when referring to DeepWalk, it will be
 implicitly assumed that Negative Sampling is used as appose to Hierarchical
 Softmax. This is because SGNS has been found empirically to be more efficient
-and therefore has been adopted by much of the further literature (2013, \cite{mikolov2013distributed}). This convention will also
+and therefore has been adopted by much of the further literature \cite{mikolov2013distributed}. This convention will also
 serve us well when we look at applying DeepWalk to dynamic graphs since here
 Negative Sampling is also applied.\\
 \subsection{SkipGram as Matrix Factorisation}
@@ -327,7 +326,9 @@ context, if the network is dense, then this may be an unreasonable assumption.
 
 According to this assumption, the objective function of SGNS for a single
 observation $(v,c)$ is:
-\[\phi(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_* \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c_*})}\]
+\begin{equation}
+\phi(v, c) = \log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \E_{c_* \sim P_D}\log{\sigma(-\vec{v} \cdot \vec{c_*})}
+\end{equation}
 where the minus sign comes from the fact that $1 - \sigma(x) = \sigma(-x)$, $b$
 is the number of negative samples and $c_*$ is the sampled context node, drawn
 according to $P_{\D} (c_*) = \frac{\#(c_*)}{| \D |}$ which is known as the unigram
@@ -340,7 +341,7 @@ distribution.\\
 updates after each  observed pair in the random walk corpus $\D$. The resulting
 global objective becomes
 \begin{equation*}
-  \mathcal{L} = \sum_{v \in V} \sum_{c \in V} \phi(v, c)
+  \mathcal{L} = \sum_{v \in V} \sum_{c \in V} \#(v,c)\phi(v, c)
 \end{equation*}
 \subsubsection{Finding the Similarity Function Learned by SkipGram}
 If we let $W$ be the matrix with rows $v_i$ (The matrix $W$ is used to highlight
@@ -360,9 +361,9 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
 \begin{proof}
   Firstly, for sufficiently large dimensionality $d$ (so as to allow for a perfect
   reconstruction of $M$\footnote{If $d$ is not sufficiently large then the product of $W$ and $C^T$ might not have enough free parameters to encode the similarity function at each vertex-context pair.}), each of the products $v_i \cdot c_j$ can be assumed to
-  take their values independently of the others.\\
-  Due to this independence, the objective function $\mathcal{L}$ can be maximised with
-  respect to each pair $v \cdot c$ individually. The expectation term can be written explicitly as
+  take their values independently of the others. Due to this independence, the objective function $\mathcal{L}$ can be maximised with
+  respect to each pair $v_i \cdot c_j$ individually. For brevity we drop the subscripts throughout the proof.\\
+  The expectation term of (1) can be written explicitly as
   \begin{align*}
     \E_{c_* \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{c_*})}] &= \sum_{c_* \in V}{\frac{\#(c_*)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c_*})}}\\
                                                                              &= \frac{\#(c)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c})} + \sum_{c_*\in V \setminus \{c\}}{\frac{\#(c_*)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c_*})}}
@@ -375,15 +376,18 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
   by definition. Combining these equations gives that the local objective for an input-context
   pair is
   \begin{equation*}
-    \phi(v, c) = \#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \#(v)\cdot \frac{\#(c)}{|\D|}\log{-\sigma(-\vec{v} \cdot \vec{c})} 
+    \psi(v, c) = \#(v, c)\log{\sigma(\vec{v} \cdot \vec{c})} + b \cdot \#(v)\cdot \frac{\#(c)}{|\D|}\log{\sigma(-\vec{v} \cdot \vec{c})} 
   \end{equation*}
   To simplify the notation let $x = \vec{v} \cdot \vec{c}$ and, since we are
   assuming each of the $\vec{v_i} \cdot \vec{c_j}$ to take their values
   independently, we take the partial derivatve with respect to $x$ and optimise
   the local objective:
-  \[\frac{\partial{\phi}}{\partial{x}} = \#(v, c) \cdot \log{\sigma(-x)} - b \cdot
-    \#(v) \cdot \frac{\#(c)}{|\D|} \cdot \sigma(x)\]
-  Where the derivatives are since $\sigma'(x) = \sigma(-x)$. Setting
+  \begin{align*}
+  \frac{\partial{\psi}}{\partial{x}} &= \#(v, c) \cdot \sigma(-x) - b \cdot
+    \#(v) \cdot \frac{\#(c)}{|\D|} \cdot \sigma(x)\\
+    &= \#(v,c)\frac{e^{-x}}{1+e^{-x}} -\frac{b\#(v)\#(c)}{|\D|} \cdot \frac{1}{1+e^{-x}}
+  \end{align*}
+  Where the derivatives are since $\sigma'(x) = \sigma(x)\sigma(-x)$. Setting
   the derivative to zero and multipying through by
   $\frac{-e^x}{\sigma(x)\sigma(-x)}$ gives:
   \[\frac{b \cdot \#(v) \cdot \#(c)}{|\D|}e^{2x} + \left( \frac{b \cdot \#(v)
@@ -692,7 +696,7 @@ must be introduced.
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-The motivation behind the unbiased update algorithm is the following: Consider a
+The motivation behind the Unbiased Update algorithm (Algorithm 3) is the following: Consider a
 random walk that has arrived at a vertex $v$ at any point along the walk, if
 this vertex is not in the set $\V^{t+1}_{\text{affected}}$ then there is no
 change to it's neighbours and thus the choice for the next vertex in the random
@@ -798,7 +802,7 @@ structural role of the nodes. As an example, struc2vec would be more suitable
 for the task of finding social group leaders within a large network
 graph. In such a task it is not the communities that are important to recognise,
 but the roles people play within their communities. For this reason, it is
-important to identify the suitability of a relational classification problem to
+important to identify the suitability of a relational classification problem\cite{deepwalk} to
 the application of DeepWalk.
 \subsection{Orthogonal Invariance}
 Perhaps the largest criticism that can be given to DeepWalk is inherited from it's constructing part: SkipGram. As we have

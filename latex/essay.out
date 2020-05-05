@@ -2,7 +2,7 @@
 \BOOKMARK [2][-]{subsection.1.1}{Essay\040Outline}{section.1}% 2
 \BOOKMARK [2][-]{subsection.1.2}{Preliminaries}{section.1}% 3
 \BOOKMARK [1][-]{section.2}{Understanding\040DeepWalk}{}% 4
-\BOOKMARK [2][-]{subsection.2.1}{Introduction\040to\040DeepWalk}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.1}{Introduction\040to\040SkipGram}{section.2}% 5
 \BOOKMARK [2][-]{subsection.2.2}{SkipGram\040as\040Matrix\040Factorisation}{section.2}% 6
 \BOOKMARK [3][-]{subsubsection.2.2.1}{Objective\040of\040SGNS}{subsection.2.2}% 7
 \BOOKMARK [3][-]{subsubsection.2.2.2}{Finding\040the\040Similarity\040Function\040Learned\040by\040SkipGram}{subsection.2.2}% 8

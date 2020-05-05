@@ -1,9 +1,9 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}% 
 \contentsline {subsection}{\numberline {1.1}Essay Outline}{3}{subsection.1.1}% 
-\contentsline {subsection}{\numberline {1.2}Preliminaries}{4}{subsection.1.2}% 
+\contentsline {subsection}{\numberline {1.2}Preliminaries}{3}{subsection.1.2}% 
 \contentsline {section}{\numberline {2}Understanding DeepWalk}{5}{section.2}% 
-\contentsline {subsection}{\numberline {2.1}Introduction to DeepWalk}{5}{subsection.2.1}% 
-\contentsline {subsection}{\numberline {2.2}SkipGram as Matrix Factorisation}{7}{subsection.2.2}% 
+\contentsline {subsection}{\numberline {2.1}Introduction to SkipGram}{5}{subsection.2.1}% 
+\contentsline {subsection}{\numberline {2.2}SkipGram as Matrix Factorisation}{8}{subsection.2.2}% 
 \contentsline {subsubsection}{\numberline {2.2.1}Objective of SGNS}{8}{subsubsection.2.2.1}% 
 \contentsline {subsubsection}{\numberline {2.2.2}Finding the Similarity Function Learned by SkipGram}{8}{subsubsection.2.2.2}% 
 \contentsline {subsection}{\numberline {2.3}DeepWalk as Matrix Factorisation}{10}{subsection.2.3}% 
