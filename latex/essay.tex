@@ -101,7 +101,7 @@ In Section 4 we look at some of the criticism that followed the original DeepWal
 were addressed in future research. The major flaw of orthogonal invariance of network embeddings is highlighted along with the problems that this poses for using DeepWalk on large dynamic graphs and suggestions for how it can be resolved.
 As well as this, subsequent algorithms node2vec and struc2vec are discussed to highlight areas of the network structure that are not well captured by DeepWalk. Finally, we explore the lack of rigour in the selection of embedding dimensionality and consider the damage this brings to the effectiveness of generated embeddings in the dynamic setting.
 
-In the conclusion the essay is wrapped up by suggesting areas that could be explored for further research.
+In the conclusion, the essay is wrapped up by suggesting areas that could be explored for further research.
 
 \subsection{Preliminaries}
 I have endeavoured to use similar notation to the original DeepWalk paper to ease
@@ -141,8 +141,7 @@ crucial concept of DeepWalk from which the remaining details of the algorithm na
 
 The original paper on DeepWalk is lacking in a mathematical foundation and so in
 this section we will model the algorithm mathematically. It is suggested that the reader
-is familiar with the concepts outlined in the paper by Perozzi et. al. prior to
-reading this (more) mathematical exposition.
+is familiar with the concepts outlined in the paper by Perozzi et. al. \cite{deepwalk} before reading this (more) mathematical exposition.
 \subsection{Introduction to SkipGram}
 To understand DeepWalk mathematically, we first need to understand SkipGram since this is the model underpinning DeepWalk. SkipGram was
 proposed by Mikolev et al. (2013, \cite{mikolov2013efficient}) as an efficient way to
@@ -363,10 +362,10 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
 \end{theorem}
 
 \begin{proof}
-  Firstly, for sufficiently large dimensionality $d$ (so as to allow for a perfect
+  Firstly, for sufficiently large dimensionality $d$ (to allow for a perfect
   reconstruction of $M$\footnote{If $d$ is not sufficiently large then the product of $W$ and $C^T$ might not have enough free parameters to encode the similarity function at each vertex-context pair.}), each of the products $v_i \cdot c_j$ can be assumed to
   take their values independently of the others. Due to this independence, the objective function $\mathcal{L}$ can be maximised with
-  respect to each pair $v_i \cdot c_j$ individually. For brevity we drop the subscripts throughout the proof.\\
+  respect to each pair $v_i \cdot c_j$ individually. For brevity, we drop the subscripts throughout the proof.\\
   The expectation term in (3) can be written explicitly as
   \begin{align}
     \E_{c_* \sim P_{\D}}[\log{\sigma(-\vec{v} \cdot \vec{c_*})}] &= \sum_{c_* \in V}{\frac{\#(c_*)}{|\D|} \log{\sigma(-\vec{v} \cdot \vec{c_*})}}\\
@@ -406,8 +405,8 @@ first introduced as a measure of association between words by Church and Hanks
 (1990, \cite{church1990}) and became widely adopted for NLP tasks.\\
 There is an equivalent theorem for SkipGram with Softmax that was proved by Yang
 et al. (2015, \cite{yangalternative2015}) and was later used in their development of
-text-associated DeepWalk (2015, \cite{yang2015}) which encorporates text features
-of the verticies in a social graph.
+text-associated DeepWalk (2015, \cite{yang2015}) which incorporates text features
+of the vertices in a social graph.
 
 \begin{theorem}[Yang et al. (2015)]
   SkipGram with Softmax is implicitly factorising the matrix $M = WC^T$ with
@@ -449,8 +448,8 @@ social network graphs, this
 assumption will almost certainly hold as the existence of an odd cycle is
 expected (social networks usually contain a large number of triangles,
 representing mutual friends or connections). It is possible however that the
-graph is not connected; in this case a dummy node can be introduced which
-contains edges to all nodes which will not affect the community structure,
+graph is not connected; in this case, a dummy node can be introduced which
+contains edges to all nodes which will not affect the community structure
 provided the graph sub-communities are sufficiently dense.
 What follows in the remainder of this section is a careful outline of the proof.
 
@@ -552,7 +551,7 @@ We have one more lemma to prove before we get to the main theorem of this chapte
   together with the continuous mapping theorem.
 \end{proof}
 This gives everything we need to prove the main theorem of this section, that
-allows us to understand the matrix that DeepWalk is implicitely factorising.
+allows us to understand the matrix that DeepWalk is implicitly factorising.
 \MainDeepWalk*
 \begin{proof}
   Firstly, by summing the result of Lemma 2.7 we get
@@ -724,7 +723,7 @@ complexity as the Fast Update algorithm.
 
 \subsection{Updating the Vertex Representations Efficiently}
 Once the updated random walk corpus $\W^{t+1}$ has been calculated, the vertex
-representations must be updated. In the DeepWalk algorithm, the objective function of SGNS is implicitely used.
+representations must be updated. In the DeepWalk algorithm, the objective function of SGNS is implicitly used.
 The algorithm starts by initialising the vertex representations randomly and
 uses stochastic gradient descent to optimize the objective function over the
 input-context pairs in $\D_{t+1}$.
@@ -745,8 +744,8 @@ minimum, at each epoch a small random subset of embedding coordinates could be c
 
 \section{Drawbacks and Opportunities of DeepWalk}
 Whilst the original DeepWalk paper made a huge impact on the future development
-of network embedding algorithms, the algorithm itself has many drawbacks that have been pointed out in subsequent papers. In this section, I will detail some of the issues and criticism of the implementation of
-DeepWalk in both static and dynamic applications and some algorithms that were subsequently proposed to tackle these issues.\\
+of network embedding algorithms, the algorithm itself has many drawbacks that have been pointed out in subsequent papers. This section details some criticisms of the implementation of
+DeepWalk in both static and dynamic applications and algorithms that were subsequently proposed to tackle these issues. It also highlights the major flaw of orthogonal invariance that is shared amongst many future SkipGram based embedding methods as well as the difficulty of selecting embedding dimensionality in the dynamic setting.\\
 
 \subsection{Exploring Local and Global Properties of Graphs}
 There are two extreme strategies to search a graph starting from a vertex. The
@@ -825,7 +824,7 @@ prevalent when network embeddings are initialized randomly in the Unbiased Updat
 over time or with the introduction of new vertices to the graph structure, orthogonal invariance remains a prevalent issue.
 
 A possible solution to this involves careful thought of the way generated embeddings are used in upstream tasks. If the loss function for the upstream task
-is dependent on the network embeddings in an orthogonally invariant way then this invariance is not an issue. However this reduces the ability to
+is dependent on the network embeddings in an orthogonally invariant way then this invariance is not an issue. However, this reduces the ability to
 make comparisons between epochs, where the potential of orthogonal transformation must be carefully considered.
 To give a concrete example of this,  if $v^s, v^t \in \mathbb{R}^d$ represent the embeddings of a vertex at times $s$ and $t$ respectively, then
 if the upstream loss is a function of $\norm{v^s}-\norm{v^t}$ then orthogonal invariance will not cause issues since $\norm{Qv} = \norm{v}$ for $Q \in \mathbb{R}^{d \times d}$ orthogonal.
@@ -838,7 +837,7 @@ where the norm is restricted to vertices in $\V_t \cap \V_{t+1}$. This penalisat
 effectiveness would be diminished as the time gap between two embeddings is increased. Ultimately, this is a difficult problem to resolve and it restricts the practicality of applying DeepWalk to dynamic graphs since upstream loss function must be carefully engineered to handle orthogonal invariance.
 \subsection{Embedding Space Dimensionality}
 In recent years there has been a large body of research devoted to algorithms such as DeepWalk for generating meaningful embeddings, yet the selection of an appropriate dimensionality for embeddings
-takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested (2008, \cite{bradford2008}). However basing dimensionality on a broad guess is not appropriate since the embeddings generated by DeepWalk are sensitive to dimensionality.\\
+takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested (2008, \cite{bradford2008}). However, basing dimensionality on a broad guess is not appropriate since the embeddings generated by DeepWalk are sensitive to dimensionality.\\
 Since increasing the dimensionality of network embeddings increases the number of model parameters, it also increases the learning time. This means that
 in practice embedding dimensionality is sometimes reduced based on computational savings rather than hyperparameter selection, which can severely reduce the embeddings ability to
 distinguish between graphs effectively, especially in the dynamic case where graph updates are small and incremental.
