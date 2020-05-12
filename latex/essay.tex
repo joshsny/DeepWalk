@@ -18,6 +18,7 @@
 \usepackage{bbm}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{relsize}
 \newcommand{\shadow}{\partial}
 \renewcommand{\P}{\mathbb P}
 \renewcommand{\E}{\mathbb E}
@@ -54,11 +55,11 @@ similarity function $f(v_1,v_2)$ that gives an appropriate representation of the
   \includegraphics[width = 1\textwidth]{src/DeepWalkOnKarateGraph.png}
 
   \caption{Two-dimensional network embeddings calculated using
-    DeepWalk (2014, \cite{deepwalk}) on Zachary's Karate network (1977, \cite{zachary1977}). There is a strong
+    DeepWalk \cite{deepwalk} on Zachary's Karate network \cite{zachary1977}. There is a strong
     correspondence between community structure in the original graph and
     in the embedding space. Vertex colours represent a modularity-based
     clustering of the input graph. In practice, network embeddings have dimensions
-    in the tens to low-hundreds and t-SNE (2008, \cite{maaten2008}) is used here to visualise these embeddings in two-dimensional
+    in the tens to low-hundreds and t-SNE \cite{maaten2008} is used here to visualise these embeddings in two-dimensional
     space.}
 \end{figure}
 
@@ -71,7 +72,7 @@ a lot of time. It is therefore computationally infeasible to recalculate these
 representations at every time step and so a more intelligent approach to this
 problem is required.
 
-This essay looks at DeepWalk (2014, \cite{deepwalk}) and how it can be modified for dealing with dynamic
+This essay looks at DeepWalk \cite{deepwalk} and how it can be modified for dealing with dynamic
 graphs. DeepWalk is an algorithm that calculates vertex representations for
 large graphs by using techniques adapted from natural language processing. When proposed in 2014,
  the algorithm was a first of its kind and has since sparked a large amount of future research, with new
@@ -80,18 +81,18 @@ on a graph similar to sentences in a large corpus of text. This is helpful since
 about the similarity of nodes in a graph, but in a linear data type which makes it much easier to handle directly then the
 complex graph structures that are usually observed. There are many applications of DeepWalk to problems in which community structure is important for classification. Figure 1 presents the results of applying DeepWalk to a small network of people and t-SNE helps to visualise the groups that DeepWalk separates in the embedding space.
 
-Understanding community structure is not only important for networks of people; in recommender systems, user interaction data is used to form a graph of website content from which groups of similar content can be identified to make better suggestions to future users (2020, \cite{bai2020}). Another example is for recommending relevant scientific research to a given paper (2016, \cite{zhao2016}) or even suggesting possible collaborators for scientific research projects (2019, \cite{xu2019}).
+Understanding community structure is not only important for networks of people; in recommender systems, user interaction data is used to form a graph of website content from which groups of similar content can be identified to make better suggestions to future users \cite{bai2020}. Another example is for recommending relevant scientific research to a given paper \cite{zhao2016} or even suggesting possible collaborators for scientific research projects \cite{xu2019}.
 
 
 \subsection{Essay Outline}
 Section 2 explores the fundamental connection between DeepWalk and
-matrix factorisation as presented in the paper by Qiu et al. (2018, \cite{qiu2018}). In
+matrix factorisation as presented in the paper by Qiu et al. \cite{qiu2018}. In
 this section, we demonstrate the conditions under which DeepWalk is factorising
 a matrix that stores some measure of similarity between
 nodes in the graph. This helps to give a mathematical understanding of DeepWalk that is not seen in the original paper.
 
 Section 3 focuses on applying a variant of the DeepWalk algorithm, proposed
-by Sajjad et al. (2019, \cite{sajjad2019}) for dynamic graphs. This is especially
+by Sajjad et al. \cite{sajjad2019} for dynamic graphs. This is especially
 important in the context of social graphs, which usually contain temporal information
 about user interactions. Learning network embeddings for dynamic graphs can allow for a better understanding of how
 communities move and change over time. In this section, the task of efficiently generating an unbiased corpus of random walks that is representative of
@@ -118,7 +119,7 @@ throughout the essay, there are some pieces of notation that have been changed.
   the feature space for each attribute vector. The node labels are represented by $Y \in \mathcal{Y}^{|V|}$, where $\mathcal{Y}$ is the set of labels.
 \end{definition}
 Some of the nodes are labelled with $y \in \mathcal{Y}$ and the end task is to
-predict the labels of the other nodes. This is called a \textit{relational classification problem} and it is referred to as the upstream task \cite{deepwalk}. The DeepWalk algorithm aims to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
+predict the labels of the other nodes. This is called a \textit{relational classification \cite{deepwalk} problem} and it is referred to as the upstream task. The DeepWalk algorithm aims to learn embeddings $W \in \R^{|V| \times d}$ where $d$ is a small number
 of latent dimensions ($d \ll |V|$) such that each of the rows in $W$
 corresponds to a $d$ dimensional embedding of a node in $V$.
 
@@ -129,12 +130,12 @@ to be inputted into a classification algorithm for the upstream task.
 \section{Understanding DeepWalk}
 This section gives an outline of the network embedding algorithm
 DeepWalk, first introduced in the seminal paper DeepWalk: Online Learning of
-Social Representations by B. Perozzi et. al. (2014, \cite{deepwalk}). The method proposed in
+Social Representations by B. Perozzi et. al. \cite{deepwalk}. The method proposed in
 this paper not only demonstrated performance improvements from previous methodologies but
 also motivated an entirely different approach. At the time of the paper being
 written, significant advancements were being made in natural language processing (NLP)
 and the idea of word embeddings was becoming popular through an embedding
-algorithm known as Word2Vec (2013, \cite{mikolov2013efficient,mikolov2013distributed}).
+algorithm known as Word2Vec \cite{mikolov2013efficient,mikolov2013distributed}.
 DeepWalk implements this algorithm but replaces the idea of the context of a word in
 a sentence with the context of a node in a random walk on a graph. This is the
 crucial concept of DeepWalk from which the remaining details of the algorithm naturally follow.
@@ -144,7 +145,7 @@ this section we will model the algorithm mathematically. It is suggested that th
 is familiar with the concepts outlined in the paper by Perozzi et. al. \cite{deepwalk} before reading this (more) mathematical exposition.
 \subsection{Introduction to SkipGram}
 To understand DeepWalk mathematically, we first need to understand SkipGram since this is the model underpinning DeepWalk. SkipGram was
-proposed by Mikolev et al. (2013, \cite{mikolov2013efficient}) as an efficient way to
+proposed by Mikolev et al. \cite{mikolov2013efficient} as an efficient way to
 learn word embeddings. The idea behind SkipGram is to learn embeddings which are good at
 predicting nearby words in sentences. For a sentence $w_1, ... , w_l$ the
 nearby words from $w_i$ are defined as the set of words
@@ -238,6 +239,7 @@ connectedness between nodes on the graph.
 \node [align=center, above] at (0,2) {Input Vector\\\textit{One-Hot Encoding}};
 \node [align=center, above] at (2,2) {Hidden Layer\\\textit{Linear}};
 \node [align=center, above] at (4,2) {Output Layer\\\textit{Softmax}};
+\node [align=center] at (1,0) {$\mathlarger{\mathlarger{\mathlarger{W}}}$};
 \end{tikzpicture}
 \caption{The structure of the neural network that is trained to obtain
   the weight matrix $W$ used for the network embeddings in the SkipGram algorithm. The weight matrix $W \in \R^{|V| \times d}$ is represented by the orange lines
@@ -291,11 +293,11 @@ The algorithm used in DeepWalk varies slightly from the SkipGram algorithm
 discussed here. Calculating the normalization factor in the Softmax layer requires a
 computational complexity of $O(|V|)$, which is intractable since this is often
 in the millions or billions. In the original DeepWalk paper this is
-reduced by using Hierarchical Softmax to approximate the softmax probabilities. Hierarchical Softmax was first introduced in this context by Morin \& Bengio (2005, \cite{morin2005}) and 
-requires a complexity of only $O(log|V|)$. In particular, Huffman coding (1952, \cite{huffman1952}) is
+reduced by using Hierarchical Softmax to approximate the softmax probabilities. Hierarchical Softmax was first introduced in this context by Morin \& Bengio \cite{morin2005} and 
+requires a complexity of only $O(log|V|)$. In particular, Huffman coding \cite{huffman1952} is
 used to reduce the access time of frequent elements in the tree, as suggested by
 Mikolov et al. in the original Word2Vec
-papers (2013, \cite{mikolov2013efficient,mikolov2013distributed}).
+papers \cite{mikolov2013efficient,mikolov2013distributed}.
 
 In later adaptations of DeepWalk, SkipGram with Negative Sampling (SGNS) is used instead of
 Hierarchical Softmax. Negative Sampling was introduced by Mikolov et al. and updates only a sample of the output
@@ -309,7 +311,7 @@ In this section, we will exhibit a proof that SGNS is
 equivalent to factorising a certain matrix $M$ into two smaller matrices $W$
 and $C$ where the rows in $W$ correspond to the learned embedding of each vertex
 in the graph. This result was first proved by Levy and
-Goldberg (2014, \cite{levy&goldberg}) in the context of word embeddings.\\
+Goldberg \cite{levy&goldberg} in the context of word embeddings.\\
 \subsubsection{Objective of SGNS}
 Given an arbitrary input-context pair $(v,c)$ the objective of SGNS is to determine if
 the pair comes from the random walk corpus $\mathcal{D}$, which is a multiset containing vertex-context pairs generated from the random walks.\\
@@ -402,10 +404,10 @@ function $f(v_i,c_j)$. What is the similarity function learned by SkipGram?
 \noindent Most interestingly, the resulting expression for the similarity function $s$ is
 the pointwise mutual information (PMI) shifted by a factor of $\log b$. PMI was
 first introduced as a measure of association between words by Church and Hanks
-(1990, \cite{church1990}) and became widely adopted for NLP tasks.\\
+\cite{church1990} and became widely adopted for NLP tasks.\\
 There is an equivalent theorem for SkipGram with Softmax that was proved by Yang
-et al. (2015, \cite{yangalternative2015}) and was later used in their development of
-text-associated DeepWalk (2015, \cite{yang2015}) which incorporates text features
+et al. \cite{yangalternative2015} and was later used in their development of
+text-associated DeepWalk \cite{yang2015} which incorporates text features
 of the vertices in a social graph.
 
 \begin{theorem}[Yang et al. (2015)]
@@ -417,7 +419,7 @@ shown here since we will only be concerned with SGNS.
 
 \subsection{DeepWalk as Matrix Factorisation}
 We continue to look at DeepWalk in the context of matrix factorisation. Much of the proceeding analysis was exhibited in a recent paper by Qiu et
-al. (2018, \cite{qiu2018}) building upon work by Yang et al. (2015, \cite{yang2015}). The former paper aimed to lay the foundations for, and
+al. \cite{qiu2018} building upon work by Yang et al. \cite{yang2015}. The former paper aimed to lay the foundations for, and
 unify, the SkipGram based network embedding methods which had arisen in the years since DeepWalk in 2014. First, we give some preliminary definitions.
 \begin{definition}[Adjacency Matrix (A)]
   The adjacency matrix $A \in \R^{|V| \times |V|}$ for a graph $G$ is the matrix with $A_{ij} = 1$ if $(v_i, v_j) \in E(G)$ and $A_{ij} = 0$ otherwise.
@@ -583,7 +585,7 @@ these questions will not explored in this essay.
 In this section, we transition away from the static implementation of DeepWalk
 towards network embeddings for dynamic networks. In particular, the focus of the
 section is to introduce an adaptation of DeepWalk to dynamic graphs as
-proposed in the paper published by Sajjad et al. (2019, \cite{sajjad2019}). In Section 4
+proposed in the paper published by Sajjad et al. \cite{sajjad2019}. In Section 4
 we discuss the drawbacks and opportunities to dynamic implementations of DeepWalk.
 
 As stated in the motivation for the paper, most of the recently developed
@@ -757,7 +759,7 @@ local structure and DFS on global structure. By using unbiased random walks to
 try and get a fair coverage of the graph, DeepWalk does not allow for
 orientating the focus to a depth-first or breadth-first approach which is useful
 for many applications. A different algorithm, node2vec, was proposed by Grover
-and Leskovec (2016, \cite{grover_leskovec2016}) and aims to combine the
+and Leskovec \cite{grover_leskovec2016} and aims to combine the
 properties of BFS and DFS through introducing biased random walks. New
 parameters $p,q$ are introduced which control the transition probabilities of
 the random walk on the graph. The unnormalised transition probability from $y$
@@ -788,7 +790,7 @@ performs well at identifying node similarity via homophily but not by structural
 that have a similar structural role in the graph but are in faraway locations
 will result in embeddings that are distant from each other. An alternative
 approach that performs significantly better than both DeepWalk and node2vec at this task was suggested by
-Ribeiro et al. in their paper on struc2vec (2017, \cite{ribeiro2017}). Unlike DeepWalk, struc2vec does not
+Ribeiro et al. in their paper on struc2vec \cite{ribeiro2017}. Unlike DeepWalk, struc2vec does not
 take the distance between nodes into account and instead builds a context graph
 where nodes are close together if they are structurally similar and then
 SkipGram is applied similarly to DeepWalk, but this time on the
@@ -837,7 +839,8 @@ where the norm is restricted to vertices in $\V_t \cap \V_{t+1}$. This penalisat
 effectiveness would be diminished as the time gap between two embeddings is increased. Ultimately, this is a difficult problem to resolve and it restricts the practicality of applying DeepWalk to dynamic graphs since upstream loss function must be carefully engineered to handle orthogonal invariance.
 \subsection{Embedding Space Dimensionality}
 In recent years there has been a large body of research devoted to algorithms such as DeepWalk for generating meaningful embeddings, yet the selection of an appropriate dimensionality for embeddings
-takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested (2008, \cite{bradford2008}). However, basing dimensionality on a broad guess is not appropriate since the embeddings generated by DeepWalk are sensitive to dimensionality.\\
+takes a more arbitrary approach. Based on empirical evidence, a dimensionality in the low hundreds is often suggested \cite{bradford2008}
+. However, basing dimensionality on a broad guess is not appropriate since the embeddings generated by DeepWalk are sensitive to dimensionality.\\
 Since increasing the dimensionality of network embeddings increases the number of model parameters, it also increases the learning time. This means that
 in practice embedding dimensionality is sometimes reduced based on computational savings rather than hyperparameter selection, which can severely reduce the embeddings ability to
 distinguish between graphs effectively, especially in the dynamic case where graph updates are small and incremental.
@@ -852,15 +855,15 @@ give a meaningful representation. Consequently, very careful consideration of em
 We end by commenting briefly on our journey of understanding more about DeepWalk and suggesting future areas of research.
 
 In Section 2 several theoretical results are given which show that DeepWalk amounts to an implicit matrix factorisation as the length of the random walks sampled tends to infinity.
-As well as explaining the related results of papers by Levy and Goldberg (2014, \cite{levy&goldberg}) and  Qui et al. (2018, \cite{qiu2018}), a full proof of Lemma 2.6 was given without assuming that the random walks are initiated in the invariant distribution, which is not the case for the original DeepWalk algorithm (Algorithm 1).
+As well as explaining the related results of papers by Levy and Goldberg \cite{levy&goldberg} and  Qui et al. \cite{qiu2018}, a full proof of Lemma 2.6 was given without assuming that the random walks are initiated in the invariant distribution, which is not the case for the original DeepWalk algorithm (Algorithm 1).
 Whilst these results shed light on the core ideas used by DeepWalk to generate embeddings, no thought is given here to the applicability of these results for smaller random walk lengths, which were used in the original DeepWalk paper ($l = 40$) as well as being widely adopted in future literature. Therefore, by consideration of the mixing times of random walks on large sparse graphs, an analysis of how long random walks need to be before these
 results are meaningful would be a helpful area for further research, especially if it was coupled with a trade-off between random walk lengths and the number of random walks (i.e the performance trade-off of $l$ vs $\gamma$). An understanding of how we can reduce $l$ and increase $\gamma$ to maintain performance would be especially useful in applying DeepWalk with parallel computing since generating the random walk corpus is trivially parallel with respect to $\gamma$.
 
-In Section 3 the Unbiased Update algorithm proposed by Sajjad et al. (2019, \cite{sajjad2019}) was presented as a means of applying DeepWalk to dynamic graphs. This helps bridge the gap between static and dynamic network analysis and provides a more efficient solution then naïvely generating random walks from scratch at each new snapshot of the graph. Unfortunately, its underlying similarity to DeepWalk means that it also inherits its flaws,
+In Section 3 the Unbiased Update algorithm proposed by Sajjad et al. \cite{sajjad2019} was presented as a means of applying DeepWalk to dynamic graphs. This helps bridge the gap between static and dynamic network analysis and provides a more efficient solution then naïvely generating random walks from scratch at each new snapshot of the graph. Unfortunately, its underlying similarity to DeepWalk means that it also inherits its flaws,
  which are of greater severity in the dynamic setting.
 
 In Section 4 we looked at some of the problems that DeepWalk faces and how these may be solved. The most notable issue was the orthogonal invariance of the loss function with respect to the generated embeddings, resulting in arbitrary orthogonal transformations of embeddings going unnoticed
-between time epochs for dynamic applications. This also makes embeddings generated by DeepWalk difficult to use in static applications since there is no clear metric of the distance between graph embeddings that deals appropriately with orthogonal invariance, which would be helpful to understand graph similarity. This is explored further by Yin et al. (2018, \cite{yin2018}) who introduce the Pairwise Inner Product (PIP) loss.
+between time epochs for dynamic applications. This also makes embeddings generated by DeepWalk difficult to use in static applications since there is no clear metric of the distance between graph embeddings that deals appropriately with orthogonal invariance, which would be helpful to understand graph similarity. This is explored further by Yin et al. \cite{yin2018} who introduce the Pairwise Inner Product (PIP) loss.
 
 We also looked at alternatives to DeepWalk, such as node2vec, which improve on DeepWalk by introducing more flexibility. Despite improved performance on many tasks, it is not clear whether these results lend themselves to a better interpretation of the graph; by increasing the hyperparameter space of DeepWalk, node2vec allows for a larger search space of network embeddings and so it will naturally yield better results.
 It would be useful to look at how meaningful these performance gains are. Also of interest would be a study of applying node2vec in the dynamic setting and how an appropriate tuning of $p_t$ and $q_t$ could lead to a balance between breadth and depth-first search over time.
